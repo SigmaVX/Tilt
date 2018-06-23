@@ -1,0 +1,30 @@
+{
+  "name": "tilt",
+  "version": "1.0.0",
+  "description": "track and report online gaming cheaters",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SigmaVX/Tilt.git"
+  },
+  "author": "CloudMash LLC - Tony Wible",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SigmaVX/Tilt/issues"
+  },
+  "homepage": "https://github.com/SigmaVX/Tilt#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.0",
+    "create-react-app": "^1.5.2",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "formidable": "^1.2.1",
+    "moment": "^2.22.2",
+    "nodemon": "^1.17.5",
+    "sequelize": "^4.37.10"
+  }
+}
