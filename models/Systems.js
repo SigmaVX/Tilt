@@ -6,6 +6,10 @@ const systemsSchema = new Schema({
     type: String, 
     required: true 
   },
+  systemImage: { 
+    type: String, 
+    required: true 
+  },
   cheatCount: { 
     type: Number,
     default: 0, 

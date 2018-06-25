@@ -6,6 +6,10 @@ const gamesSchema = new Schema({
     type: String, 
     required: true 
   },
+  gameImage: { 
+    type: String, 
+    required: true 
+  },
   cheatCount: { 
     type: Number,
     default: 0, 

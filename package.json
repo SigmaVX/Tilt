@@ -4,12 +4,13 @@
   "description": "track and report online gaming cheaters",
   "main": "server.js",
   "scripts": {
-    "server": "node server.js",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
-    "start": "./node_modules/.bin/concurrently \"./node_modules/.bin/nodemon\" \"npm run client\"",
+    "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "deploy": "yarn build && git add . && git commit -m \"Building for production\" && git push heroku master",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,9 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "formidable": "^1.2.1",
+    "if-env": "^1.0.4",
     "moment": "^2.22.2",
+    "mongoose": "^5.1.6",
     "nodemon": "^1.17.5",
     "sequelize": "^4.37.10"
   }

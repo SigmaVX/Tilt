@@ -1,10 +1,11 @@
 // Dependencies
 // =============================================================
 const express = require("express");
+const path = require("path");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const path = require("path");
+
 
 // Setup Express App
 // =============================================================
@@ -25,8 +26,6 @@ if (process.env.NODE_ENV === "production") {
 // Add Database
 // =============================================================
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/tilt");
-mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
 
 // API Routes
 // =============================================================

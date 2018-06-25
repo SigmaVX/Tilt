@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const cheatsSchema = new Schema({
-  cheaterNameAndSystem: { 
+const cheatersSchema = new Schema({
+  cheaterIGN: { 
+    type: String, 
+    required: true 
+  },
+  cheaterSystem: { 
     type: String, 
     required: true 
   },
