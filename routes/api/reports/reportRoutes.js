@@ -17,3 +17,9 @@ router
   .delete(dbController.remove);
 
 module.exports = router;
+
+// cheatPost
+//  1 post to reports table
+//  2 post to games table
+//  3 post to systems table
+//  4 get from cheaters and then if statement for post or put
