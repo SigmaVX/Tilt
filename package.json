@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/SigmaVX/Tilt#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "concurrently": "^3.6.0",
     "create-react-app": "^1.5.2",
