@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const videoSchema = new Schema({
+const videosSchema = new Schema({
   videoLink: { 
     type: String, 
     required: true 
   },
-  videoType: String,
+  videoSource: String,
 });
 
 const Videos = mongoose.model("Videos", videosSchema);
