@@ -61,78 +61,94 @@ class Home extends Component {
             })
         })
         .catch(err => console.log(err))
-  }
+    }
 
-  
-  userPost = (id) => {
-    const savedArticle = this.state.articles.find(article => (article._id === id));
 
-    console.log(savedArticle);
-    API.articleSave({
-      title: savedArticle.headline.main,
-      url: savedArticle.web_url,
-      date: savedArticle.pub_date || ""
-    })
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
-  }
+    //  userPost = (id) => {
+     
+    //     API.postReport({
+    //         cheaterIGN: ,
+    //         cheatGame: ,
+    //         cheatSystem: ,
+    //         cheatType: ,
+    //         cheatVideo: this.state.cheatVideo || "",
+    //         cheatComments: 
+    //     })
+    //     .then(res => console.log(res))
+    //     .catch(err => console.log(err));
+    // }
 
   render() {
     return (
-      <div>
-        <div className="jumbotron-fluid">
-          <div className="row align-items-center justify-content-center my-5">
-            <h1>Tilt</h1>
-          </div>
+
+    <div>
+        <div className="row no-gutters jumbotron text-center">
+            <h1 className="col-12 animated pulse">Tilt</h1>
+            <h2 className="col-12">Add Some Text</h2>
+            <h3 className="col-12">Add More Text</h3>
         </div>
 
         <div className="container-fluid">
-          <div className="row">
-
-            <div className="col-4">
-              <h2>Search For Cheaters</h2>
-              <form>
-                <div className="form-group">
-                  <input
-                    name="q"
-                    value={this.state.q}
-                    placeholder="Search for an article topic"
-                    type="text"
-                    onChange={this.handleOnChange}
-                    className="form-control mb-2"/>
-                  <button type="submit" className="btn btn-block btn-success" onClick={this.articleSearch}>
-                    Submit
-                  </button>
+            <div className="row">
+                <div className="col-12">
+                    <h2 className="col-12">Search For Cheaters</h2>
+                    <form>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                className="form-control mb-2"
+                                name="search"
+                                value={this.state.search}
+                                placeholder="Search For A Cheater's IGN"
+                                onChange={this.handleOnChange}
+                                />
+                            <button 
+                                type="submit"
+                                className="btn btn-block" 
+                                onClick={this.reportSearch}>
+                                Search For Cheats
+                            </button>
+                        </div>
+                    </form>
                 </div>
-              </form>
             </div>
-
-            {/* Article result container */}
-            <div className="col-8">
-              <h2>{this.state.articles.length
-                  ? "Article Results"
-                  : "Search for some articles"}
+        </div>
+    
+    
+        <div className="row">
+              <h2>{this.state.reports.length
+                  ? "Cheat Reports"
+                  : "No Cheat Reports Right Now!"}
               </h2>
 
-              <ul className="list-group list-group-flush">
-                {this
-                  .state
-                  .articles
-                  .map(article => (
-                    <li key={article._id} className="list-group-item d-flex justify-content-between align-items-center">
-                      {article.headline.main}
-                      <span
-                        className="badge badge-primary badge-pill"
-                        onClick={() => this.saveArticle(article._id)}>Save Article</span>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+              
+                {this.state.reports.map(report => (
+                
+                <div className="card" key={report._id} id={report._id}>
+                    <div className="row no-gutters">
+                        <div className="col-auto">
+                            <img src="//placehold.it/200" className="img-fluid" alt=""/>
+                        </div>
+                        <div className="col">
+                            <div className="card-block px-2">
+                                <h4 className="card-title">{report.cheaterIGN}</h4>
+                                <p className="card-text"></p>
+                                <a href="#" className="btn btn-primary">BUTTON</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card-footer w-100 text-muted">
+                        Footer stating cats are CUTE little animals
+                    </div>
+                </div>
+              
 
-          </div>
+                  )
+                )}
+            
         </div>
 
-      </div>
+    </div>
     )
   }
 }
