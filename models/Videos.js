@@ -6,7 +6,13 @@ const videosSchema = new Schema({
     type: String, 
     required: true 
   },
-  videoSource: String,
+  videoSource: { 
+    type: String, 
+    required: true 
+  },
+  createdOn: { 
+    type: Date,
+  }
 });
 
 const Videos = mongoose.model("Videos", videosSchema);
