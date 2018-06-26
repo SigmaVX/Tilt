@@ -6,13 +6,13 @@ const reportsSchema = new Schema({
     type: String, 
     required: true 
   },
-  cheatGame: { 
-    type: String, 
-    required: true 
+  cheatGame:{
+    type: Schema.Types.gameName,
+    ref: "Games"
   },
-  cheatSystem: { 
-    type: String, 
-    required: true 
+  cheatSystem: {
+    type: Schema.Types.systemName,
+    ref: "Systems"
   },
   cheatType: { 
     type: String, 

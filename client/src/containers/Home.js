@@ -89,7 +89,7 @@ class Home extends Component {
         </div>
 
         <div className="container-fluid">
-            <div className="row">
+            <div className="row text-center">
                 <div className="col-12">
                     <h2 className="col-12">Search For Cheaters</h2>
                     <form>
@@ -106,7 +106,7 @@ class Home extends Component {
                                 type="submit"
                                 className="btn btn-block" 
                                 onClick={this.reportSearch}>
-                                Search For Cheats
+                                Find Some Cheaters
                             </button>
                         </div>
                     </form>
