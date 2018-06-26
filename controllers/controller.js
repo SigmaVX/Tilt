@@ -15,6 +15,13 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByIGN: function (table, req, res) {
+    table
+      .find(req.params.cheaterIGN)
+      .sort({ cheatGame: 1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function (table, req, res) {
     table
       .create(req.body)
