@@ -6,6 +6,7 @@ const reportsRoutes = require("./reports/reportsRoutes");
 const systemsRoutes = require("./systems/systemsRoutes");
 const usersRoutes = require("./users/usersRoutes");
 const videosRoutes = require("./videos/videosRoutes");
+const youtubevidsRoutes = require("./youtubevids/youtubevidsRoutes");
 
 router.use("/cheaters", cheatersRoutes);
 router.use("/forum", forumRoutes);
@@ -14,5 +15,6 @@ router.use("/reports", reportsRoutes);
 router.use("/systems", systemsRoutes);
 router.use("/users", usersRoutes);
 router.use("/videos", videosRoutes);
+router.use("/youtubevids", youtubevidsRoutes);
 
 module.exports = router;
