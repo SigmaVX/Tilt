@@ -1,6 +1,10 @@
 import axios from "axios";
 
 export default {
+    // Search Youtube Videos
+    youtubeSearch: function(query) {
+      return axios.get("/api/youtubevids", {params:query})
+    },
     // Get All Reports
     getReports: function() {
         return axios.get("/api/reports")
