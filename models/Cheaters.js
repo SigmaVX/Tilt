@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const cheatersSchema = new Schema({
-  cheaterIGN: { 
-    type: String, 
-    required: true 
-  },
-  cheaterSystem: { 
+  cheaterIGNFTS: { 
     type: String, 
     required: true 
   },
@@ -23,3 +19,5 @@ const cheatersSchema = new Schema({
 const Cheaters = mongoose.model("Cheaters", cheatersSchema);
 
 module.exports = Cheaters;
+
+// IGNFTS = In Game Name For The System (e.g. John Doe Xbox Gamertag or John Doe PSN ID)
