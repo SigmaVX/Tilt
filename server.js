@@ -12,6 +12,11 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Setup socket.io
+// ============================================================= 
+var server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 // Define Middleware
 // =============================================================
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +42,20 @@ app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-app.listen(PORT, function() {
+// Open socket listener
+// ==============================================================
+io.on("connection", function (socket) {
+  console.log("in io.on listener");
+  socket.emit("news", { hello: "world" });
+  socket.on("my other event", function (data) {
+    console.log(data);
+  });
+  socket.on("disconnect", function(){
+    console.log("user disconnected");
+  });
+});
+
+// server.listen(PORT); changed from app to server
+server.listen(PORT, function() {
   console.log(`🌎 ==> Server now on port ${PORT}!`);
 });
