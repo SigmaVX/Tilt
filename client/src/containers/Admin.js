@@ -101,26 +101,26 @@ class Admin extends Component {
     }
 
 
-    // Update Game
-    updateGame = (gameObject) =>{
-        // event.preventDefault();
-        API.putGame(gameObject.id, {
-            gameName: gameObject.gameName,
-            gameImage: gameObject.gameImage
-        }).then(res => {
-            // this.setState({
-            //     games: res.data
-            // });
-            console.log(res.data);
-            API.getGames()
-            .then(res => {
-                this.setState({
-                  games: res.data,
-                })
+  // Update Game
+  updateGame = (gameObject) =>{
+    // event.preventDefault();
+    API.putGame(gameObject.id, {
+        gameName: gameObject.gameName,
+        gameImage: gameObject.gameImage
+    }).then(res => {
+        // this.setState({
+        //     games: res.data
+        // });
+        console.log(res.data);
+        API.getGames()
+        .then(res => {
+            this.setState({
+              games: res.data,
             })
-            .catch(err => console.log(err))
-        }).catch(err => console.log(err))
-    }
+        })
+        .catch(err => console.log(err))
+    }).catch(err => console.log(err))
+  }
    
     // Update System
     updateSystem = (id) =>{

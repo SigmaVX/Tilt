@@ -35,7 +35,9 @@
     "if-env": "^1.0.4",
     "moment": "^2.22.2",
     "mongoose": "^5.1.6",
+    "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
-    "sequelize": "^4.37.10"
+    "sequelize": "^4.37.10",
+    "socket.io": "^2.1.1"
   }
 }
