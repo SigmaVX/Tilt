@@ -25,6 +25,8 @@ class Chat extends Component {
         <div className="d-flex flex-row justify-content-center">
           <section className="col-sm-8">
             <div className="card" id="chat-box">
+              <textarea>
+              </textarea>
             </div>
           </section>
         </div>

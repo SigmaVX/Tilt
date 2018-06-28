@@ -1,9 +1,0 @@
-[0mPOST /api/systems [32m200 [0m43.704 ms - 156[0m
-[0mGET /src/App.css [36m304 [0m6.402 ms - -[0m
-[0mGET /api/reports [36m304 [0m22.185 ms - -[0m
-[0mGET /api/games [36m304 [0m1021.826 ms - -[0m
-[0mGET /image_path_atari [36m304 [0m1.660 ms - -[0m
-[0mGET /api/systems [32m200 [0m2017.791 ms - 307[0m
-[0mGET /xbox_system_path [32m200 [0m3.729 ms - 696[0m
-[0mGET /ps4_path_image [36m304 [0m0.620 ms - -[0m
-[0mPOST /api/systems [32m200 [0m42.412 ms - 149[0m

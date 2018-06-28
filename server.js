@@ -16,7 +16,6 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 
-
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 // =======================================================================
@@ -27,17 +26,17 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 	"flags": "a"
 });
 
-app.use(logger("dev", {
+//  Have morgan output to access.log file and to console
+app.use(logger("common", {
 	"stream": accessLogStream
 }));
+app.use(logger("dev"));
 
 // bodyParser middleware
-// =============================================================
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
 
 
 // Serve Static Assets On Live (e.g.  Heroku)
