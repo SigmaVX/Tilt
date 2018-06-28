@@ -3,8 +3,8 @@ import React, { Component } from "react";
 class Card extends Component {
 
     state = {
-        cardGameName: "",
-        cardGameImage: ""
+        cardName: this.props.gameName||this.props.systemName,
+        cardImage:  this.props.gameImage||this.props.systemImage
     }
 
      // Save On Change Data
@@ -13,25 +13,57 @@ class Card extends Component {
         this.setState({[name]: value});
     }
 
-    updateGameClick = (id) => {
-        const gameInfo = {
-            gameName: this.state.cardGameName,
-            gameImage: this.state.cardGameImage,
-            id: id
-        }
-        this.props.updateGame(gameInfo);
+    updateInfo = (id, name, image) => {
+        console.log("Name: ", name, "Image: ", image);
+
+        // Validatoion - Check If Empty
+        if(this.state.cardName === "" && this.state.cardImage === ""){
+            document.getElementById(id).innerHTML="Missing Name and Image!";
+        } else {
+
+            document.getElementById(id).innerHTML="";
+
+            // Keep Image If Image Is Empty
+            if(this.state.cardImage === ""){
+                this.setState({
+                    cardImage: image
+                })
+            }
+
+            // Keep Name If Name Is Empty
+            if(this.state.cardName === ""){
+                this.setState({
+                    cardName: name
+                })
+            }
+
+            const cardInfo = {
+                cardName: this.state.cardName,
+                cardImage: this.state.cardImage,
+                id: id
+            };
+            console.log("Card Info: ", cardInfo);
+            if(this.props.updateGame){
+                console.log("Update game processing");
+                this.props.updateGame(cardInfo);
+            } else{
+                console.log("update system processing");
+                this.props.updateSystem(cardInfo);
+            }
+        }   
     }
 
     render() {
         return (
-            <div className="card my-3 mx-3">
-                <img className="card-img-top" src={this.props.gameImage} alt={this.props.gameName}/>
+            <div className="card my-3 mx-3" key={this.props._id}>
+                <img className="card-img-top" src={this.props.gameImage || this.props.systemImage} alt={this.props.gameName || this.props.systemName}/>
                 <div className="card-body">
-                  <h5 className="card-title">{this.props.gameName}</h5>
+                  <h5 className="card-title">{this.props.gameName || this.props.systemName}</h5>
                   <p className="card-body">Cheat Count: {this.props.cheatCount}</p>
-                  <input type="text" className="form-control my-2" name="cardGameName" value={this.state.cardGameName} placeholder={this.props.gameName} onChange={this.handleOnChange}/>
-                  <input type="text" className="form-control my-2" name="cardGameImage" value={this.state.cardGameImage} placeholder={this.props.gameImage} onChange={this.handleOnChange}/>
-                  <button className="btn btn-block my-2" onClick={()=>this.updateGameClick(this.props._id)}>Update Game</button>
+                  <p className="card-body" id={this.props._id}></p>
+                  <input type="text" className="form-control my-2" name="cardName" value={this.state.cardName} placeholder="Update Name" onChange={this.handleOnChange}/>
+                  <input type="text" className="form-control my-2" name="cardImage" value={this.state.cardImage} placeholder="Update Image" onChange={this.handleOnChange}/>
+                  <button className="btn btn-block my-2" onClick={()=>this.updateInfo(this.props._id, this.props.gameName||this.props.systemName, this.props.gameImage||this.props.systemImage)}>Update Data</button>
                 </div>
               </div>   
         )
