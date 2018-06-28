@@ -7,6 +7,7 @@ import Home from "./containers/Home";
 import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
 import Admin from "./containers/Admin";
+import './App.css';
 
 
 const App = () => (

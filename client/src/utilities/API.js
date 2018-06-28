@@ -47,6 +47,7 @@ export default {
     },
     // Post Cheater 
     postSystems: function(postInfo) {
+        console.log("api hit ", postInfo    );
         return axios.post("/api/systems", postInfo)
     },
     // Post Video 
@@ -58,28 +59,28 @@ export default {
         return axios.post("/api/forum", postInfo)
     },
     // Edit Report
-    putReport: function(query) {
-        return axios.get("/api/reports", {params: query})
+    putReport: function(id, body) {
+        return axios.put(`/api/reports/${id}`, body)
     },
     // Edit Cheater
-    putCheater: function(query) {
-        return axios.get("/api/cheaters", {params: query})
+    putCheater: function(id, body) {
+        return axios.put(`/api/cheaters/${id}`, body)
         },
     // Edit Game
-    putGame: function(query) {
-        return axios.get("/api/games", {params: query})
+    putGame: function(id, body) {
+        return axios.put(`/api/games/${id}`, body)
     },
     // Edit System
-    putSystem: function(query) {
-        return axios.get("/api/systems", {params: query})
+    putSystem: function(id, body) {
+        return axios.put(`/api/systems/${id}`, body)
     },
     // Edit Video
-    putVideo: function(query) {
-        return axios.get("/api/videos", {params: query})
+    putVideo: function(id, body) {
+        return axios.put(`/api/videos/${id}`, body)
     },
     // Edit Forum
-    putForum: function(query) {
-        return axios.get("/api/forum", {params: query})
+    putForum: function(id, body) {
+        return axios.put(`/api/forum/${id}`, body)
     },
     // Delete Report
     deleteReport: function(id) {

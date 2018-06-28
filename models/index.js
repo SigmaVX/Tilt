@@ -3,8 +3,8 @@ module.exports = {
     Cheaters: require("./Cheaters.js"),
     Forum: require("./Forum.js"),
     Games: require("./Games.js"),
-    Reports: require("./Reports.js"),
     Systems: require("./Systems.js"),
     Users: require("./Users.js"),
+    Reports: require("./Reports.js"),
     Videos: require("./Videos.js")
 };
