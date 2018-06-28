@@ -18,6 +18,10 @@ class Home extends Component {
         this.setState({[name]: value});
     }
 
+    componentDidMount(){
+        this.pageLoad();
+    }
+
     // Load State From Mongo
     pageLoad = () =>{
         API.getReports()
@@ -89,8 +93,8 @@ class Home extends Component {
         </div>
 
         <div className="container-fluid">
-            <div className="row text-center">
-                <div className="col-12">
+            <div className="row justify-content-center text-center">
+                <div className="col-8">
                     <h2 className="col-12">Search For Cheaters</h2>
                     <form>
                         <div className="form-group">
@@ -115,8 +119,8 @@ class Home extends Component {
         </div>
     
     
-        <div className="row">
-              <h2>{this.state.reports.length
+        <div className="row text-center mx-2">
+              <h2 className="col-12">{this.state.reports.length
                   ? "Cheat Reports"
                   : "No Cheat Reports Right Now!"}
               </h2>
@@ -138,7 +142,7 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="card-footer w-100 text-muted">
-                        Footer stating cats are CUTE little animals
+                        
                     </div>
                 </div>
               
