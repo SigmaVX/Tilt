@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const reportsSchema = new Schema({
   cheaterIGN: { 
     type: String, 
-    required: true 
+    required: true
   },
-  cheatGame: { 
-    type: String, 
-    required: true 
+  cheatGame:{
+    type: Schema.Types.ObjectId,
+    ref: 'Games'
   },
-  cheatSystem: { 
-    type: String, 
-    required: true 
+  cheatSystem:{
+    type: Schema.Types.ObjectId,
+    ref: 'Systems'
   },
   cheatType: { 
     type: String, 
