@@ -1,10 +1,13 @@
 // Dependencies
 // =============================================================
 const express = require("express");
-const path = require("path");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+
+const logger = require("morgan");
+const	fs = require("fs");
+const path = require("path");
 
 
 // Setup Express App
@@ -12,15 +15,30 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Setup socket.io
-// ============================================================= 
-var server = require("http").createServer(app);
-const io = require("socket.io")(server);
 
-// Define Middleware
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+// =======================================================================
+// MIDDLEWARE
+// =======================================================================
+// Use morgan logger for logging requests
+var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+	"flags": "a"
+});
+
+app.use(logger("dev", {
+	"stream": accessLogStream
+}));
+
+// bodyParser middleware
 // =============================================================
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
 
 // Serve Static Assets On Live (e.g.  Heroku)
 // =============================================================
@@ -41,6 +59,11 @@ app.use(routes);
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
+
+// Setup socket.io
+// ============================================================= 
+var server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
 // Open socket listener
 // ==============================================================

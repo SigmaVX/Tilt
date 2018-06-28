@@ -10,11 +10,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-youtube": "^7.6.0",
-<<<<<<< HEAD
-    "socket.io-client": "^2.1.1"
-=======
+    "socket.io-client": "^2.1.1",
     "semantic-ui-react": "^0.81.2"
->>>>>>> 1228416759fcdf953887f2093b98a0c53d3e01eb
   },
   "scripts": {
     "start": "react-scripts start",

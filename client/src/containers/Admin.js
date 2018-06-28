@@ -103,12 +103,14 @@ class Admin extends Component {
     // Update Game
     updateGame = (id) =>{
         // event.preventDefault();
+        const elem = `element${id}`;
         API.putGame(id, {
             gameName: this.state.gameName,
             gameImage: this.state.gameImage
         }).then(res => {
             console.log(this.state);
             this.setState({
+            [`elem${id}`]: this.state.gameName,
             gameName: "",
             gameImage: ""
             });  
@@ -187,16 +189,17 @@ class Admin extends Component {
         <div className="row justify-content-center text-center my-2">
             <h2 className="col-12">Tracked Games</h2>
             {this.state.games.map(game => {
-                let gameName = game.gameName;
-                this.state = {
+              // this.setState({ [`elem${game._id}`]: "" });
+              console.log(this.state);
+/*                 this.state = {
                     [gameName]: game
-                }
+                } */
     
                 return  (
                 <div className="card my-3 mx-3" key={game._id}>
                     <img className="card-img-top" src={game.gameImage} alt={game.gameName}/>
                 <div className="card-body">
-                  <h5 className="card-title">{game.gameName}</h5>
+                  {/* <h5 className="card-title">{this.state.elem{game._id}</h5> */}
                   <p className="card-body">Cheat Count: {game.cheatCount}</p>
                   <input type="text" className="form-control my-2" name="gameName"/>
                   <input type="text" className="form-control my-2" name="gameImage"/>
