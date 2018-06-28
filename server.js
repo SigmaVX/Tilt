@@ -77,7 +77,8 @@ io.on("connection", function (socket) {
   });
 });
 
-// server.listen(PORT); changed from app to server
+// server.listen(PORT); changed from app.listen to server.listen in order
+// to incorporate socket.io functionality
 server.listen(PORT, function() {
   console.log(`🌎 ==> Server now on port ${PORT}!`);
 });
