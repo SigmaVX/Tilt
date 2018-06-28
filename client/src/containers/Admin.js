@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
 import { Modal } from "semantic-ui-react";
+import Card from "../components/Card";
 // import Modal from "../components/Modal";
 
 class Admin extends Component {
@@ -101,17 +102,23 @@ class Admin extends Component {
 
 
     // Update Game
-    updateGame = (id) =>{
+    updateGame = (gameObject) =>{
         // event.preventDefault();
-        API.putGame(id, {
-            gameName: this.state.gameName,
-            gameImage: this.state.gameImage
+        API.putGame(gameObject.id, {
+            gameName: gameObject.gameName,
+            gameImage: gameObject.gameImage
         }).then(res => {
-            console.log(this.state);
-            this.setState({
-            gameName: "",
-            gameImage: ""
-            });  
+            // this.setState({
+            //     games: res.data
+            // });
+            console.log(res.data);
+            API.getGames()
+            .then(res => {
+                this.setState({
+                  games: res.data,
+                })
+            })
+            .catch(err => console.log(err))
         }).catch(err => console.log(err))
     }
    
@@ -187,22 +194,15 @@ class Admin extends Component {
         <div className="row justify-content-center text-center my-2">
             <h2 className="col-12">Tracked Games</h2>
             {this.state.games.map(game => {
-                let gameName = game.gameName;
-                this.state = {
-                    [gameName]: game
-                }
-    
+
                 return  (
-                <div className="card my-3 mx-3" key={game._id}>
-                    <img className="card-img-top" src={game.gameImage} alt={game.gameName}/>
-                <div className="card-body">
-                  <h5 className="card-title">{game.gameName}</h5>
-                  <p className="card-body">Cheat Count: {game.cheatCount}</p>
-                  <input type="text" className="form-control my-2" name="gameName"/>
-                  <input type="text" className="form-control my-2" name="gameImage"/>
-                  <button type="submit" className="btn btn-block my-2" onClick={()=>this.updateGame(game._id)}>Update Game</button>
-                </div>
-              </div>   
+                    <Card 
+                    key={game._id} 
+                    gameName={game.gameName}
+                    gameImage={game.gameImage}
+                    _id = {game._id}
+                    updateGame={this.updateGame}
+                    />
             )})}
         </div>
 
@@ -244,3 +244,16 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+
+
+// <div className="card my-3 mx-3" key={game._id}>
+//                     <img className="card-img-top" src={game.gameImage} alt={game.gameName}/>
+//                 <div className="card-body">
+//                   <h5 className="card-title">{game.gameName}</h5>
+//                   <p className="card-body">Cheat Count: {game.cheatCount}</p>
+//                   <input type="text" className="form-control my-2" name="gameName" onChange={this.handleOnChange}/>
+//                   <input type="text" className="form-control my-2" name="gameImage" onChange={this.handleOnChange}/>
+//                   <button type="submit" className="btn btn-block my-2" onClick={()=>this.updateGame(game._id)}>Update Game</button>
+//                 </div>
+//               </div>  
