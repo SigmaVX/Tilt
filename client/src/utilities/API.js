@@ -68,10 +68,13 @@ export default {
         },
     // Edit Game
     putGame: function(id, body) {
+        console.log("Updating Game");
         return axios.put(`/api/games/${id}`, body)
     },
     // Edit System
     putSystem: function(id, body) {
+        console.log("Updating System");
+        console.log("Body", body);
         return axios.put(`/api/systems/${id}`, body)
     },
     // Edit Video
