@@ -12,9 +12,16 @@ class ChatWindow extends Component {
     // const chatMsgs = React.Children.toArray(this.props.children);
     // {chatMsgs.length ? "chat begun with messages" : "Chat Window"}
     return (
-        <p>
-          <h5>text</h5>
-        </p>
+        <div>
+          <ul>
+            {this.props.convoArray.map((chatMsg, index) => (
+                  <li key={index}>
+                    <h6 className="card-subtitle mb-2 text-muted">{chatMsg}</h6>
+                  </li>
+              ) 
+            )}
+          </ul>
+        </div>
     );
   }
   
