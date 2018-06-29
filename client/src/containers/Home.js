@@ -20,24 +20,17 @@ class Home extends Component {
         this.setState({[name]: value});
     }
 
-    // handleChange(event) {
-    //     this.setState({cheatGame: event.target.value});
-    // }
-
     componentDidMount(){
         this.pageLoad();
+        
     }
 
-     // Load Reports To State
-     loadReports = () => {
-        API.getReports()
-        .then(res => {
-            console.log("Reports: ", res.data);
-            this.setState({
-              reports: res.data,
-            })
-        })
-        .catch(err => console.log(err))
+    // Load State From Mongo
+    pageLoad = () =>{
+        this.loadReports();
+        this.loadGames();
+        this.loadSystems();
+        this.loadCheats();
     }
 
     // Load Cheats To State
@@ -76,12 +69,16 @@ class Home extends Component {
         .catch(err => console.log(err))
     }
 
-    // Load State From Mongo
-    pageLoad = () =>{
-        this.loadReports();
-        this.loadGames();
-        this.loadSystems();
-        this.loadCheats();
+    // Load Reports To State
+    loadReports = () => {
+    API.getReports()
+    .then(res => {
+        console.log("Reports: ", res.data);
+        this.setState({
+            reports: res.data,
+        })
+    })
+    .catch(err => console.log(err))
     }
 
     // Search For Reports By IGN
@@ -138,67 +135,10 @@ class Home extends Component {
         </div>
 
         <div className="row justify-content-center text center my-4">
-            <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
-                    <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="" onChange={this.handleOnChange}/>
-                </div>
-                <div className="form-group">
-                    <label>Select Cheater's Game System:</label>
-                    <select className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game" onChange={this.handleOnChange}>
-                        {this.state.systems.map(system=>{
-                            return(
-                                <option value={system._id}>{system.systemName}</option>
-                            )    
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>What Game Where They Playing:</label>
-                    <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select System" onChange={this.handleOnChange}>
-                        {this.state.games.map(game=>{
-                            return(
-                                <option value={game._id}>{game.gameName}</option>
-                            )    
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>How Did They Cheat:</label>
-                    <select className="form-control" name="cheatType" value={this.state.cheatType} placeholder="Select Cheat Type" onChange={this.handleOnChange}>
-                        {this.state.cheats.map(cheat=>{
-                            return(
-                                <option value={cheat._id}>{cheat.cheatName}</option>
-                            )    
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Add YouTube Video Link (Optional):</label>
-                    <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="" onChange={this.handleOnChange}/>
-                </div>
-                <div className="form-group">
-                    <label>Add Any Comments (Optional):</label>
-                    <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="" onChange={this.handleOnChange}/>
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postReport}>Report Cheater</button>                
-                </div>
-            </form>
+            
         </div>
 
-
-
-
-
-
-
-
-
-
-        <Search
-            reportSearch={this.reportSearch}
-        />
+        <Search reportSearch={this.reportSearch}/>
 
     
         <div className="row text-center mx-2">
@@ -209,7 +149,7 @@ class Home extends Component {
 
             {this.state.reports.map(report=>{
                 return (
-                <div>
+                <div key={report._id}>
                    Test Stuff: {report.cheatGame.gameName} | {report.cheatSystem.systemName}  | {report.cheatSystem.systemImage} 
                 </div>
                 )
