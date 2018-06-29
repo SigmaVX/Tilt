@@ -13,6 +13,10 @@ export default {
     getReportsByIGN: function(query) {
         return axios.get("/api/reports", {params: query})
     },
+    // Get All Cheats
+    getCheats: function() {
+        return axios.get("/api/cheats")
+    },
     // Get All Cheaters
     getCheaters: function() {
         return axios.get("/api/cheaters")
@@ -37,6 +41,10 @@ export default {
     postReport: function(postInfo) {
         return axios.post("/api/reports", postInfo)
     },
+    // Post Cheat 
+    postCheats: function(postInfo) {
+        return axios.post("/api/cheats", postInfo)
+    },
     // Post Cheater 
     postCheater: function(postInfo) {
         return axios.post("/api/cheaters", postInfo)
@@ -47,7 +55,6 @@ export default {
     },
     // Post Cheater 
     postSystems: function(postInfo) {
-        console.log("api hit ", postInfo    );
         return axios.post("/api/systems", postInfo)
     },
     // Post Video 
@@ -62,19 +69,20 @@ export default {
     putReport: function(id, body) {
         return axios.put(`/api/reports/${id}`, body)
     },
+    // Edit Cheats
+    putCheat: function(id, body) {
+        return axios.put(`/api/cheats/${id}`, body)
+    },
     // Edit Cheater
     putCheater: function(id, body) {
         return axios.put(`/api/cheaters/${id}`, body)
-        },
+    },
     // Edit Game
     putGame: function(id, body) {
-        console.log("Updating Game");
         return axios.put(`/api/games/${id}`, body)
     },
     // Edit System
     putSystem: function(id, body) {
-        console.log("Updating System");
-        console.log("Body", body);
         return axios.put(`/api/systems/${id}`, body)
     },
     // Edit Video
@@ -88,6 +96,10 @@ export default {
     // Delete Report
     deleteReport: function(id) {
         return axios.delete(`/api/reports/${id}`)
+    },
+    // Delete Cheat
+    deleteCheat: function(id) {
+        return axios.delete(`/api/cheat/${id}`)
     },
     // Delete Cheater
     deleteCheater: function(id) {

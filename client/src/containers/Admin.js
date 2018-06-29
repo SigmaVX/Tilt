@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
-import { Modal } from "semantic-ui-react";
 import Card from "../components/Card";
 import Search from "../components/Search";
-// import Modal from "../components/Modal";
+// import ConfirmModal from "../components/Modal";
+// import { Button, Header, Image, Modal } from 'semantic-ui-react';
 
 class Admin extends Component {
 
@@ -12,6 +12,7 @@ class Admin extends Component {
         reports: [],
         games: [],
         systems: [],
+        cheats: [],
         forum: [],
         videos: [],
         userID: 1
@@ -38,6 +39,19 @@ class Admin extends Component {
         })
         .catch(err => console.log(err))
     }
+
+    // Load Cheats To State
+    loadCheats = () => {
+        API.getCheats()
+        .then(res => {
+            console.log(res.data);
+            this.setState({
+              cheats: res.data,
+            })
+        })
+        .catch(err => console.log(err))
+    }
+
 
     // Load Games To State
     loadGames = () => {
@@ -68,6 +82,7 @@ class Admin extends Component {
         this.loadReports();
         this.loadGames();
         this.loadSystems();
+        this.loadCheats();
     }
 
     // Search For Reports By IGN
@@ -81,6 +96,21 @@ class Admin extends Component {
             reports: res.data,
             search: ""
             })
+        }).catch(err => console.log(err))
+    }
+
+    // Post Cheat
+    postCheat = (event) =>{
+        event.preventDefault();
+        API.postCheats({
+            cheatName: this.state.cheatName,
+            cheatImage: this.state.cheatImage
+        }).then(res => {
+            this.loadCheats();
+            this.setState({
+            cheatName: "",
+            cheatImage: ""
+            });
         }).catch(err => console.log(err))
     }
 
@@ -114,12 +144,27 @@ class Admin extends Component {
         }).catch(err => console.log(err))
     }
    
+   // Update Cheat
+   updateCheat = (cardObject) =>{
+        console.log("Cheat Object:", cardObject);
+        API.putCheat(cardObject.id, {
+            cheatName: cardObject.cardName,
+            cheatImage: cardObject.cardImage
+        }).then(res => {
+            this.loadCheats();
+            this.setState({
+                cheatName: "",
+                cheatImage: ""
+            })
+        }).catch(err => console.log(err))
+    }
+
     // Update Game
-    updateGame = (gameObject) =>{
-        // console.log("Game Object:", gameObject);
-        API.putGame(gameObject.id, {
-            gameName: gameObject.cardName,
-            gameImage: gameObject.cardImage
+    updateGame = (cardObject) =>{
+        // console.log("Game Object:", cardObject);
+        API.putGame(cardObject.id, {
+            gameName: cardObject.cardName,
+            gameImage: cardObject.cardImage
         }).then(res => {
             this.loadGames();
             this.setState({
@@ -130,11 +175,11 @@ class Admin extends Component {
     }
    
     // Update System
-    updateSystem = (gameObject) =>{
-        // console.log("Game Object:", gameObject);
-        API.putSystem(gameObject.id, {
-            systemName: gameObject.cardName,
-            systemImage: gameObject.cardImage
+    updateSystem = (cardObject) =>{
+        // console.log("Game Object:", cardObject);
+        API.putSystem(cardObject.id, {
+            systemName: cardObject.cardName,
+            systemImage: cardObject.cardImage
         }).then(res => {
             this.loadSystems();
             this.setState({
@@ -150,7 +195,8 @@ class Admin extends Component {
     return (
 
     <div>
-
+        
+        
         <div className="row no-gutters jumbotron text-center">
             <h1 className="col-12 animated pulse">Admin</h1>
             <h2 className="col-12">Add Some Text</h2>
@@ -159,7 +205,7 @@ class Admin extends Component {
 
         <div className="row justify-content-center text-center mx-3 my-2">
 
-            <div className="col-12 col-md-5">
+            <div className="col-12 col-md-4">
                 <h2>Add New System</h2>
                 <form>
                     <div className="form-group">
@@ -170,20 +216,30 @@ class Admin extends Component {
                 </form>
             </div>
 
-            <div className="col-12 col-md-5">
+            <div className="col-12 col-md-4">
                 <h2>Add New Game</h2>
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control my-2" name="gameName" value={this.state.gameName}  placeholder="Enter New System Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2" name="gameImage" value={this.state.gameImage}  placeholder="Enter System Image Path" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2" name="gameName" value={this.state.gameName}  placeholder="Enter New Game Name" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2" name="gameImage" value={this.state.gameImage}  placeholder="Enter Game Image Path" onChange={this.handleOnChange}/>
                     </div>
                     <button type="submit" className="btn btn-block my-2" onClick={this.postGame}>Add Game</button>
                 </form>
             </div>
 
-        </div>
 
-        
+            <div className="col-12 col-md-4">
+                <h2>Add Cheat Type</h2>
+                <form>
+                    <div className="form-group">
+                        <input type="text" className="form-control my-2" name="cheatName" value={this.state.cheatName}  placeholder="Enter Cheat Name" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
+                    </div>
+                    <button type="submit" className="btn btn-block my-2" onClick={this.postCheat}>Add Cheat</button>
+                </form>
+            </div>
+
+        </div>
 
         
         <div className="row justify-content-center text-center mt-4 mb-2">
@@ -195,6 +251,7 @@ class Admin extends Component {
                         key={system._id} 
                         systemName={system.systemName}
                         systemImage={system.systemImage}
+                        cheatCount={system.cheatCount}
                         _id = {system._id}
                         updateSystem={this.updateSystem}
                     />
@@ -211,10 +268,27 @@ class Admin extends Component {
                         key={game._id} 
                         gameName={game.gameName}
                         gameImage={game.gameImage}
+                        cheatCount={game.cheatCount}
                         _id = {game._id}
                         updateGame={this.updateGame}
                     />
-            )})}
+                )})}
+        </div>
+
+        <div className="row justify-content-center text-center my-2">
+            <h2 className="col-12">Tracked Cheats</h2>
+            {this.state.cheats.map(cheat => {
+
+                return  (
+                    <Card 
+                        key={cheat._id} 
+                        cheatName={cheat.cheatName}
+                        cheatImage={cheat.cheatImage}
+                        cheatCount={cheat.cheatCount}
+                        _id = {cheat._id}
+                        updateGame={this.updateCheat}
+                    />
+                )})}
         </div>
 
 
@@ -222,7 +296,8 @@ class Admin extends Component {
             reportSearch={this.reportSearch}
         />
     
-        <Modal/>
+     
+        
        
 
     </div>
@@ -231,34 +306,3 @@ class Admin extends Component {
 }
 
 export default Admin;
-
-
-
-// <div className="card my-3 mx-3" key={game._id}>
-//                     <img className="card-img-top" src={game.gameImage} alt={game.gameName}/>
-//                 <div className="card-body">
-//                   <h5 className="card-title">{game.gameName}</h5>
-//                   <p className="card-body">Cheat Count: {game.cheatCount}</p>
-//                   <input type="text" className="form-control my-2" name="gameName" onChange={this.handleOnChange}/>
-//                   <input type="text" className="form-control my-2" name="gameImage" onChange={this.handleOnChange}/>
-//                   <button type="submit" className="btn btn-block my-2" onClick={()=>this.updateGame(game._id)}>Update Game</button>
-//                 </div>
-//               </div>  
-
-
-
-// <div className="row justify-content-center text-center my-2">
-//             <h2 className="col-12">Tracked Systems</h2>
-//             {this.state.systems.map(system => (
-//                 <div className="card my-3 mx-3" key={system._id}>
-//                     <img className="card-img-top" src={system.systemImage} alt={system.systemName}/>
-//                 <div className="card-body">
-//                   <h5 className="card-title">{system.systemName}</h5>
-//                   <p className="card-body">Cheat Count: {system.cheatCount}</p>
-//                   <input type="text" className="form-control my-2" name="systemName" value={this.state.systemName} onChange={this.handleOnChange}/>
-//                   <input type="text" className="form-control my-2" name="systemImage" value={this.state.systemImage} onChange={this.handleOnChange}/>
-//                   <button type="submit" className="btn btn-block my-2" onClick={()=>this.updateSystem(system._id)}>Update System</button>
-//                 </div>
-//               </div>   
-//             ))}
-//         </div>

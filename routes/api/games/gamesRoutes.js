@@ -5,7 +5,7 @@ const Games = require("../../../models/Games");
 // For "/api/games"
 router
   .route("/")
-  .get(function(req, res) {dbController.findAll(Games, req, res);})
+  .get(function(req, res) {dbController.findAllByName(Games, req, res, "gameName");})
   .post(function(req, res) {dbController.create(Games, req, res);});
 
 // For "/api/games/:id"
