@@ -15,8 +15,9 @@ class Chat extends Component {
       chatMsg: "",
       // chat conversation will be an array of chat messages
       chatConvo: [],
-      forumText: "",
-      postedBy: "username1"
+      forumText: [],
+      postedBy: "username1",
+      forumId: -1
     };
   }
 
@@ -40,14 +41,30 @@ class Chat extends Component {
       // clear chat message
       thisChat.setState({
         chatConvo: chatConvo,
-        chatMsg: ""
+        chatMsg: "",
+        forumText: chatConvo
       });
 
-      // 
-      API.postForum({
-        forumText: this.state.forumText,
-        postedBy: this.state.postedBy
-      })
+      // post to forum
+      // create new conversation in database only on first message,
+      // otherwise update forumText with message id
+      if (thisChat.state.forumText.length <= 1) {
+        API.postForum({
+          forumText: thisChat.state.forumText,
+          postedBy: thisChat.state.postedBy
+        })
+        .then(res => {
+          thisChat.setState({forumId: res.data._id});
+        })
+        .catch(err => console.log(err));
+      } else {
+        API.putForum(thisChat.state.forumId,
+        {
+            forumText: thisChat.state.forumText,
+            postedBy: thisChat.state.postedBy
+        })
+        .catch(err => console.log(err));
+      }
     });
   }
 
@@ -79,8 +96,7 @@ class Chat extends Component {
               <hr />
               <ChatWindow
                 convoArray = {this.state.chatConvo}
-              >
-              </ChatWindow>
+              />
             </div>
           </section>
         </div>

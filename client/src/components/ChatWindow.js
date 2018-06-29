@@ -12,17 +12,21 @@ class ChatWindow extends Component {
     // const chatMsgs = React.Children.toArray(this.props.children);
     // {chatMsgs.length ? "chat begun with messages" : "Chat Window"}
     return (
-      <textarea>
-        { this.props.convoArray.map(elem => {
-            return (
-              <p>text</p>
-            );
-          }
-        )}
-      </textarea>
+        <p>
+          <h5>text</h5>
+        </p>
     );
   }
   
 }
+
+/*
+{ this.props.convoArray.map(elem => {
+  return (
+    <p>text</p>
+  );
+}
+)}
+*/
 
 export default ChatWindow;
