@@ -21,7 +21,7 @@ class Card extends Component {
             document.getElementById(id).innerHTML="Missing Name and Image!";
         } else {
 
-            document.getElementById(id).innerHTML="";
+            document.getElementById(id).innerHTML="Updated!";
 
             // Keep Image If Image Is Empty
             if(this.state.cardImage === ""){
@@ -56,14 +56,13 @@ class Card extends Component {
     render() {
         return (
             <div className="card my-3 mx-3" key={this.props._id}>
-                <img className="card-img-top" src={this.props.gameImage || this.props.systemImage} alt={this.props.gameName || this.props.systemName}/>
+                <img className="card-img-top" src={this.props.gameImage || this.props.systemImage || this.props.cheatImage} alt={this.props.gameName || this.props.systemName || this.props.cheatImage}/>
                 <div className="card-body">
-                  <h5 className="card-title">{this.props.gameName || this.props.systemName}</h5>
-                  <p className="card-body">Cheat Count: {this.props.cheatCount}</p>
-                  <p className="card-body" id={this.props._id}></p>
+                  <h5 className="card-title">{this.props.gameName || this.props.systemName || this.props.cheatName}</h5>
+                  <p className="card-body" id={this.props._id}>Cheat Count: {this.props.cheatCount}</p>
                   <input type="text" className="form-control my-2" name="cardName" value={this.state.cardName} placeholder="Update Name" onChange={this.handleOnChange}/>
                   <input type="text" className="form-control my-2" name="cardImage" value={this.state.cardImage} placeholder="Update Image" onChange={this.handleOnChange}/>
-                  <button className="btn btn-block my-2" onClick={()=>this.updateInfo(this.props._id, this.props.gameName||this.props.systemName, this.props.gameImage||this.props.systemImage)}>Update Data</button>
+                  <button className="btn btn-block my-2" onClick={()=>this.updateInfo(this.props._id, this.props.gameName||this.props.systemName||this.props.cheatName, this.props.gameImage||this.props.systemImage||this.props.cheatImage)}>Update Data</button>
                 </div>
               </div>   
         )

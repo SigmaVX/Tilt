@@ -15,8 +15,8 @@ const reportsSchema = new Schema({
     ref: 'Systems'
   },
   cheatType: { 
-    type: String, 
-    required: true 
+    type: Schema.Types.ObjectId,
+    ref: 'Cheats'
   },
   cheatVideo: { 
     type: String 
