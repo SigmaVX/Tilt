@@ -62,15 +62,16 @@ app.get("*", function(req, res) {
 // Setup socket.io
 // ============================================================= 
 var server = require("http").createServer(app);
-const io = require("socket.io")(server);
+var io = require("socket.io")(server);
 
 // Open socket listener
 // ==============================================================
 io.on("connection", function (socket) {
-  console.log("in io.on listener");
-  socket.emit("news", { hello: "world" });
-  socket.on("my other event", function (data) {
-    console.log(data);
+  console.log("user connected in io.on listener");
+  // socket.emit("news", { hello: "world" });
+  socket.on("chat message", function (msg) {
+    console.log(`chat message: ${msg}`);
+    io.emit('chat message', msg);
   });
   socket.on("disconnect", function(){
     console.log("user disconnected");
