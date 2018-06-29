@@ -9,6 +9,16 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findAllReports:function (table, req, res) {
+    table
+      .find(req.query)
+      .populate("cheatGame")
+      .populate("cheatSystem")
+      .populate("cheatType")
+      .sort({ date: -1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findAllByName: function (table, req, res, sortKey) {
     table
       .find(req.query)
