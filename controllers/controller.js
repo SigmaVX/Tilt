@@ -9,6 +9,13 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findAllByName: function (table, req, res, sortKey) {
+    table
+      .find(req.query)
+      .sort({ [sortKey]: 1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findById: function (table, req, res) {
     table
       .findById(req.params.id)

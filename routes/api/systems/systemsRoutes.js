@@ -5,7 +5,7 @@ const Systems = require("../../../models/Systems");
 // For "/api/systems"
 router
   .route("/")
-  .get(function(req, res) {dbController.findAll(Systems, req, res);})
+  .get(function(req, res) {dbController.findAllByName(Systems, req, res, "systemName");})
   .post(function(req, res) {dbController.create(Systems, req, res);});
 
 // For "/api/systems/:id"

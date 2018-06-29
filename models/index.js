@@ -1,6 +1,7 @@
 // Export All Models
 module.exports = {
     Cheaters: require("./Cheaters.js"),
+    Cheats: require("./Cheats.js"),
     Forum: require("./Forum.js"),
     Games: require("./Games.js"),
     Systems: require("./Systems.js"),
