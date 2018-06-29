@@ -10,7 +10,7 @@
 /build
 
 # misc
-acess.log
+access.log
 .DS_Store
 .env
 .env.local

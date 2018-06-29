@@ -7,6 +7,7 @@ import Home from "./containers/Home";
 import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
 import Admin from "./containers/Admin";
+import Post from "./containers/Post";
 import './App.css';
 
 
@@ -16,6 +17,7 @@ const App = () => (
       <Navbar/>
       <Switch>
         <Route exact path="/" component={Home}/>
+        <Route exact path="/post" component={Post}/>
         <Route exact path="/videos" component={Videos}/>
         <Route exact path="/chat" component={Chat}/>
         <Route exact path="/admin" component={Admin}/>

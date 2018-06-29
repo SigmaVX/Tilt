@@ -10,6 +10,9 @@ const Navbar = () => (
         <li className={window.location.pathname === "/" ? "nav-item active bg-warning" : "nav-item"}>
           <Link className="nav-link" to="/">Home</Link>
         </li>
+        <li className={window.location.pathname === "/" ? "nav-item active bg-warning" : "nav-item"}>
+          <Link className="nav-link" to="/post">Post</Link>
+        </li>
         <li className={window.location.pathname === "/videos" ? "nav-item active bg-warning" : "nav-item"}>
             <Link className="nav-link" to="/videos">Videos</Link>
         </li>
