@@ -20,10 +20,9 @@ class Home extends Component {
         this.setState({[name]: value});
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
+    // handleChange(event) {
+    //     this.setState({cheatGame: event.target.value});
+    // }
 
     componentDidMount(){
         this.pageLoad();
@@ -33,7 +32,7 @@ class Home extends Component {
      loadReports = () => {
         API.getReports()
         .then(res => {
-            console.log(res.data);
+            console.log("Reports: ", res.data);
             this.setState({
               reports: res.data,
             })
@@ -113,6 +112,19 @@ class Home extends Component {
         }
 
         console.log(sendObject);
+        API.postReport(sendObject)
+        .then(res=> {
+            console.log(res.data)
+            this.setState({
+            cheaterIGN: "",
+            cheatGame: "",
+            cheatSystem: "",
+            cheatType: "",
+            cheatVideo: "",
+            cheatComments: ""
+            })
+            this.loadReports();
+        })
     }
 
   render() {
@@ -133,30 +145,30 @@ class Home extends Component {
                 </div>
                 <div className="form-group">
                     <label>Select Cheater's Game System:</label>
-                    <select className="form-control" name="cheatSystem" value={this.state.value} onChange={this.handleonChange}>
+                    <select className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game" onChange={this.handleOnChange}>
                         {this.state.systems.map(system=>{
                             return(
-                                <option value={system.systemName}>{system.systemName}</option>
+                                <option value={system._id}>{system.systemName}</option>
                             )    
                         })}
                     </select>
                 </div>
                 <div className="form-group">
                     <label>What Game Where They Playing:</label>
-                    <select className="form-control" name="cheatGame" value={this.state.value} onChange={this.handleChange}>
+                    <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select System" onChange={this.handleOnChange}>
                         {this.state.games.map(game=>{
                             return(
-                                <option value={game.gameName}>{game.gameName}</option>
+                                <option value={game._id}>{game.gameName}</option>
                             )    
                         })}
                     </select>
                 </div>
                 <div className="form-group">
                     <label>How Did They Cheat:</label>
-                    <select className="form-control" name="cheatType" value={this.state.value} onChange={this.handleonChange}>
+                    <select className="form-control" name="cheatType" value={this.state.cheatType} placeholder="Select Cheat Type" onChange={this.handleOnChange}>
                         {this.state.cheats.map(cheat=>{
                             return(
-                                <option value={cheat.cheatName}>{cheat.cheatName}</option>
+                                <option value={cheat._id}>{cheat.cheatName}</option>
                             )    
                         })}
                     </select>
@@ -195,7 +207,15 @@ class Home extends Component {
                   : "No Cheat Reports Right Now!"}
               </h2>
 
-              
+            {this.state.reports.map(report=>{
+                return (
+                <div>
+                   Test Stuff: {report.cheatGame.gameName} | {report.cheatSystem.systemName}  | {report.cheatSystem.systemImage} 
+                </div>
+                )
+            })}
+
+
         </div>
 
     </div>

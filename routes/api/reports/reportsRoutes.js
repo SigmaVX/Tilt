@@ -6,7 +6,7 @@ const Reports = require("../../../models/Reports");
 // For "/api/reports"
 router
   .route("/")
-  .get(function(req, res) {dbController.findAll(Reports, req, res);})
+  .get(function(req, res) {dbController.findAllReports(Reports, req, res);})
   .post(function(req, res) {dbController.create(Reports, req, res);});
 
 // For "/api/reports/:id"
