@@ -48,19 +48,12 @@ class Chat extends Component {
       chatConvo: [],
       forumText: [],
       postedBy: "sampleUser",
+      userStateMsg: "sample message",
       // forum information to be received from chat forums
       forumsList: null,
       activeForum: 0,
       activeNameGame: ""
     };
-  }
-
-  handleOnChange = event => {
-    const {name, value} = event.target;
-
-    this.setState({
-      [name]: value
-    });
   }
 
   forumInfo = (list, id, gName) => {
@@ -70,6 +63,17 @@ class Chat extends Component {
       activeForum: id,
       activeNameGame: gName   
     });
+  }
+
+  renderChatUserState() {
+    console.log("in renderChatUserState()");
+    if (this.state.isLoggedIn && this.state.chatMsg !== "") {
+      chatListener.emit("user state", `${this.state.userName} is typing`);
+/*       this.setState({
+        userStateMsg: "user is typing"
+      }) */
+      return (<strong>{this.state.userName} is typing</strong>);
+    }
   }
 
   renderIntroChat() {
@@ -135,9 +139,14 @@ class Chat extends Component {
       }
     });
 
-    // turn on disconnect listener
+    // turn on user state listener
+    chatListener.on("user state", function(uStateMsg){
+      console.log(uStateMsg);
+    });
+
+    // turn on leave chat listener
     chatListener.on("leave chat", function(){
-      console.log(`${this.state.userName} disconnected.`);
+      console.log(`${thisChat.state.userName} disconnected.`);
     });
   }
 
@@ -149,6 +158,18 @@ class Chat extends Component {
     this.setState({
       isLoggedIn: false,
       userName: ""
+    });
+  }
+
+  handleOnChange = event => {
+    const {name, value} = event.target;
+
+    if ([name] === "chatMsg") {
+      console.log("user is typing");
+      this.renderChatUserState();
+    }
+    this.setState({
+      [name]: value
     });
   }
 
@@ -238,6 +259,11 @@ class Chat extends Component {
             Leave Chat
             </button>
           </form>
+          <div className="row">
+            <section className="offset-4">
+              {this.renderChatUserState()}
+            </section>
+          </div>
         </div>
 
       </div>

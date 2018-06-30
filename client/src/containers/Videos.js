@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../utilities/API";
 import YouTube from "react-youtube";
+// import cheatTerms from "./videoTerms.json";
 
 const styles = {
   customSubButton: {
@@ -24,9 +25,10 @@ class Videos extends Component {
     this.state = {
       isSubHovered: false,
       ytVideos: [],
-      // youtube query values
-      q: "",
-      // default query values for app
+      // youtube query values, default value sent first
+      q: "video game cheats",
+      submittedQuery: "video game cheats",
+      // default query values for video section
       // part = "snippet is required for youtube" 
       part: "snippet" ,
       safeSearch: "moderate",
@@ -47,6 +49,30 @@ class Videos extends Component {
     });
   }
 
+  componentDidMount() {
+    this.getYouTubeVids({
+      part: this.state.part,
+      safeSearch: this.state.safeSearch,
+      maxResults: this.state.maxResults,
+      relevanceLanguage: this.state.relevanceLanguage,
+      // add query value to youtube query object
+      q: this.state.q     
+    });
+  }
+
+  getYouTubeVids(query) {
+    API.youtubeSearch(query)
+    .then(res => {
+      console.log("youtube search results: " + JSON.stringify(res.data.items));
+      this.setState({
+        ytVideos: res.data.items,
+        submittedQuery: this.state.q,
+        q: ""
+      });
+    })
+    .catch(err => console.log(err));
+  }
+
   videoSearch = event => {
     event.preventDefault();
 
@@ -61,16 +87,7 @@ class Videos extends Component {
     };
 
     console.log(ytQuery);
-
-    API.youtubeSearch(ytQuery)
-    .then(res => {
-      console.log("youtube search results: " + JSON.stringify(res.data.items));
-      this.setState({
-        ytVideos: res.data.items,
-        q: ""
-      });
-    })
-    .catch(err => console.log(err));
+    this.getYouTubeVids(ytQuery);
 
   } 
 
@@ -101,7 +118,7 @@ class Videos extends Component {
           <div className="row">
             {/* Form for video search */}
             <div className="col-4">
-              <h2>Search for Video Game Cheaters</h2>
+              <h6>Search Term -OR-</h6>
               <form>
                 <div className="form-group">
                   <input 
@@ -117,7 +134,7 @@ class Videos extends Component {
                     onMouseEnter = {this.handleMouseEnter}
                     onMouseLeave = {this.handleMouseLeave}
                     style={this.state.isSubHovered ? styles.customSubHover : styles.customSubButton}
-                    className="btn btn-block"
+                    className="btn"
                     onClick={this.videoSearch}
                   >
                     Submit
@@ -125,10 +142,19 @@ class Videos extends Component {
                 </div>
               </form>
             </div>
+            <div className="col-5">
+              Select from Menu
+              <select>
+              <option value="value one">Value One</option>
+              <option value="value 2">Value Two</option>
+              </select>
+            </div>
+          </div>
 
+          <div className="row">
             {/* Video results container */}
             <div className="offset-1 col-7">
-              <h2>{this.state.ytVideos.length ? "Video Results" : "Search for videos on gamecheaters"}</h2>
+              <h3>{this.state.ytVideos.length ? `Video Results of ${this.state.submittedQuery}` : "Search for videos on gamecheaters"}</h3>
                 {this.state.ytVideos.map(video => (
                   <div style={styles.customCardStyle} className="card justify-content-between align-items-center"  key={video.id.videoId}>
                     <div className="card-body">
