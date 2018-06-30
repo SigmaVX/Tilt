@@ -48,6 +48,10 @@ class Chat extends Component {
       chatConvo: [],
       forumText: [],
       postedBy: "sampleUser",
+      // forum information to be received from chat forums
+      forumsList: null,
+      activeForum: 0,
+      activeNameGame: ""
     };
   }
 
@@ -56,6 +60,15 @@ class Chat extends Component {
 
     this.setState({
       [name]: value
+    });
+  }
+
+  forumInfo = (list, id, gName) => {
+    console.log("in forum callback");
+    this.setState({
+      forumsList: list,
+      activeForum: id,
+      activeNameGame: gName   
     });
   }
 
@@ -185,7 +198,7 @@ class Chat extends Component {
         <div className="d-flex flex-row justify-content-center">
           <section className="col-6">
             <div className="card">
-              <h5 className="text-center">Chatroom</h5>
+              <h5 className="text-center">{this.state.activeNameGame} Chatroom</h5>
               <hr />
               <ChatWindow
                 convoArray = {this.state.chatConvo}
@@ -194,7 +207,9 @@ class Chat extends Component {
             </div>
           </section>
           <section className="col-3">
-            <ChatForums />
+            <ChatForums
+              getForumInfo = {this.forumInfo} 
+            />
           </section>
         </div>
     

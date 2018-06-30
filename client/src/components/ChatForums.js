@@ -17,7 +17,8 @@ class ChatForums extends Component {
       // ----------------------------------------------------
       gamesList: [],
       forumId: -1,
-      activeId: ""
+      activeId: "",
+      activeGameName: ""
     };
   }
 
@@ -25,12 +26,13 @@ class ChatForums extends Component {
     this.loadGamesList();
   }
 
-  setActiveGame(id) {
+  setActiveGame(id, gName) {
     if (id) {
       console.log(`active id: ${id}`);
     }
     this.setState({
-      activeId: id
+      activeId: id,
+      activeGameName: gName
     });
   }  
 
@@ -41,7 +43,8 @@ class ChatForums extends Component {
           console.log(res.data);
           this.setState({
             gamesList: res.data,
-          })
+          });
+          // this.props.getForumInfo(this.state.gamesList, this.state.activeId, this.state.activeGameName);
       })
       .catch(err => console.log(err));
   }
@@ -57,7 +60,10 @@ class ChatForums extends Component {
               className={game._id === this.state.activeId 
                         ? "list-group-item list-group-item-action active"
                         : "list-group-item"}
-              onClick={() => this.setActiveGame(game._id)}
+              onClick={() => {
+                this.setActiveGame(game._id, game.gameName);
+                this.props.getForumInfo(this.state.gamesList, game._id, game.gameName);
+              }}
               >
                 <h6>{game.gameName}</h6>
               </li>
