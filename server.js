@@ -67,15 +67,16 @@ var io = require("socket.io")(server);
 // Open socket listener
 // ==============================================================
 io.on("connection", function (socket) {
-  console.log("user connected in io.on listener");
-  // socket.emit("news", { hello: "world" });
   socket.on("chat message", function (msg) {
     console.log(`chat message: ${msg}`);
-    io.emit('chat message', msg);
+    io.emit("chat message", msg);
   });
   socket.on("disconnect", function(){
     console.log("user disconnected");
   });
+  socket.on("leave chat", function() {
+    console.log("user left chat");
+  })
 });
 
 // server.listen(PORT); changed from app.listen to server.listen in order

@@ -1,5 +1,14 @@
+// =========================================================================
+// Chat container
+// Description: Implements chat feature for Tilt application. This 
+//  container uses socket.io listeners to communicate with the server
+//  and also posts chat texts to Forums Table.
+//
+// =========================================================================
+
 import React, { Component } from "react";
 import ChatWindow from "../components/ChatWindow";
+import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
 
 const io = require("socket.io-client");
@@ -10,7 +19,6 @@ const chatListener = io.connect("http://localhost:3000");
 // UserGreeting is a functional component
 //
 const UserGreeting = (props) => {
-  const userName = props.userName;
   return (
     <section className="offset-2 form-inline mb-2">
       <h5>Welcome to Chat {props.userName}</h5>
@@ -28,15 +36,18 @@ class Chat extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
       isSubHovered: false,
+      // User information
+      // ----------------------------------------------
       isLoggedIn: false,
       userName: "",
       userId: 0,
+      // Chat info
+      // --------------------------------------------------
       chatMsg: "",
       // chat conversation will be an array of chat messages
       chatConvo: [],
       forumText: [],
       postedBy: "sampleUser",
-      forumId: -1
     };
   }
 
@@ -73,14 +84,7 @@ class Chat extends Component {
     );
   }
 
-  leaveChat() {
-    console.log("leaving chat");
-    this.setState({
-      isLoggedIn: false
-    })
-  }
-
-  // receive message from listener
+  // receive message from 'chat message' listener
   componentDidMount() {
     const thisChat = this;
     let chatConvo = this.state.chatConvo;
@@ -108,7 +112,7 @@ class Chat extends Component {
           thisChat.setState({forumId: res.data._id});
         })
         .catch(err => console.log(err));
-      } else {
+      } else if (thisChat.state.forumId !== -1) {
         API.putForum(thisChat.state.forumId,
         {
             forumText: thisChat.state.forumText,
@@ -116,6 +120,22 @@ class Chat extends Component {
         })
         .catch(err => console.log(err));
       }
+    });
+
+    // turn on disconnect listener
+    chatListener.on("leave chat", function(){
+      console.log(`${this.state.userName} disconnected.`);
+    });
+  }
+
+  leaveChat = event => {
+    event.preventDefault();
+
+    chatListener.emit("chat message", `${this.state.userName} disconnected.`);
+    chatListener.emit("leave chat");
+    this.setState({
+      isLoggedIn: false,
+      userName: ""
     });
   }
 
@@ -163,8 +183,8 @@ class Chat extends Component {
         </div>
 
         <div className="d-flex flex-row justify-content-center">
-          <section className="col-sm-8">
-            <div className="card" id="chat-box">
+          <section className="col-6">
+            <div className="card">
               <h5 className="text-center">Chatroom</h5>
               <hr />
               <ChatWindow
@@ -173,12 +193,15 @@ class Chat extends Component {
               />
             </div>
           </section>
+          <section className="col-3">
+            <ChatForums />
+          </section>
         </div>
     
         <div>
-          <form className="form-inline justify-content-center">
+          <form className="row form-inline">
             <input 
-              className="form-control my-2 my-sm-1 mr-sm-1" 
+              className="form-control offset-2 col-3 my-2 my-sm-1 mr-sm-1" 
               type="text" 
               name="chatMsg" 
               value={this.state.chatMsg}
@@ -186,14 +209,14 @@ class Chat extends Component {
               onChange={this.handleOnChange} 
             />
             <button 
-              className="btn btn-primary btn-lg my-2 my-sm-0 mr-2" 
+              className="col-1 btn btn-primary my-2 my-sm-0 mr-2" 
               type="submit" 
               onClick={this.handleOnSubmit}  
             >
               Send
             </button>
             <button 
-              className="btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
+              className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
               type="submit" 
               onClick={this.leaveChat}  
             >

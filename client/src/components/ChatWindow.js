@@ -1,3 +1,11 @@
+// =========================================================================
+// ChatWindow component
+// 
+// Description: This component is responsible for displaying the gameroom
+//  chat conversation.
+//
+// =========================================================================
+
 import React, { Component } from "react";
 
 class ChatWindow extends Component {
@@ -9,8 +17,6 @@ class ChatWindow extends Component {
   }
 
   render() {
-    // const chatMsgs = React.Children.toArray(this.props.children);
-    // {chatMsgs.length ? "chat begun with messages" : "Chat Window"}
     return (
         <div>
           <ul>
@@ -26,14 +32,5 @@ class ChatWindow extends Component {
   }
   
 }
-
-/*
-{ this.props.convoArray.map(elem => {
-  return (
-    <p>text</p>
-  );
-}
-)}
-*/
 
 export default ChatWindow;
