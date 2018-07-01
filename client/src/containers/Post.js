@@ -60,10 +60,46 @@ class Post extends Component {
         .catch(err => console.log(err))
     }
 
-    // Post Data To Mongo Via Send Object
-    postAll = (event) => {
-
+    // Validate Data Input
+    validateForm = (event) =>{
+        let buttonClicked = true;
         event.preventDefault();
+        // Check Video Content
+        if(typeof this.state.cheatVideo === "undefined" || this.state.cheatVideo.length === 0 || this.state.cheatVideo.includes("https://youtu.be/")){
+            // Check Comment Length
+            if(typeof this.state.cheatComments === "undefined" || this.state.cheatComments === 0 || this.state.cheatComments.length < 300){
+                // Check If Values Are Selected In Manditory Fields
+                if(this.state.cheaterIGN.length > 0 && this.state.cheatSystem.length > 0 && this.state.cheatGame.length > 0 && this.state.cheatType.length > 0){
+                    // Check If Button Already Clicked
+                    if(buttonClicked = true){
+                        this.postAll();
+                        document.getElementById("error-text").innerHTML="Cheat Report Posted!";
+                        document.getElementById("error-text").setAttribute("class", "col-12 correct animated rubberBand");
+                        buttonClicked = false;
+                    } else {
+                            document.getElementById("error-text").innerHTML="Button Double Clicked - Please Wait To Submit Your Data";
+                            document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
+                            
+                    }
+
+                } else {    
+                    document.getElementById("error-text").innerHTML="Please Fill Out Required Fields";
+                    document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
+                }
+            } else{
+                document.getElementById("error-text").innerHTML="Comments Must Be Less Than 300 Characters";
+                document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
+            };
+        } else {
+            document.getElementById("error-text").innerHTML="Please Provide A Valid YouTube URL (e.g. https://youtu.be/6Zcib-ZT2qk)";
+            document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
+        }
+    }
+
+    // Post Data To Mongo Via Send Object
+    postAll = () => {
+
+        // event.preventDefault();
 
         const sendObject ={
             cheaterIGN: this.state.cheaterIGN,
@@ -104,6 +140,13 @@ class Post extends Component {
 
 
   render() {
+
+    // Validate Form Data Is Present
+    const { cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments} = this.state;
+    console.log(cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments);
+    const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefinded" && typeof cheatType !== "undefined";
+
+
     return (
 
     <div>
@@ -117,11 +160,11 @@ class Post extends Component {
             <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
-                    <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="" onChange={this.handleOnChange}/>
+                    <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
                 </div>
                 <div className="form-group">
-                    <label>Select Cheater's Game System:</label>
-                    <select required className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game" onChange={this.handleOnChange}>
+                    <label>What Game System Was The Cheater On?</label>
+                    <select required className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game System" onChange={this.handleOnChange}>
                         <option value="">Select Game</option>
                         {this.state.systems.map(system=>{
                             return(
@@ -131,8 +174,8 @@ class Post extends Component {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>What Game Where They Playing:</label>
-                    <select className="form-control" name="cheatGame" value={this.state.cheatGame} onChange={this.handleOnChange}>
+                    <label>"What Game Was The Cheater Playing?</label>
+                    <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select Game" onChange={this.handleOnChange}>
                         <option value="">Select System</option>
                         {this.state.games.map(game=>{
                             return(
@@ -142,7 +185,7 @@ class Post extends Component {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>How Did They Cheat:</label>
+                    <label>How Did They Cheat?</label>
                     <select className="form-control" name="cheatType" value={this.state.cheatType} placeholder="Select Cheat Type" onChange={this.handleOnChange}>
                         <option value="">Select Cheat Type</option>
                         {this.state.cheats.map(cheat=>{
@@ -153,15 +196,18 @@ class Post extends Component {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>Add YouTube Video Link (Optional):</label>
-                    <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="" onChange={this.handleOnChange}/>
+                    <label>Add A YouTube Video Link (Optional):</label>
+                    <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
                 </div>
                 <div className="form-group">
                     <label>Add Any Comments (Optional):</label>
-                    <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="" onChange={this.handleOnChange}/>
+                    <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postAll}>Report Cheater</button>                
+                    <button disabled={!isEnabled} type="submit" className="btn btn-block my-2" onClick={this.validateForm}>Report Cheater</button>                
+                </div>
+                <div className="form-group text-center">
+                    <p id="error-text" className="error-text"></p>
                 </div>
             </form>
         </div>

@@ -1,6 +1,29 @@
-input{
+.animated {
+  animation-duration: 1s;
+  /* animation-fill-mode: both;
+  animation-iteration-count: 5; */
+}
+
+.correct{
+  color: green;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.wrong{
+  color: red;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.center-placeholder{
     text-align:center;
   }
+
+.error-text{
+  text-align: center;
+  font-size: 30px;
+}
 
 .reports-row:nth-child(even){
     background-color: lightblue;
@@ -10,20 +33,22 @@ input{
     margin-bottom: 15px;
 }
 
+
+
 /* Center Placeholders */
-  ::-webkit-input-placeholder {
+ .center-placeholder::-webkit-input-placeholder {
     text-align: center;
   }
   
-  :-moz-placeholder { /* Firefox 18- */
+  .center-placeholder:-moz-placeholder { /* Firefox 18- */
     text-align: center;  
   }
   
-  ::-moz-placeholder {  /* Firefox 19+ */
+  .center-placeholder::-moz-placeholder {  /* Firefox 19+ */
     text-align: center;  
   }
   
-  :-ms-input-placeholder {  
+  .center-placeholder:-ms-input-placeholder {  
     text-align: center; 
   }
   
