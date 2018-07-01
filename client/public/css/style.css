@@ -1,3 +1,5 @@
+
+
 .animated {
   animation-duration: 1s;
   /* animation-fill-mode: both;
@@ -6,12 +8,6 @@
 
 .correct{
   color: green;
-  font-weight: 700;
-  font-size: 30px;
-}
-
-.wrong{
-  color: red;
   font-weight: 700;
   font-size: 30px;
 }
@@ -29,10 +25,23 @@
     background-color: lightblue;
 }
 
+.reports-row:nth-child(odd){
+  background-color: lightgreen;
+}
+
+.round-img{
+  border-radius: 50%
+}
+
 .video-link{
     margin-bottom: 15px;
 }
 
+.wrong{
+  color: red;
+  font-weight: 700;
+  font-size: 30px;
+}
 
 
 /* Center Placeholders */
