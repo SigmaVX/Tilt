@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import API from "../utilities/API";
 import YouTube from "react-youtube";
-// import cheatTerms from "./videoTerms.json";
 
 const styles = {
   customSubButton: {
@@ -57,7 +56,6 @@ class Videos extends Component {
 
   handleSelectMenuChange = event => {
     const {value} = event.target;
-    console.log("value handle SelectMenu Change");
 
     this.getYouTubeVids({
       part: this.state.part,
@@ -88,7 +86,6 @@ class Videos extends Component {
   loadCheatsList() {
     API.getCheats()
       .then(res => {
-          console.log(res.data);
           this.setState({
             cheatList: res.data,
           });
@@ -99,7 +96,7 @@ class Videos extends Component {
   getYouTubeVids(query) {
     API.youtubeSearch(query)
     .then(res => {
-      console.log("youtube search results: " + JSON.stringify(res.data.items));
+      // console.log("youtube search results: " + JSON.stringify(res.data.items));
       this.setState({
         ytVideos: res.data.items,
         submittedQuery: query.q,

@@ -28,7 +28,7 @@ class ChatForums extends Component {
 
   setActiveGame(id, gName) {
     if (id) {
-      console.log(`active id: ${id}`);
+      // console.log(`active id: ${id}`);
     }
     this.setState({
       activeId: id,
@@ -40,7 +40,6 @@ class ChatForums extends Component {
   loadGamesList = () => {
     API.getGames()
       .then(res => {
-          console.log(res.data);
           this.setState({
             gamesList: res.data,
           });
