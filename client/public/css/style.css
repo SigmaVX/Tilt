@@ -2,8 +2,14 @@ input{
     text-align:center;
   }
 
+.reports-row:nth-child(even){
+    background-color: lightblue;
+}
 
-  
+.video-link{
+    margin-bottom: 15px;
+}
+
 /* Center Placeholders */
   ::-webkit-input-placeholder {
     text-align: center;

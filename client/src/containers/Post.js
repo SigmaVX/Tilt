@@ -61,8 +61,10 @@ class Post extends Component {
     }
 
     // Post Data To Mongo Via Send Object
-    postReport = (event) => {
+    postAll = (event) => {
+
         event.preventDefault();
+
         const sendObject ={
             cheaterIGN: this.state.cheaterIGN,
             cheatGame: this.state.cheatGame,
@@ -73,19 +75,33 @@ class Post extends Component {
         }
 
         console.log(sendObject);
-        API.postReport(sendObject)
-        .then(res=> {
-            console.log(res.data)
+        API.postReport(sendObject).then(res=> {
+            console.log("Reports Table Updated")
+        
+            const countObject = {   
+                gameName : this.state.cheatGame,
+                systemName : this.state.cheatSystem,
+                cheatName : this.state.cheatType,
+                cheaterIGN: this.state.cheaterIGN
+            }
+    
+            API.updateCounts(countObject).then(res => {
+            console.log("Counts Updated");
+        
             this.setState({
-            cheaterIGN: "",
-            cheatGame: "",
-            cheatSystem: "",
-            cheatType: "",
-            cheatVideo: "",
-            cheatComments: ""
-            })
-        })
-    }
+                cheaterIGN: "",
+                cheatGame: "",
+                cheatSystem: "",
+                cheatType: "",
+                cheatVideo: "",
+                cheatComments: ""
+                });
+            });
+        });
+    };
+
+
+
 
   render() {
     return (
@@ -105,7 +121,7 @@ class Post extends Component {
                 </div>
                 <div className="form-group">
                     <label>Select Cheater's Game System:</label>
-                    <select className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game" onChange={this.handleOnChange}>
+                    <select required className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game" onChange={this.handleOnChange}>
                         <option value="">Select Game</option>
                         {this.state.systems.map(system=>{
                             return(
@@ -145,7 +161,7 @@ class Post extends Component {
                     <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="" onChange={this.handleOnChange}/>
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postReport}>Report Cheater</button>                
+                    <button type="submit" className="btn btn-block my-2" onClick={this.postAll}>Report Cheater</button>                
                 </div>
             </form>
         </div>

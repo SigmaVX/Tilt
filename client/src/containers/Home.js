@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
 import Search from "../components/Search";
+import Moment from "moment";
 
 class Home extends Component {
 
@@ -134,28 +135,39 @@ class Home extends Component {
             <h3 className="col-12">Add More Text</h3>
         </div>
 
+        
+
+
+
+
         <div className="row justify-content-center text center my-4">
-            
+             <Search reportSearch={this.reportSearch}/>
         </div>
 
-        <Search reportSearch={this.reportSearch}/>
-
-    
-        <div className="row text-center mx-2">
-              <h2 className="col-12">{this.state.reports.length
-                  ? "Cheat Reports"
+        <div className="container">
+              <h2 className="col-12 text-center">{this.state.reports.length
+                  ? ""
                   : "No Cheat Reports Right Now!"}
               </h2>
 
             {this.state.reports.map(report=>{
                 return (
-                <div key={report._id}>
-                   Test Stuff: {report.cheatGame.gameName} | {report.cheatSystem.systemName}  | {report.cheatSystem.systemImage} 
-                </div>
+                <tr className="row justify-content-center reports-row py-2" key={report._id}>
+                    <td className="col-12 col-md-2 text-center">
+                        <img className="img-fluid rounded mt-2 mb-1" src={report.cheatGame.gameImage}/>
+                        <h5 className="game-title my-1">{report.cheatGame.gameName}</h5>
+                        
+                    </td>
+                    <td className="col-12 col-md-8 text-center">
+                        <h5 className="ign-title mt-2 mb-1">Cheater IGN: {report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
+                        <h6 className="cheat-type my-1">Cheat Type: {report.cheatType.cheatName}</h6>
+                        <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
+                        <a className="video-link my-1" target="_blank" href={report.cheatVideo}>{report.cheatVideo ? "Watch The YouTube Video" : "No Video"}</a>
+                        <p className="col-12 comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : "No Comments"}</p>
+                    </td>
+                </tr>
                 )
             })}
-
-
         </div>
 
     </div>
