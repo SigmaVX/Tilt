@@ -44,7 +44,6 @@ class ChatForums extends Component {
           this.setState({
             gamesList: res.data,
           });
-          // this.props.getForumInfo(this.state.gamesList, this.state.activeId, this.state.activeGameName);
       })
       .catch(err => console.log(err));
   }
