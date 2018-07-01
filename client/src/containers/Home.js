@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
 import Search from "../components/Search";
+import CountBubble from "../components/CountBubble";
 import Moment from "moment";
 
 class Home extends Component {
@@ -126,6 +127,8 @@ class Home extends Component {
     }
 
   render() {
+    
+    console.dir(this.state.games);
     return (
 
     <div>
@@ -135,9 +138,35 @@ class Home extends Component {
             <h3 className="col-12">Add More Text</h3>
         </div>
 
-        
+        <div className="row justify-content-center text-center">
+            <h2 className="col-12">Top Cheats By Game</h2>
+            
+            {this.state.games.map(game=>{
+                return(
+                    <CountBubble
+                    gameName={game.gameName}
+                    gameImage={game.gameImage}
+                    cheatCount={game.cheatCount}
+                    />
+                )   
+            })}
 
+        </div>
 
+        <div className="row justify-content-center text-center">
+            <h2 className="col-12">Total Cheats By System</h2>
+            
+            {this.state.systems.map(system=>{
+                return(
+                    <CountBubble
+                    systemName={system.systemName}
+                    systemImage={system.systemImage}
+                    cheatCount={system.cheatCount}
+                    />
+                )   
+            })}
+
+        </div>
 
 
         <div className="row justify-content-center text center my-4">

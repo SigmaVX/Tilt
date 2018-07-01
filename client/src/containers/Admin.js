@@ -209,8 +209,8 @@ class Admin extends Component {
                 <h2>Add New System</h2>
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control my-2" name="systemName" value={this.state.systemName}  placeholder="Enter New System Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2" name="systemImage" value={this.state.systemImage}  placeholder="Enter System Image Path" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="systemName" value={this.state.systemName}  placeholder="Enter New System Name" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="systemImage" value={this.state.systemImage}  placeholder="Enter System Image Path" onChange={this.handleOnChange}/>
                     </div>
                     <button type="submit" className="btn btn-block my-2" onClick={this.postSystem}>Add System</button>
                 </form>
@@ -220,8 +220,8 @@ class Admin extends Component {
                 <h2>Add New Game</h2>
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control my-2" name="gameName" value={this.state.gameName}  placeholder="Enter New Game Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2" name="gameImage" value={this.state.gameImage}  placeholder="Enter Game Image Path" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="gameName" value={this.state.gameName}  placeholder="Enter New Game Name" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="gameImage" value={this.state.gameImage}  placeholder="Enter Game Image Path" onChange={this.handleOnChange}/>
                     </div>
                     <button type="submit" className="btn btn-block my-2" onClick={this.postGame}>Add Game</button>
                 </form>
@@ -232,8 +232,8 @@ class Admin extends Component {
                 <h2>Add Cheat Type</h2>
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control my-2" name="cheatName" value={this.state.cheatName}  placeholder="Enter Cheat Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="cheatName" value={this.state.cheatName}  placeholder="Enter Cheat Name" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control my-2 center-placeholder" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
                     </div>
                     <button type="submit" className="btn btn-block my-2" onClick={this.postCheat}>Add Cheat</button>
                 </form>
