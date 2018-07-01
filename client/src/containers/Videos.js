@@ -23,15 +23,22 @@ class Videos extends Component {
     super(props);
     this.state = {
       isSubHovered: false,
+      cheatList: [],
+      // youtube api state variables
+      // ---------------------------
       ytVideos: [],
-      // youtube query values
-      q: "",
-      // default query values for app
+      // youtube query values, default value sent first
+      q: "video game cheats",
+      submittedQuery: "video game cheats",
+      // default query values for video section
       // part = "snippet is required for youtube" 
       part: "snippet" ,
       safeSearch: "moderate",
       maxResults: 10,
-      relevanceLanguage: "en"
+      relevanceLanguage: "en",
+      // select menu option default
+      // ---------------------------
+      value: "none"
     };
   }
 
@@ -47,6 +54,59 @@ class Videos extends Component {
     });
   }
 
+  handleSelectMenuChange = event => {
+    const {value} = event.target;
+
+    this.getYouTubeVids({
+      part: this.state.part,
+      safeSearch: this.state.safeSearch,
+      maxResults: this.state.maxResults,
+      relevanceLanguage: this.state.relevanceLanguage,
+      // add query value to youtube query object
+      q: value     
+    });
+    this.setState({
+      submittedQuery: value
+    });
+
+  }
+
+  componentDidMount() {
+    this.getYouTubeVids({
+      part: this.state.part,
+      safeSearch: this.state.safeSearch,
+      maxResults: this.state.maxResults,
+      relevanceLanguage: this.state.relevanceLanguage,
+      // add query value to youtube query object
+      q: this.state.q     
+    });
+    this.loadCheatsList();
+  }
+
+  loadCheatsList() {
+    API.getCheats()
+      .then(res => {
+          this.setState({
+            cheatList: res.data,
+          });
+      })
+      .catch(err => console.log(err));
+  }
+
+  getYouTubeVids(query) {
+    API.youtubeSearch(query)
+    .then(res => {
+      // console.log("youtube search results: " + JSON.stringify(res.data.items));
+      this.setState({
+        ytVideos: res.data.items,
+        submittedQuery: query.q,
+        q: "",
+        value: "none"
+      });
+    })
+    .catch(err => console.log(err));
+  }
+
   videoSearch = event => {
     event.preventDefault();
 
@@ -60,18 +120,8 @@ class Videos extends Component {
       q: this.state.q
     };
 
-    console.log(ytQuery);
-
-    API.youtubeSearch(ytQuery)
-    .then(res => {
-      console.log("youtube search results: " + JSON.stringify(res.data.items));
-      this.setState({
-        ytVideos: res.data.items,
-        q: ""
-      });
-    })
-    .catch(err => console.log(err));
-
+    // console.log(ytQuery);
+    this.getYouTubeVids(ytQuery);
   } 
 
   _onReady(event) {
@@ -81,9 +131,10 @@ class Videos extends Component {
 
 
   render() { 
+    // options for youtube video card rendering
     const opts = {
-      height: "195",
-      width: "320",
+      height: "146",
+      width: "240",
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 2 // paused
       }
@@ -98,18 +149,20 @@ class Videos extends Component {
         </div>
 
         <div className="container-fluid">
-          <div className="row">
+          <div className="row mb-2">
             {/* Form for video search */}
-            <div className="col-4">
-              <h2>Search for Video Game Cheaters</h2>
-              <form>
+            <div className="offset-2 col-4 col-xs-12">
+              <form className="form-inline">
+                <div className="form-group">
+                  <h6 className="inline mr-2">Search Term: </h6>
+                </div>
                 <div className="form-group">
                   <input 
                     name="q" 
                     value={this.state.q}
-                    placeholder="Search for videogame topic"
+                    placeholder="Search for topic"
                     type="text"
-                    className="form-control mb-3"
+                    className="form-control mr-2"
                     onChange={this.handleOnChange}
                   />
                   <button
@@ -117,22 +170,40 @@ class Videos extends Component {
                     onMouseEnter = {this.handleMouseEnter}
                     onMouseLeave = {this.handleMouseLeave}
                     style={this.state.isSubHovered ? styles.customSubHover : styles.customSubButton}
-                    className="btn btn-block"
+                    className="btn"
                     onClick={this.videoSearch}
                   >
-                    Submit
+                    Search
                   </button>
                 </div>
               </form>
             </div>
+            <div className="col-1 col-xs-12">
+            -OR-
+            </div>
+            {/* Select dropdown menu */}
+            <div className="col-4 col-xs-12">
+              Select from Menu&nbsp;
+              <select value={this.state.value} onChange={this.handleSelectMenuChange}>
+              <option value="none">--Please select an option--</option>
+              {this.state.cheatList.map(cheat =>
+                (
+                  <option key={cheat._id} value={cheat.cheatName}>{cheat.cheatName}</option>
+                )
+              )}
+              </select>
+            </div>
+          </div>
 
+          <div className="row">
             {/* Video results container */}
-            <div className="offset-1 col-7">
-              <h2>{this.state.ytVideos.length ? "Video Results" : "Search for videos on gamecheaters"}</h2>
+            <div className="offset-2 col-9 col-xs-12">
+              <h3 className="text-center">{this.state.ytVideos.length ? `Video Results of ${this.state.submittedQuery}` : "Search for videos on gamecheaters"}</h3>
+                <div className="row">
                 {this.state.ytVideos.map(video => (
-                  <div style={styles.customCardStyle} className="card justify-content-between align-items-center"  key={video.id.videoId}>
+                  <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={video.id.videoId}>
                     <div className="card-body">
-                      <h6 class="card-subtitle mb-2 text-muted">{video.snippet.title}</h6>
+                      <h6 className="card-subtitle mb-2 text-primary text-center">{video.snippet.title}</h6>
                       <YouTube
                         videoId={video.id.videoId}
                         opts={opts}
@@ -142,6 +213,7 @@ class Videos extends Component {
                   </div>
                   ) 
                 )}
+              </div>
             </div>
 
           </div>        
