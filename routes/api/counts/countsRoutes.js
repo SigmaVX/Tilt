@@ -96,5 +96,36 @@ router
       })
     })
 
+// For "/api/counts/recap"
+router
+  .route("/recap")
+  .get(function(req, res) {
+
+    const resObect = {
+      games: [],
+      systems: [],
+      cheats: [],
+      cheaters: []
+    }
+
+    Games.find({},null,{limit: 5, sort:{cheatCount: -1 }},function(err,data){
+      if(err) throw err;
+      resObect.games = data;
+      Systems.find({},null,{sort:{cheatCount: -1 }},function(err,data2){
+        if(err) throw err;
+        resObect.systems = data2;
+        Cheats.find({},null,{sort:{cheatCount: -1 }},function(err,data3){
+          if(err) throw err;
+          resObect.cheats = data3;
+          Cheaters.find({},null,{limit: 10, sort:{cheatCount: -1 }},function(err,data4){
+            if(err) throw err;
+            resObect.cheaters = data4;
+            // console.log(resObect);
+            res.json(resObect);
+          })
+        })
+      })
+    })
+  })
   
 module.exports = router;

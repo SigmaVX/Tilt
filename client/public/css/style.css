@@ -21,6 +21,15 @@
   font-size: 30px;
 }
 
+.icon-bubble{
+  margin: 30px;
+  background-color: #ffffff;
+}
+
+.icon-bubble:hover{
+  border: 2px solid #aaaaaa;
+}
+
 .reports-row:nth-child(even){
     background-color: lightblue;
 }
@@ -30,7 +39,12 @@
 }
 
 .round-img{
-  border-radius: 50%
+  border-radius: 50%;
+  border: 2px solid #333333;
+}
+
+.round-img:hover{
+  border: 2px solid #aaaaaa;
 }
 
 .video-link{
