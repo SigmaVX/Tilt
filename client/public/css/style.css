@@ -1,0 +1,78 @@
+
+
+.animated {
+  animation-duration: 1s;
+  /* animation-fill-mode: both;
+  animation-iteration-count: 5; */
+}
+
+.correct{
+  color: green;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.center-placeholder{
+    text-align:center;
+  }
+
+.error-text{
+  text-align: center;
+  font-size: 30px;
+}
+
+.icon-bubble{
+  margin: 30px;
+  background-color: #ffffff;
+}
+
+.icon-bubble:hover{
+  border: 2px solid #aaaaaa;
+}
+
+.reports-row:nth-child(even){
+    background-color: lightblue;
+}
+
+.reports-row:nth-child(odd){
+  background-color: lightgreen;
+}
+
+.round-img{
+  border-radius: 50%;
+  border: 2px solid #333333;
+}
+
+.round-img:hover{
+  border: 2px solid #aaaaaa;
+}
+
+.video-link{
+    margin-bottom: 15px;
+}
+
+.wrong{
+  color: red;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+
+/* Center Placeholders */
+ .center-placeholder::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  .center-placeholder:-moz-placeholder { /* Firefox 18- */
+    text-align: center;  
+  }
+  
+  .center-placeholder::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;  
+  }
+  
+  .center-placeholder:-ms-input-placeholder {  
+    text-align: center; 
+  }
+  
+  
