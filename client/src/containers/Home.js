@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import API from "../utilities/API";
 import Search from "../components/Search";
 import CountBubble from "../components/CountBubble";
+import IconBubble from "../components/IconBubble";
 import Moment from "moment";
 
 class Home extends Component {
@@ -12,6 +13,7 @@ class Home extends Component {
         games: [],
         systems: [],
         cheats: [],
+        cheaters: [],
         search: "",
         userID: 1
     }
@@ -30,42 +32,19 @@ class Home extends Component {
     // Load State From Mongo
     pageLoad = () =>{
         this.loadReports();
-        this.loadGames();
-        this.loadSystems();
-        this.loadCheats();
+        this.loadRecapCounts();
     }
 
-    // Load Cheats To State
-    loadCheats = () => {
-        API.getCheats()
+    // Load Sorted Recap To State
+    loadRecapCounts = ()=> {
+        API.getRecapCounts()
         .then(res => {
             console.log(res.data);
             this.setState({
-              cheats: res.data,
-            })
-        })
-        .catch(err => console.log(err))
-    }
-
-    // Load Games To State
-    loadGames = () => {
-        API.getGames()
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-              games: res.data,
-            })
-        })
-        .catch(err => console.log(err))
-    }
-
-    // Load Systems To State
-    loadSystems = ()=> {
-        API.getSystems()
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-              systems: res.data,
+              systems: res.data.systems,
+              games: res.data.games,
+              cheats: res.data.cheats,
+              cheaters: res.data.cheaters
             })
         })
         .catch(err => console.log(err))
@@ -139,7 +118,7 @@ class Home extends Component {
         </div>
 
         <div className="row justify-content-center text-center">
-            <h2 className="col-12">Top Cheats By Game</h2>
+            <h2 className="col-12">Top Five Cheats By Game</h2>
             
             {this.state.games.map(game=>{
                 return(
@@ -158,7 +137,7 @@ class Home extends Component {
             
             {this.state.systems.map(system=>{
                 return(
-                    <CountBubble
+                    <IconBubble
                     systemName={system.systemName}
                     systemImage={system.systemImage}
                     cheatCount={system.cheatCount}

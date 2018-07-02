@@ -5,8 +5,8 @@ const Cheats = require("../../../models/Cheats");
 // For "/api/cheats"
 router
   .route("/")
-  .get(function(req, res) {dbController.findAllByName(Cheats, req, res, "cheatType");})
-  .post(function(req, res) {dbController.create(Cheats, req, res); console.log("log",req)});
+  .get(function(req, res) {dbController.findAllBySort(Cheats, req, res, "cheatType");})
+  .post(function(req, res) {dbController.create(Cheats, req, res);});
 
 // For "/api/cheats/:id"
 router

@@ -9,6 +9,10 @@ export default {
     updateCounts: function(query) {
         return axios.get("/api/counts", {params: query})
     },
+    // Get Recap of Gams, Systems, Cheats, & Cheaters Sorted
+    getRecapCounts: function() {
+        return axios.get("/api/counts/recap")
+    },
     // *********************************************************
     // TEMPORARY FOR USERS CHAT
     // *********************************************************
