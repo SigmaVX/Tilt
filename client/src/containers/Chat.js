@@ -57,12 +57,14 @@ class Chat extends Component {
   }
 
   forumInfo = (list, id, gName) => {
-    console.log("in forum callback");
     this.setState({
       forumsList: list,
       activeForum: id,
       activeNameGame: gName   
     });
+    if (this.state.isLoggedIn) {
+      console.log(`user joined ${this.state.activeNameGame}`);
+    }
   }
 
   renderChatUserState() {
@@ -231,6 +233,7 @@ class Chat extends Component {
             <ChatForums
               getForumInfo = {this.forumInfo} 
             />
+            <p>{this.state.isLoggedIn ? `${this.state.userName} joined ${this.state.activeNameGame}` : ""}</p>
           </section>
         </div>
     
