@@ -50,7 +50,8 @@ class ChatForums extends Component {
   render() {
     return (
         <div>
-          <h5 className="text-center">Chatrooms</h5>
+          <h5 className="text-center">Join Chatroom</h5>
+          <h6 className="text-center">(must be logged in)</h6>
           <div className="card">
             <ul className="list-group">
             {this.state.gamesList.map((game) => (
