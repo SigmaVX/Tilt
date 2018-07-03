@@ -12,8 +12,9 @@ import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
 
 const io = require("socket.io-client");
+const TILT_URL = process.env.APP_URL || "http://localhost:3000";
 
-const chatListener = io.connect("http://localhost:3000");
+let chatListener;
 
 // -----------------------------------------------------------
 // UserGreeting is a functional component
@@ -106,6 +107,7 @@ class Chat extends Component {
   // receive message from 'chat message' listener
   componentDidMount() {
     const thisChat = this;
+    chatListener = io.connect(TILT_URL);
     let chatConvo = this.state.chatConvo;
  
     chatListener.on("chat message", function(msg){
