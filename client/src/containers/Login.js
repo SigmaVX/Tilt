@@ -11,7 +11,9 @@ class Login extends Component {
       isLoggedIn: false,
       username: "",
       email: "",
-      password: ""
+      password: "",
+      returnStatus: 0,
+      errorMsg: ""
     }
   }
 
@@ -21,6 +23,15 @@ class Login extends Component {
     this.setState({
       [name]: value
     })
+  }
+
+  checkErrorMessage() {
+    console.log("in check error message");
+    if (this.state.errorMsg !== "") {
+      return (
+        <span className="form-control bg-danger text-white mb-2">{this.state.errorMsg}</span>
+      );
+    }
   }
 
   // Method to handle user login, should redirect to main page when done
@@ -35,7 +46,13 @@ class Login extends Component {
           email: res.data.email
         })
       })
-      .catch(err => console.log(err.response));
+      .catch(err => {
+        console.log(err.response);
+        this.setState({
+          returnStatus: err.response.status,
+          errorMsg: err.response.data
+        })
+      });
   }
 
   render() {
@@ -43,12 +60,12 @@ class Login extends Component {
     if (this.state.isLoggedIn) {
       return <Redirect to="/"/>
     } 
-
+    else {
     return (
       <div className="container my-5">
         <div className="row justify-content-center">
           <form>
-            <h3>Login!</h3>
+            <h2>Login</h2>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -58,7 +75,6 @@ class Login extends Component {
                 onChange={this.handleInputChange}
                 className="form-control"
                 placeholder="Username"/>
-              <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -71,14 +87,25 @@ class Login extends Component {
                 placeholder="Password"
               />
             </div>
+            {
+              this.state.returnStatus !== 0 
+              ? this.checkErrorMessage()
+              : ""
+            } 
 
             <button type="submit" className="btn btn-success" onClick={this.login}>Login</button>
           </form>
 
         </div>
       </div>
-    )
+      
+      );
+    }
   }
 }
 
 export default Login;
+
+/*
+              <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
+ */

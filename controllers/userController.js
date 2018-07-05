@@ -40,7 +40,10 @@ module.exports = {
     if (req.body.username && req.body.password) {
       Users
         .authenticate(req.body.username, req.body.password, function (err, user) {
-          if (err) throw err;
+          if (err) {
+            console.log(err);
+            res.status(404).send("Incorrect username/password");
+          } 
           
           if (!user) {
             res.status(404).send("Incorrect username/password");

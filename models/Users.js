@@ -41,9 +41,8 @@ usersSchema.statics.authenticate = function (username, password, callback) {
       if (err) throw err;
 
       if (!user) {
-        var err = new Error("User not found in database.");
-        err.status = 401;
-        return callback(err);
+        // "User not found in database."
+        return callback(null, null);
       }
       bcrypt.compare(password, user.password, function (err, result) {
         if (err) throw err;

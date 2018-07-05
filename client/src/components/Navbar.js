@@ -22,7 +22,7 @@ function AuthMenu(props) {
     return (
       <div className="d-flex">
         <li>
-          <strong>Welcome, {props.userName}</strong>
+          <span className="nav-item font-weight-bold">Welcome, {props.userName}</span>
         </li>
         <li className={window.location.pathname === "/logout" ? "nav-item active bg-warning" : "nav-item"}>
           <Link className="nav-link" to="/logout">Logout</Link>
