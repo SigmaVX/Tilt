@@ -14,11 +14,9 @@ import API from "../utilities/API";
 const io = require("socket.io-client");
 // https create-react-app
 // const TILT_URL = process.env.APP_URL || "http://localhost:3000";
-let TILT_URL;
-if (process.env.NODE_ENV === "production")
-  TILT_URL = "https://polar-shore-76735.herokuapp.com" 
-else
-  TILT_URL = "http://localhost:3000"; 
+let TILT_URL = (process.env.NODE_ENV === "production") 
+    ? "https://polar-shore-76735.herokuapp.com" 
+    :"http://localhost:3000"; 
 let chatListener  = io.connect(TILT_URL);
 
 // -----------------------------------------------------------
