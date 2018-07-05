@@ -20,13 +20,15 @@ module.exports = {
         password: req.body.password,
         pswrdConfirmation: req.body.pswrdConfirmation,
       }
-      //use schema.create to insert data into the db
+      //use schema.create to insert data into the db 
       Users
         .create(userData, function (err, user) {
           if (err) throw err;
 
           req.session.userId = user._id;
-          return res.redirect('/signup');          
+          req.session.username = user.username;
+          req.session.userType = user.userType;
+          res.redirect("/");          
         });
     }
     else {
@@ -44,62 +46,27 @@ module.exports = {
             res.status(404).send("Incorrect email/password");
           } else {
             req.session.userId = user._id;
-            res.json(user);
-            // return res.redirect('/home');
+            // res.json(user);
+            res.redirect("/");
           }
         });
     }
     else {
       res.status(404).send("Incorrect email/password");
     }
+  },
+  update: function (req, res) {
+    Users
+      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  remove: function (req, res) {
+    Users
+      .findById({ _id: req.params.id })
+      .then(dbModel => dbModel.remove())
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   } 
 
 };
-
-/*     console.log(`in login user: ${req.body.email}`);
-    Users
-    .findOne({ email: req.body.email })
-    .exec(function (err, user) {
-      if (err) throw err;
-      else if (!user) {
-        // var err = new Error("User not found.");
-        // err.status = 401;
-        res.status(401).send("User not found");
-      }
-      console.log(`after findOne function: ${user.username} ${user.password} req.password: ${req.body.password}`);
-      let pwString; */
-      // = bcrypt.hash(req.body.password, 10);
-      // pwString = hash;
-
-
-/*         let hash = bcrypt.hashSync(req.body.password, 10);
-        console.log(`hash: ${pwString}`);
-        console.log("pwString: ", JSON.stringify(pwString));
-        bcrypt.compare(req.body.password, hash,  function (err, result) {
-          if (err) throw err;
-
-          if (result === true) {
-            res.json(user);
-          } else {
-            res.json({"login_status": false});
-          }
-        }); */
-
-/*       bcrypt.hash(req.body.password, 10, function (err, hash) {
-        if (err) return next(err);
-
-        pwString = hash;
-
-        console.log(`pwString: ${pwString}`);
-        console.log("pwString: ", JSON.stringify(pwString));
-        bcrypt.compare(user.password, pwString,  function (err, result) {
-          if (err) throw err;
-
-          if (result === true) {
-            res.json(user);
-          } else {
-            res.json({"login_status": false});
-          }
-        }) */
-
-   // }); 

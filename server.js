@@ -6,10 +6,7 @@ const routes = require("./routes");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-// for authentication
-// const passport = require("passport");
-// const LocalStrategy = require("passport-local").Strategy;
-
+// let authChecker  =  require('./middleware/middleware.js');
 const logger = require("morgan");
 const	fs = require("fs");
 const path = require("path");
@@ -36,6 +33,9 @@ app.use(logger("common", {
 	"stream": accessLogStream
 }));
 app.use(logger("dev"));
+
+// authentication middleware
+// app.use(authChecker);
 
 // bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
