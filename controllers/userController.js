@@ -60,10 +60,29 @@ module.exports = {
     Users
       .findById(req.session.userId)
       .then(dbModel => {
-        // if user was not found send back a balse
+        // if user was not found send back false
         if (!dbModel) res.json(false);
 
+        // means user is signed in already send back true
         res.json(true);
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  isAdmin: function (req, res) {
+    Users
+      .findById(req.session.userId)
+      .then(dbModel => {
+        // if user was not found send back false
+        if (!dbModel) res.json(false);
+
+        // check if active session user is an administrator
+        if (dbModel.userType === "admin")
+          res.json(true);
+        else if (dbModel.userType === "user")
+          res.json(false);
+        else 
+          // user not of recognized type, possible db breach
+          res.status(422).end();
       })
       .catch(err => res.status(422).json(err));
   },

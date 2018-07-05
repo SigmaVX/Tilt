@@ -20,6 +20,10 @@ export default {
     loginCheck: function() {
       return axios.get("/auth/login")
     },
+    // checks on session existence on backend
+    adminCheck: function() {
+      return axios.get("/auth/isadmin")
+    },
     // path to logout
     logout: function() {
       return axios.get("/auth/logout")
