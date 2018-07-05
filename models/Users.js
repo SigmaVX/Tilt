@@ -20,10 +20,6 @@ let usersSchema = new Schema({
     type: String,
     required: true,
   },
-  pswrdConfirmation: {
-    type: String,
-    required: true,
-  },
   userType: {
     type: String,
     default: "user",
@@ -37,10 +33,10 @@ let usersSchema = new Schema({
 
 // authenticate method on Users collection
 // authenticate user login input against database
-usersSchema.statics.authenticate = function (email, password, callback) {
+usersSchema.statics.authenticate = function (username, password, callback) {
 // usersSchema.authenticate = function (email, password, callback) {
   Users
-    .findOne({ email: email })
+    .findOne({ username: username })
     .exec(function (err, user) {
       if (err) throw err;
 
@@ -64,12 +60,7 @@ usersSchema.pre("save", function(next) {
   bcrypt.hash(user.password, 10, function (err, hash) {
     if (err) return next(err);
     
-    // if (user.password === user.pswrdConfirmation) {
-    //  user.pswrdConfirmation = hash;
-    // }
     user.password = hash;
-    user.pswrdConfirmation = hash;
-
     next();
   })
 });
