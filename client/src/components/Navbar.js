@@ -20,9 +20,14 @@ function AuthMenu(props) {
   
   if (isLoggedIn) {
     return (
-      <li className={window.location.pathname === "/logout" ? "nav-item active bg-warning" : "nav-item"}>
-        <Link className="nav-link" to="/logout">Logout</Link>
-      </li>
+      <div className="d-flex">
+        <li>
+          <strong>Welcome, {props.userName}</strong>
+        </li>
+        <li className={window.location.pathname === "/logout" ? "nav-item active bg-warning" : "nav-item"}>
+          <Link className="nav-link" to="/logout">Logout</Link>
+        </li>
+      </div>
     );
   }
   return (

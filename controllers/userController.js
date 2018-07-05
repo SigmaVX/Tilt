@@ -1,8 +1,8 @@
-require("../models");
-const bcrypt = require("bcrypt");
+// require("../models");
+// const bcrypt = require("bcrypt");
 const Users = require("../models/Users");
 
-// Defining methods for the Tilt's Tables' Controllers
+// Defining database methods for the Tilt's User table
 module.exports = {
   findAll: function (req, res) {
     Users
@@ -11,6 +11,7 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
   create: function (req, res) {
     if (req.body.email && req.body.username && req.body.password && req.body.pswrdConfirmation &&
         (req.body.password === req.body.pswrdConfirmation)) {
@@ -34,8 +35,8 @@ module.exports = {
       res.status(404).send("Signup not successful.");
     }
   },
+
   findOne: function(req, res) {
-    console.log(`in findOne function: ${req.body.username} ${req.body.password} req.password: ${req.body.password}`);
     if (req.body.username && req.body.password) {
       Users
         .authenticate(req.body.username, req.body.password, function (err, user) {
@@ -47,9 +48,12 @@ module.exports = {
             req.session.userId = user._id;
             req.session.username = user.username;
             req.session.email = user.email;
-            // req.session.userType = user.userType;
-            res.json(req.session);
-            // res.redirect("/");
+            res.json({
+              isLoggedIn: true,
+              userId: req.session.userId,
+              username: req.session.username,
+              email: req.session.email
+            });
           }
         });
     }
@@ -57,6 +61,7 @@ module.exports = {
       res.status(404).send("Incorrect username/password");
     }
   },
+
   findById: function (req, res) {
     Users
       .findById(req.session.userId)
@@ -74,6 +79,7 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
+
   isAdmin: function (req, res) {
     Users
       .findById(req.session.userId)
@@ -92,12 +98,14 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
+
   update: function (req, res) {
     Users
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
   remove: function (req, res) {
     Users
       .findById({ _id: req.params.id })

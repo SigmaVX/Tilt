@@ -8,6 +8,7 @@ import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
 import Admin from "./containers/Admin";
 import Post from "./containers/Post";
+import Login from "./containers/Login";
 import './App.css';
 
 
@@ -21,6 +22,7 @@ const App = () => (
         <Route exact path="/videos" component={Videos}/>
         <Route exact path="/chat" component={Chat}/>
         <Route exact path="/admin" component={Admin}/>
+        <Route exact path="/login" component={Login}/>
         <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
       </Switch>
       <Footer/>
