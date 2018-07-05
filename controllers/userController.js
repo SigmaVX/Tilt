@@ -46,7 +46,8 @@ module.exports = {
           } else {
             req.session.userId = user._id;
             req.session.username = user.username;
-            req.session.userType = user.userType;
+            req.session.email = user.email;
+            // req.session.userType = user.userType;
             res.json(req.session);
             // res.redirect("/");
           }
@@ -61,10 +62,15 @@ module.exports = {
       .findById(req.session.userId)
       .then(dbModel => {
         // if user was not found send back false
-        if (!dbModel) res.json(false);
+        if (!dbModel) res.json({isLoggedIn: false});
 
         // means user is signed in already send back true
-        res.json(true);
+        res.json({
+          isLoggedIn: true,
+          userId: req.session.userId,
+          username: req.session.username,
+          email: req.session.email
+        });
       })
       .catch(err => res.status(422).json(err));
   },
@@ -73,13 +79,13 @@ module.exports = {
       .findById(req.session.userId)
       .then(dbModel => {
         // if user was not found send back false
-        if (!dbModel) res.json(false);
+        if (!dbModel) res.json({isAdmin: false});
 
         // check if active session user is an administrator
         if (dbModel.userType === "admin")
-          res.json(true);
+          res.json({isAdmin: true});
         else if (dbModel.userType === "user")
-          res.json(false);
+          res.json({isAdmin: false});
         else 
           // user not of recognized type, possible db breach
           res.status(422).end();
