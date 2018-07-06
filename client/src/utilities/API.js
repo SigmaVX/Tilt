@@ -40,8 +40,8 @@ export default {
         return axios.get("/api/reports")
     },
     // Get All Reports By IGN
-    getReportsByIGN: function(query) {
-        return axios.get("/api/reports", {params: query})
+    getReportsByIGN: function(cheaterIGN) {
+        return axios.get("/api/reports", {params: cheaterIGN})
     },
     // Get All Cheats
     getCheats: function() {

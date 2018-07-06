@@ -9,10 +9,10 @@ router
   .get(function(req, res) {dbController.findAllReports(Reports, req, res);})
   .post(function(req, res) {dbController.create(Reports, req, res);});
 
-// For "/api/reports/:id"
+// For "/api/reports/:cheaterIGN"
 router
-  .route("/:id")
-  .get(function(req, res) {dbController.findById(Reports, req, res);})
+  .route("/:cheaterIGN")
+  .get(function(req, res) {dbController.findByIGN(Reports, req, res);})
   .put(function(req, res) {dbController.update(Reports, req, res);})
   .delete(function(req, res) {dbController.remove(Reports, req, res);});
 
