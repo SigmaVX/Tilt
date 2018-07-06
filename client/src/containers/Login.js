@@ -11,6 +11,7 @@ class Login extends Component {
       isLoggedIn: false,
       username: "",
       email: "",
+      userId: "",
       password: "",
       returnStatus: 0,
       errorMsg: ""
@@ -43,6 +44,8 @@ class Login extends Component {
         console.log(res.data);
         this.setState({
           isLoggedIn: res.data.isLoggedIn,
+          username: res.data.username,
+          userId: res.data.userId,
           email: res.data.email
         })
       })
@@ -50,7 +53,10 @@ class Login extends Component {
         console.log(err.response);
         this.setState({
           returnStatus: err.response.status,
-          errorMsg: err.response.data
+          errorMsg: err.response.data,
+          username: "",
+          password: "",
+          isLoggedIn: false
         })
       });
   }
@@ -58,9 +64,13 @@ class Login extends Component {
   render() {
     // If user is logged in, take them to main page
     if (this.state.isLoggedIn) {
-      return <Redirect to="/"/>
+      return (
+        <Redirect to={{
+          pathname: "/"
+        }} />
+      );
     } 
-    else {
+
     return (
       <div className="container my-5">
         <div className="row justify-content-center">
@@ -101,7 +111,6 @@ class Login extends Component {
       
       );
     }
-  }
 }
 
 export default Login;
@@ -109,3 +118,10 @@ export default Login;
 /*
               <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
  */
+
+ /*           state: {
+            isLoggedIn: this.state.isLoggedIn,
+            username: this.state.username,
+            userId: this.state.userId,
+            email: this.state.email
+          } */

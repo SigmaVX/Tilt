@@ -53,7 +53,9 @@ class Navbar extends Component {
       // ---------------------------
       isLoggedIn: false,
       isAdmin: false,
-      username: ""
+      username: "",
+      email: "",
+      userId: ""
     };
   }
 
@@ -69,7 +71,9 @@ class Navbar extends Component {
       .then(res =>
         this.setState({
           isLoggedIn: res.data.isLoggedIn,
-          username: res.data.username
+          username: res.data.username,
+          email: res.data.email,
+          userId: res.data.userId
         })
       )
       .catch(err => {
@@ -100,7 +104,20 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className={window.location.pathname === "/" ? "nav-item active bg-warning" : "nav-item"}>
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" 
+              to="/"
+              to={{
+                pathname: "/",
+                state: {
+                  isLoggedIn: this.state.isLoggedIn,
+                  username: this.state.username,
+                  userId: this.state.userId,
+                  email: this.state.email
+                }
+              }}
+              >
+              Home
+              </Link>
             </li>
             <li className={window.location.pathname === "/post" ? "nav-item active bg-warning" : "nav-item"}>
               <Link className="nav-link" to="/post">Post</Link>

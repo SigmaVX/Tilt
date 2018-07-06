@@ -4,6 +4,7 @@ import Search from "../components/Search";
 import CountBubble from "../components/CountBubble";
 import IconBubble from "../components/IconBubble";
 import Moment from "moment";
+import AUTH from "../utilities/AUTH";
 
 class Home extends Component {
 
@@ -15,7 +16,12 @@ class Home extends Component {
         cheats: [],
         cheaters: [],
         search: "",
-        userID: 1
+        userID: 1,
+        // authentication variables
+        username: "",
+        userId: "",
+        email: "",
+        isLoggedIn: false
     }
 
     // Save On Change Data
@@ -25,8 +31,52 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        this.pageLoad();
-        
+      this.pageLoad();
+      // check to see whether user is logged in and whether user is admin
+      this.loginCheck();
+      this.adminCheck();
+    }
+
+/*     componentDidUpdate(prevProps) {
+      if (this.props.userId !== prevProps.userId) {
+        this.setState({
+          username: this.location.state.username,
+          email: this.location.state.email,
+          userId: this.location.state.userId,
+          isLoggedIn: this.location.state.isLoggedIn
+        });
+      }
+    } */
+
+    loginCheck = () => {
+      AUTH
+        .loginCheck()
+        .then(res =>
+          this.setState({
+            isLoggedIn: res.data.isLoggedIn,
+            username: res.data.username,
+            email: res.data.email,
+            userId: res.data.userId
+          })
+        )
+        .catch(err => {
+          console.log(err);
+          this.setState({
+            isLoggedIn: false
+          });  
+        })
+    }
+  
+    adminCheck = () => {
+      AUTH
+        .adminCheck()
+        .then(res =>
+          this.setState({isAdmin: res.data.isAdmin})
+        )
+        .catch(err => {
+          console.log(err);
+          this.setState({isAdmin: false});  
+        })
     }
 
     // Load State From Mongo
@@ -110,11 +160,27 @@ class Home extends Component {
     console.dir(this.state.games);
     return (
 
+
     <div>
         <div className="row no-gutters jumbotron text-center">
             <h1 className="col-12 animated pulse">Tilt</h1>
             <h2 className="col-12">Add Some Text</h2>
             <h3 className="col-12">Add More Text</h3>
+        </div>
+
+        <div>
+          <h4>Signin Information</h4>
+          { this.props.location.state 
+            ? (
+                <div>
+                  <p>Username: {this.state.username}</p>
+                  <p>Email: {this.state.email}</p>
+                  <p>UserId: {this.state.userId}</p>
+                  <p>isLoggedIn: {this.state.isLoggedIn ? "true" : "false"}</p>
+                </div>
+            )
+            : ""
+          }
         </div>
 
         <div className="row justify-content-center text-center">
@@ -130,7 +196,7 @@ class Home extends Component {
                 )   
             })}
 
-        </div>
+        </div>    
 
         <div className="row justify-content-center text-center">
             <h2 className="col-12">Total Cheats By System</h2>

@@ -7,7 +7,6 @@ router
   .get(function(req, res) {dbController.isAdmin(req, res);})
 //  .post(function(req, res) {dbController.findOne(req, res);})
 
-
 // For "/login/:id"
 // router
 //  .route("/:id")

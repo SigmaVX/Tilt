@@ -33,21 +33,23 @@ let usersSchema = new Schema({
 
 // authenticate method on Users collection
 // authenticate user login input against database
-usersSchema.statics.authenticate = function (username, password, callback) {
+usersSchema.statics.authenticate = function (username, password, cb) {
 // usersSchema.authenticate = function (email, password, callback) {
   Users
     .findOne({ username: username })
     .exec(function (err, user) {
-      if (err) throw err;
+      if (err) return cb(err);
 
       if (!user) {
         // "User not found in database."
-        return callback(null, null);
+        let err = new Error('User not found.');
+        err.status = 401;
+        return cb(err);
       }
       bcrypt.compare(password, user.password, function (err, result) {
-        if (err) throw err;
+        if (err) {console.log(err)};
 
-        return (result === true) ? callback(null, user) : callback();
+        return (result) ? cb(null, user) : cb();
       })
     });
 }

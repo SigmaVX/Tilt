@@ -23,7 +23,7 @@ module.exports = {
       //use schema.create to insert data into the db 
       Users
         .create(userData, function (err, user) {
-          if (err) throw err;
+          if (err) {console.log(err); res.status(404).send("Signup not successful.");}
 
           req.session.userId = user._id;
           req.session.username = user.username;
@@ -70,25 +70,27 @@ module.exports = {
       .findById(req.session.userId)
       .then(dbModel => {
         // if user was not found send back false
-        if (!dbModel) res.json({isLoggedIn: false});
+        if (!dbModel) return res.status(404).json({isAdmin: false});
+        console.log("dbModel in findById: " + dbModel);
 
         // means user is signed in already send back true
         res.json({
           isLoggedIn: true,
+          // session: req.session,
           userId: req.session.userId,
           username: req.session.username,
           email: req.session.email
         });
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => res.json({isLoggedIn: false, err: err}));
   },
 
   isAdmin: function (req, res) {
     Users
       .findById(req.session.userId)
       .then(dbModel => {
-        // if user was not found send back false
-        if (!dbModel) res.json({isAdmin: false});
+        // if user was not found send back false, status 404 not found
+        if (!dbModel) return res.status(404).json({isAdmin: false});
 
         // check if active session user is an administrator
         if (dbModel.userType === "admin")
@@ -99,7 +101,7 @@ module.exports = {
           // user not of recognized type, possible db breach
           res.status(422).end();
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => res.json({isAdmin: false, err: err}));
   },
 
   update: function (req, res) {
