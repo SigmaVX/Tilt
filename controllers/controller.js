@@ -34,7 +34,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByIGN: function (table, req, res) {
-    console.log("Test", req.params.cheaterIGN);
+    // console.log("Req Params Are: ", req.params.cheaterIGN);
     table
       .find({cheaterIGN : `/${req.params.cheaterIGN}/i`})
       .populate("cheatGame")
@@ -57,6 +57,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function (table, req, res) {
+    // console.log("Delete Request For: ", req.params.id);
     table
       .findById({ _id: req.params.id })
       .then(dbModel => dbModel.remove())
