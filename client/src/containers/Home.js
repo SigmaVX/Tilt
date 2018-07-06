@@ -51,13 +51,15 @@ class Home extends Component {
     loginCheck = () => {
       AUTH
         .loginCheck()
-        .then(res =>
+        .then(res => {
+          console.log("res.data: ", JSON.stringify(res.data));
           this.setState({
             isLoggedIn: res.data.isLoggedIn,
             username: res.data.username,
             email: res.data.email,
             userId: res.data.userId
           })
+         }
         )
         .catch(err => {
           console.log(err);
@@ -170,17 +172,12 @@ class Home extends Component {
 
         <div>
           <h4>Signin Information</h4>
-          { this.props.location.state 
-            ? (
-                <div>
-                  <p>Username: {this.state.username}</p>
-                  <p>Email: {this.state.email}</p>
-                  <p>UserId: {this.state.userId}</p>
-                  <p>isLoggedIn: {this.state.isLoggedIn ? "true" : "false"}</p>
-                </div>
-            )
-            : ""
-          }
+            <div>
+              <p>Username: {this.state.username}</p>
+              <p>Email: {this.state.email}</p>
+              <p>UserId: {this.state.userId}</p>
+              <p>isLoggedIn: {this.state.isLoggedIn ? "true" : "false"}</p>
+            </div>
         </div>
 
         <div className="row justify-content-center text-center">
@@ -250,3 +247,19 @@ class Home extends Component {
 }
 
 export default Home;
+
+/*
+
+          { this.props.location.state 
+            ? (
+                <div>
+                  <p>Username: {this.state.username}</p>
+                  <p>Email: {this.state.email}</p>
+                  <p>UserId: {this.state.userId}</p>
+                  <p>isLoggedIn: {this.state.isLoggedIn ? "true" : "false"}</p>
+                </div>
+            )
+            : ""
+          }
+
+*/
