@@ -1,4 +1,17 @@
 
+.rv-discrete-color-legend-item__title{
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.ry-xy-plot{
+  position: relative
+}
+
+.rv-hint{
+  color: black;
+  text-align: center;
+}
 
 .animated {
   animation-duration: 1s;
@@ -26,9 +39,6 @@
   background-color: #ffffff;
 }
 
-.icon-bubble:hover{
-  border: 2px solid #aaaaaa;
-}
 
 .reports-row:nth-child(even){
     background-color: lightblue;

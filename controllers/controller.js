@@ -16,6 +16,7 @@ module.exports = {
       .populate("cheatSystem")
       .populate("cheatType")
       .sort({ date: -1 })
+      .limit(10 )
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -33,9 +34,13 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByIGN: function (table, req, res) {
+    console.log("Test", req.params.cheaterIGN);
     table
-      .find(req.params.cheaterIGN)
-      .sort({ cheatGame: 1 })
+      .find({cheaterIGN : `/${req.params.cheaterIGN}/i`})
+      .populate("cheatGame")
+      .populate("cheatSystem")
+      .populate("cheatType")
+      .sort({ cheatSystem: 1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
