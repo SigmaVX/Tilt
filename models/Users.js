@@ -1,3 +1,5 @@
+// import { isNullOrUndefined } from "util";
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -47,9 +49,12 @@ usersSchema.statics.authenticate = function (username, password, cb) {
         return cb(err);
       }
       bcrypt.compare(password, user.password, function (err, result) {
-        if (err) {console.log(err)};
-
-        return (result) ? cb(null, user) : cb();
+        if (err) {
+          console.log(err);
+          cb(err,null);
+        }
+        // First CB tern is err and 2nd is user info
+        return (result) ? cb(null, user) : cb(err, null);
       })
     });
 }

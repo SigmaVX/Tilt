@@ -21,6 +21,11 @@ class Home extends Component {
         userID: 1
     }
 
+    componentDidMount =() => {
+        this.pageLoad();
+    }
+
+
     // Save On Change Data
     handleOnChange = (event) => {
         const { name, value } = event.target;
@@ -126,7 +131,7 @@ class Home extends Component {
  
   render() {
    
-    this.pageLoad();
+
     
     return (
 
