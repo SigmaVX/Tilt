@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../node_modules/react-vis/dist/style.css';
-import {RadialChart, Hint, DiscreteColorLegend} from 'react-vis';
+import {RadialChart, Hint, DiscreteColorLegend} from "react-vis";
 
 
 export default class CheatRadialChart extends Component {
