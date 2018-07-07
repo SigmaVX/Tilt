@@ -177,15 +177,25 @@ class Admin extends Component {
     }
 
     // Delete Report
-    deleteReportItem = (id) =>{
-        API.deleteReport({
-            id:id
-        })
+    deleteReportItem = (id, cheatGame, cheatSystem, cheatType, cheaterIGN) =>{
+        API.deleteReport({id:id})
         .then(res => {
-            this.reportSearch({
-                cheaterIGN: res.data.cheaterIGN
-        });
-            console.log(res.data);
+            this.reportSearch({cheaterIGN: res.data.cheaterIGN})
+            
+            const countObject = {   
+                gameName : cheatGame,
+                systemName : cheatSystem,
+                cheatName : cheatType,
+                cheaterIGN: cheaterIGN
+            };  
+    
+            console.log("Count Object: ", countObject);
+    
+            API.reduceCounts(countObject)
+            
+            console.log("Delete Done!")
+            
+    
         })
         .catch(err => console.log(err))
     }
@@ -316,7 +326,7 @@ class Admin extends Component {
                             <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : "No Comments"}</p>
                         </td>
                         <td className="col-12 col-md-2 text-center">
-                            <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id)}>Delete</button>
+                            <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id, report.cheatGame._id, report.cheatSystem._id, report.cheatType._id, report.cheaterIGN)}>Delete</button>
                             <button className="btn btn-block" onClick={() => this.editReport(report._id)}>Edit</button>
                         </td>
                     </tr>
