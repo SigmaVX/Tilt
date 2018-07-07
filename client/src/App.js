@@ -10,7 +10,7 @@ import Admin from "./containers/Admin";
 import Post from "./containers/Post";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
-import AUTH from "./utilities/AUTH";
+import Logout from "./containers/Logout";
 import './App.css';
 
 
@@ -21,7 +21,7 @@ class App extends Component {
 
     this.state = {
       // --
-      // loggedIn variable
+      // 'session' variables
       // ---------------------------
       isLoggedIn: false,
       isAdmin: false,
@@ -39,14 +39,10 @@ class App extends Component {
     username: ${authObj.username}
     email: ${authObj.email}
     userId: ${authObj.userId}`);
-    this.setState({
-      isLoggedIn: authObj.isLoggedIn,
-      isAdmin: authObj.isAdmin,
-      userId: authObj.userId,
-      username: authObj.username,
-      email: authObj.email
-    });
+    this.setState(authObj);
   }
+
+  LogoutResult = (authObj) => this.setState(authObj);
 
   componentDidMount() {
     this._isMounted = true;
@@ -129,6 +125,8 @@ class App extends Component {
 
           <Route exact path="/signup" component={Signup}/>
 
+          <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
+
           <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
         </Switch>
         <Footer/>
@@ -139,13 +137,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*
-
-          <this.AuthRoute exact path="/chat" component={ 
-            <Chat  username = {this.state.username} 
-                   userId = {this.state.userId}
-                   email = {this.state.email}
-                   isLoggedIn = {this.state.isLoggedIn} />} />
-
-                   */

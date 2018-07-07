@@ -9,8 +9,14 @@ router
       // delete session object
       req.session.destroy(function (err) {
         if (err) throw err;
-
-        return res.redirect("/");
+        return res.status(200).json({
+          isLoggedIn: false,
+          isAdmin: false, 
+          userId: "",
+          username: "",
+          email: ""
+        });
+        // return res.redirect("/");
       });
     }
   });

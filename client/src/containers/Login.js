@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
-// import API from "../utils/API";
 import AUTH from "../utilities/AUTH";
 
 class Login extends Component {
