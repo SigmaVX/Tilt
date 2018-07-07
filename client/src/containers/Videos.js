@@ -194,15 +194,13 @@ class Videos extends Component {
   displayUserVideos(opts) {
     return (
       this.state.videoList.map(uVid => (
-        <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center"  key={uVid.vId}>
-          <div className="card-body">
+          <div key={uVid.vId}>
             <YouTube
             videoId={uVid.vLink}
             opts={opts}
             onReady={this._onReady}
             /> 
           </div>
-        </div>
         )
       )
     );
@@ -326,25 +324,3 @@ class Videos extends Component {
 } 
 
 export default Videos;
-
-/*
-  displayYtVideos(opts) {
-    return (
-      this.state.ytVideos.map(video => (
-          <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={video.id.videoId}>
-            <div className="card-body">
-              <h6 className="card-subtitle mb-2 text-primary text-center">{video.snippet.title}</h6>
-              <YouTube
-                videoId={video.id.videoId}
-                opts={opts}
-                onReady={this._onReady}
-              />                  
-            </div>
-          </div>
-        ) 
-      )
-    )
-  }
-
-
-*/
