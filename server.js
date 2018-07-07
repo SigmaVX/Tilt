@@ -1,6 +1,7 @@
 // Dependencies
 // =============================================================
 const express = require("express");
+const session = require("express-session");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -35,6 +36,13 @@ app.use(logger("dev"));
 // bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//use sessions for tracking logins
+app.use(session({
+  secret: "The quick brown fox jumps over a lazy dog",
+  resave: true,
+  saveUninitialized: false
+}));
 
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 

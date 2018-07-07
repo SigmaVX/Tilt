@@ -1,6 +1,6 @@
 require("../models");
 
-// Defining methods for the booksController
+// Defining methods for the Tilt's Tables' Controllers
 module.exports = {
   findAll: function (table, req, res) {
     table

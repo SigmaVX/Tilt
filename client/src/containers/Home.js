@@ -25,8 +25,7 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        this.pageLoad();
-        
+      this.pageLoad();
     }
 
     // Load State From Mongo
@@ -117,6 +116,12 @@ class Home extends Component {
             <h3 className="col-12">Add More Text</h3>
         </div>
 
+        <div className="row no-gutters text-center">
+          <h4 className="col-4 animated pulse">{this.props.username}</h4>
+          <h4 className="col-4">{this.props.userId}</h4>
+          <h4 className="col-4">{this.props.email}</h4>
+        </div>
+
         <div className="row justify-content-center text-center">
             <h2 className="col-12">Top Five Cheats By Game</h2>
             
@@ -130,7 +135,7 @@ class Home extends Component {
                 )   
             })}
 
-        </div>
+        </div>    
 
         <div className="row justify-content-center text-center">
             <h2 className="col-12">Total Cheats By System</h2>
