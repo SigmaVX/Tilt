@@ -66,7 +66,13 @@ class App extends Component {
           {...rest}
           render={props =>
             this.state.isLoggedIn
-            ? ( <Component {...props} /> ) 
+            ? ( <Component 
+                  username = {this.state.username} 
+                  userId = {this.state.userId}
+                  email = {this.state.email}
+                  isLoggedIn = {this.state.isLoggedIn} 
+                  {...props} 
+                /> ) 
             : ( <Redirect to={{ 
                 pathname: "/login",
                 state: { from: props.location } 
@@ -106,18 +112,23 @@ class App extends Component {
           email = {this.state.email}
         />
         <Switch>
-          <Route exact path="/" render={(props) => 
+          <Route exact path="/" render={() => 
             <Home username = {this.state.username} 
                    userId = {this.state.userId}
                    email = {this.state.email} />} />
 
           <this.AuthRoute exact path="/post" component={Post}/>
+
           <Route exact path="/videos" component={Videos}/>
-          <this.AuthRoute exact path="/chat" component={Chat}/>
+
+          <this.AuthRoute exact path="/chat" component={Chat} />
+
           <this.AdminRoute exact path="/admin" component={Admin}/>
+
           <Route exact path="/login" render={() => <Login getLoginResult = {this.LoginResult} />} /> 
-          {/* <Route exact path="/login" component={Login} /> */}
+
           <Route exact path="/signup" component={Signup}/>
+
           <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
         </Switch>
         <Footer/>
@@ -128,3 +139,13 @@ class App extends Component {
 }
 
 export default App;
+
+/*
+
+          <this.AuthRoute exact path="/chat" component={ 
+            <Chat  username = {this.state.username} 
+                   userId = {this.state.userId}
+                   email = {this.state.email}
+                   isLoggedIn = {this.state.isLoggedIn} />} />
+
+                   */

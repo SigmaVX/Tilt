@@ -25,7 +25,7 @@ let chatListener  = io.connect(TILT_URL);
 const UserGreeting = (props) => {
   return (
     <section className="offset-2 form-inline mb-2">
-      <h5>Welcome to Chat {props.userName}</h5>
+      <h5>Welcome to Chat {props.username}</h5>
     </section>
   );
 }
@@ -36,15 +36,9 @@ const UserGreeting = (props) => {
 class Chat extends Component {
   constructor(props) {
     super(props);
-    this.handleNameSubmit = this.handleNameSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
       isSubHovered: false,
-      // User information
-      // ----------------------------------------------
-      isLoggedIn: false,
-      userName: "",
-      userId: 0,
       // Chat info
       // --------------------------------------------------
       chatMsg: "",
@@ -66,44 +60,30 @@ class Chat extends Component {
       activeForum: id,
       activeNameGame: gName   
     });
-    if (this.state.isLoggedIn) {
+    if (this.props.isLoggedIn) {
       console.log(`user joined ${this.state.activeNameGame}`);
     }
   }
 
   renderChatUserState() {
     console.log("in renderChatUserState()");
-    if (this.state.isLoggedIn && this.state.chatMsg !== "") {
-      chatListener.emit("user state", `${this.state.userName} is typing`);
+    if (this.props.isLoggedIn && this.state.chatMsg !== "") {
+      chatListener.emit("user state", `${this.props.username} is typing`);
 /*       this.setState({
         userStateMsg: "user is typing"
       }) */
-      return (<strong>{this.state.userName} is typing</strong>);
+      return (<strong>{this.props.username} is typing</strong>);
     }
   }
 
   renderIntroChat() {
-    if (this.state.isLoggedIn) {
-        return <UserGreeting userName={this.state.userName} />;
+    if (this.props.isLoggedIn) {
+        return <UserGreeting username={this.props.username} />;
     }
     return (
-      <form className="offset-2 form-inline mb-2">
-        <input 
-          className="form-control my-2 my-sm-1 mr-sm-1" 
-          type="text" 
-          name="userName" 
-          value={this.state.userName}
-          placeholder="User name"
-          onChange={this.handleOnChange} 
-        />
-        <button 
-          className="btn btn-success btn-sm my-2 my-sm-0 mr-2" 
-          type="submit" 
-          onClick={this.handleNameSubmit}  
-        >
-        Enter Username
-      </button>
-    </form>
+      <div>
+       <h4>You must be a registered user to use Chat.</h4>
+      </div>
     );
   }
 
@@ -129,7 +109,7 @@ class Chat extends Component {
       if (thisChat.state.forumText.length <= 1) {
         API.postForum({
           forumText: thisChat.state.forumText,
-          postedBy: thisChat.state.userName
+          postedBy: thisChat.props.username
         })
         .then(res => {
           thisChat.setState({forumId: res.data._id});
@@ -152,19 +132,15 @@ class Chat extends Component {
 
     // turn on leave chat listener
     chatListener.on("leave chat", function(){
-      console.log(`${thisChat.state.userName} disconnected.`);
+      console.log(`${thisChat.props.username} disconnected.`);
     });
   }
 
   leaveChat = event => {
     event.preventDefault();
 
-    chatListener.emit("chat message", `${this.state.userName} disconnected.`);
+    chatListener.emit("chat message", `${this.props.username} disconnected.`);
     chatListener.emit("leave chat");
-    this.setState({
-      isLoggedIn: false,
-      userName: ""
-    });
   }
 
   handleOnChange = event => {
@@ -183,27 +159,12 @@ class Chat extends Component {
     event.preventDefault();
 
     // send message to io.socket server
-    if (this.state.isLoggedIn && this.state.chatMsg !== "") {
-      chatListener.emit("chat message", `${this.state.userName}: ${this.state.chatMsg}`);
+    if (this.props.isLoggedIn && this.state.chatMsg !== "") {
+      chatListener.emit("chat message", `${this.props.username}: ${this.state.chatMsg}`);
       console.log(`chat message: ${this.state.chatMsg}`);
     } else {
       this.setState({chatMsg: ""});
     }
-  }
-
-  handleNameSubmit = event => {
-    event.preventDefault();
-
-    API.postUsers({
-      userName: this.state.userName
-    })
-    .then(res => {
-      this.setState({
-        userId: res.data._id,
-        isLoggedIn: true
-      });
-    })
-    .catch(err => console.log(err));
   }
 
 
@@ -219,7 +180,8 @@ class Chat extends Component {
         </div>
 
         <div className="row">
-          {this.renderIntroChat()}
+          <h6 className = "d-flex col-4">User: {this.props.username}</h6>
+          <h6 className = "d-flex col-4">Email: {this.props.email}</h6>
         </div>
 
         <div className="d-flex flex-row justify-content-center">
@@ -229,7 +191,7 @@ class Chat extends Component {
               <hr />
               <ChatWindow
                 convoArray = {this.state.chatConvo}
-                userName = {this.state.userName}
+                userName = {this.props.username}
               />
             </div>
           </section>
@@ -237,7 +199,7 @@ class Chat extends Component {
             <ChatForums
               getForumInfo = {this.forumInfo} 
             />
-            <p>{this.state.isLoggedIn ? `${this.state.userName} joined ${this.state.activeNameGame}` : ""}</p>
+            <p>{this.props.isLoggedIn ? `${this.props.username} joined ${this.state.activeNameGame}` : ""}</p>
           </section>
         </div>
     
