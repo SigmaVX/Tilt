@@ -18,6 +18,19 @@ class Login extends Component {
     }
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  safeUpdate(stateObj) {
+    if (this._isMounted) 
+      this.setState(stateObj);
+  }
+
   handleInputChange = event => {
     const { name, value } = event.target;
 
@@ -47,17 +60,26 @@ class Login extends Component {
           username: res.data.username,
           userId: res.data.userId,
           email: res.data.email
-        })
+        });
+        // callback function to parent
+        this.props.getLoginResult({
+          isLoggedIn: res.data.isLoggedIn,
+          isAdmin: this.state.isAdmin, 
+          userId: res.data.userId,
+          username: res.data.username,
+          email: res.data.email
+        });
+        // put isAdmin overhere
       })
       .catch(err => {
-        console.log(err.response);
-        this.setState({
-          returnStatus: err.response.status,
-          errorMsg: err.response.data,
+        // console.log(err.response);
+        let tempObj = {
+          errorMsg: "Incorrect username/password",
           username: "",
           password: "",
           isLoggedIn: false
-        })
+        };
+        this.safeUpdate(tempObj);
       });
   }
 
@@ -65,9 +87,7 @@ class Login extends Component {
     // If user is logged in, take them to main page
     if (this.state.isLoggedIn) {
       return (
-        <Redirect to={{
-          pathname: "/"
-        }} />
+        <Redirect to={{ pathname: "/" }} />
       );
     } 
 
@@ -75,7 +95,7 @@ class Login extends Component {
       <div className="container my-5">
         <div className="row justify-content-center">
           <form>
-            <h2>Login</h2>
+            <h2 className="text-center">Login</h2>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -103,7 +123,9 @@ class Login extends Component {
               : ""
             } 
 
-            <button type="submit" className="btn btn-success" onClick={this.login}>Login</button>
+            <button type="submit" className="btn btn-success" onClick={this.login}>
+            Login
+            </button>
           </form>
 
         </div>
@@ -117,11 +139,12 @@ export default Login;
 
 /*
               <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
- */
 
- /*           state: {
-            isLoggedIn: this.state.isLoggedIn,
-            username: this.state.username,
-            userId: this.state.userId,
-            email: this.state.email
-          } */
+                this.props.getLoginResult({
+                  isLoggedIn: this.state.isLoggedIn,
+                  isAdmin: this.state.isAdmin, 
+                  userId: this.state.userId,
+                  username: this.state.username,
+                  email: this.state.email
+                });
+ */

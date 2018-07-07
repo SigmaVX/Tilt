@@ -4,7 +4,7 @@ import Search from "../components/Search";
 import CountBubble from "../components/CountBubble";
 import IconBubble from "../components/IconBubble";
 import Moment from "moment";
-import AUTH from "../utilities/AUTH";
+// import AUTH from "../utilities/AUTH";
 
 class Home extends Component {
 
@@ -18,10 +18,10 @@ class Home extends Component {
         search: "",
         userID: 1,
         // authentication variables
-        username: "",
-        userId: "",
-        email: "",
-        isLoggedIn: false
+        // username: "",
+        // userId: "",
+        // email: "",
+        // isLoggedIn: false
     }
 
     // Save On Change Data
@@ -33,53 +33,11 @@ class Home extends Component {
     componentDidMount(){
       this.pageLoad();
       // check to see whether user is logged in and whether user is admin
-      this.loginCheck();
-      this.adminCheck();
+      // this.loginCheck();
+      // this.adminCheck();
     }
 
-/*     componentDidUpdate(prevProps) {
-      if (this.props.userId !== prevProps.userId) {
-        this.setState({
-          username: this.location.state.username,
-          email: this.location.state.email,
-          userId: this.location.state.userId,
-          isLoggedIn: this.location.state.isLoggedIn
-        });
-      }
-    } */
 
-    loginCheck = () => {
-      AUTH
-        .loginCheck()
-        .then(res => {
-          console.log("res.data: ", JSON.stringify(res.data));
-          this.setState({
-            isLoggedIn: res.data.isLoggedIn,
-            username: res.data.username,
-            email: res.data.email,
-            userId: res.data.userId
-          })
-         }
-        )
-        .catch(err => {
-          console.log(err);
-          this.setState({
-            isLoggedIn: false
-          });  
-        })
-    }
-  
-    adminCheck = () => {
-      AUTH
-        .adminCheck()
-        .then(res =>
-          this.setState({isAdmin: res.data.isAdmin})
-        )
-        .catch(err => {
-          console.log(err);
-          this.setState({isAdmin: false});  
-        })
-    }
 
     // Load State From Mongo
     pageLoad = () =>{
@@ -173,10 +131,10 @@ class Home extends Component {
         <div>
           <h4>Signin Information</h4>
             <div>
-              <p>Username: {this.state.username}</p>
-              <p>Email: {this.state.email}</p>
-              <p>UserId: {this.state.userId}</p>
-              <p>isLoggedIn: {this.state.isLoggedIn ? "true" : "false"}</p>
+              <p>Username: {this.props.username}</p>
+              <p>Email: {this.props.email}</p>
+              <p>UserId: {this.props.userId}</p>
+              <p>isLoggedIn: {this.props.isLoggedIn ? "true" : "false"}</p>
             </div>
         </div>
 
@@ -263,3 +221,51 @@ export default Home;
           }
 
 */
+
+/*     componentDidUpdate(prevProps) {
+      if (this.props.userId !== prevProps.userId) {
+        this.setState({
+          username: this.location.state.username,
+          email: this.location.state.email,
+          userId: this.location.state.userId,
+          isLoggedIn: this.location.state.isLoggedIn
+        });
+      }
+    } 
+    
+        loginCheck = () => {
+      AUTH
+        .loginCheck()
+        .then(res => {
+          console.log("res.data: ", JSON.stringify(res.data));
+          this.setState({
+            isLoggedIn: res.data.isLoggedIn,
+            username: res.data.username,
+            email: res.data.email,
+            userId: res.data.userId
+          })
+         }
+        )
+        .catch(err => {
+          console.log(err);
+          this.setState({
+            isLoggedIn: false
+          });  
+        })
+    }
+  
+    adminCheck = () => {
+      AUTH
+        .adminCheck()
+        .then(res =>
+          this.setState({isAdmin: res.data.isAdmin})
+        )
+        .catch(err => {
+          console.log(err);
+          this.setState({isAdmin: false});  
+        })
+    }
+    
+    
+    
+    */

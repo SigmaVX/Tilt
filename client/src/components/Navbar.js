@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom";
-import AUTH from "../utilities/AUTH";
+// import AUTH from "../utilities/AUTH";
 
 
 function AdminBar(props) {
@@ -51,19 +51,76 @@ class Navbar extends Component {
       // --
       // loggedIn variable
       // ---------------------------
-      isLoggedIn: false,
-      isAdmin: false,
-      username: "",
-      email: "",
-      userId: ""
+      // isLoggedIn: false,
+      // isAdmin: false,
+      // username: "",
+      // email: "",
+      // userId: ""
     };
   }
 
   componentDidMount() {
     // check to see whether user is logged in and whether user is admin
-    this.loginCheck();
-    this.adminCheck();
+    // this.loginCheck();
+    // this.adminCheck();
   }
+
+
+
+  render() {
+    return  (
+      <div>
+      <div>
+      <h3>isLoggedIn: {this.props.isLoggedIn ? "true" : "false"}</h3>
+      <h4>testvar: {this.props.testVar}</h4>
+      </div>
+      <div>
+      <nav className="navbar navbar-expand-lg">
+        <Link className="navbar-brand" to="/">Tilt</Link>
+        
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className={window.location.pathname === "/" ? "nav-item active bg-warning" : "nav-item"}>
+              <Link className="nav-link" to="/">
+              Home
+              </Link>
+            </li>
+            <li className={window.location.pathname === "/post" ? "nav-item active bg-warning" : "nav-item"}>
+              <Link className="nav-link" to="/post">Post</Link>
+            </li>
+            <li className={window.location.pathname === "/videos" ? "nav-item active bg-warning" : "nav-item"}>
+                <Link className="nav-link" to="/videos">Videos</Link>
+            </li>
+            <li className={window.location.pathname === "/chat" ? "nav-item active bg-warning" : "nav-item"}>
+                <Link className="nav-link" to="/chat">Chat</Link>
+            </li>
+            <AdminBar isAdmin = {this.props.isAdmin} />
+            <AuthMenu 
+              isLoggedIn = {this.props.isLoggedIn}
+              userName = {this.props.username}
+             />
+          </ul>
+        </div>
+      </nav>
+      </div>
+      </div>
+    );
+  }
+}
+
+export default Navbar;
+
+/*
+             to={{
+                pathname: "/",
+                state: {
+                  isLoggedIn: this.state.isLoggedIn,
+                  username: this.state.username,
+                  userId: this.state.userId,
+                  email: this.state.email
+                }
+              }}
+
 
   loginCheck = () => {
     AUTH
@@ -96,48 +153,4 @@ class Navbar extends Component {
       })
   }
 
-  render() {
-    return  (
-      <nav className="navbar navbar-expand-lg">
-        <Link className="navbar-brand" to="/">Tilt</Link>
-        
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className={window.location.pathname === "/" ? "nav-item active bg-warning" : "nav-item"}>
-              <Link className="nav-link" 
-              to="/"
-              to={{
-                pathname: "/",
-                state: {
-                  isLoggedIn: this.state.isLoggedIn,
-                  username: this.state.username,
-                  userId: this.state.userId,
-                  email: this.state.email
-                }
-              }}
-              >
-              Home
-              </Link>
-            </li>
-            <li className={window.location.pathname === "/post" ? "nav-item active bg-warning" : "nav-item"}>
-              <Link className="nav-link" to="/post">Post</Link>
-            </li>
-            <li className={window.location.pathname === "/videos" ? "nav-item active bg-warning" : "nav-item"}>
-                <Link className="nav-link" to="/videos">Videos</Link>
-            </li>
-            <li className={window.location.pathname === "/chat" ? "nav-item active bg-warning" : "nav-item"}>
-                <Link className="nav-link" to="/chat">Chat</Link>
-            </li>
-            <AdminBar isAdmin = {this.state.isAdmin} />
-            <AuthMenu 
-              isLoggedIn = {this.state.isLoggedIn}
-              userName = {this.state.username}
-             />
-          </ul>
-        </div>
-      </nav>
-    );
-  }
-}
-
-export default Navbar;
+*/
