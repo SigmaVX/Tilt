@@ -41,7 +41,7 @@ export default {
     },
     // Get All Reports By IGN
     getReportsByIGN: function(cheaterIGN) {
-        return axios.get("/api/reports/", {params: cheaterIGN})
+        return axios.get("/api/reports/ign", {params: cheaterIGN})
     },
     // Get All Cheats
     getCheats: function() {
@@ -125,7 +125,7 @@ export default {
     },
     // Delete Report
     deleteReport: function(id) {
-        return axios.delete(`/api/reports/${id}`)
+        return axios.delete("/api/reports/id", {params:id})
     },
     // Delete Cheat
     deleteCheat: function(id) {

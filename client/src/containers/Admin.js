@@ -178,9 +178,13 @@ class Admin extends Component {
 
     // Delete Report
     deleteReportItem = (id) =>{
-        API.deleteReport(id)
+        API.deleteReport({
+            id:id
+        })
         .then(res => {
-            this.reportSearch(res.data.cheaterIGN);
+            this.reportSearch({
+                cheaterIGN: res.data.cheaterIGN
+        });
             console.log(res.data);
         })
         .catch(err => console.log(err))

@@ -27,9 +27,8 @@ class Home extends Component {
         this.setState({[name]: value});
     }
 
-    componentDidMount(){
-        this.pageLoad();
-    }
+    
+    
 
     // Load State From Mongo
     pageLoad = () =>{
@@ -60,7 +59,7 @@ class Home extends Component {
                 legendData.push({title: cheat.cheatName +" ("+ cheat.cheatCount +")", color: myColors[i]})
             })
             this.setState({chartData: chartData, legendData: legendData});
-            console.log("Chart Data: ", this.state.chartData);
+            // console.log("Chart Data: ", this.state.chartData);
         })
         .catch(err => console.log(err))
     }
@@ -69,7 +68,7 @@ class Home extends Component {
     loadReports = () => {
     API.getReports()
     .then(res => {
-        console.log("Reports: ", res.data);
+        // console.log("Reports: ", res.data);
         this.setState({
             reports: res.data,
         })
@@ -130,7 +129,8 @@ class Home extends Component {
  
   render() {
    
-
+    this.pageLoad();
+    
     return (
 
     <div>

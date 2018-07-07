@@ -34,15 +34,26 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByIGN: function (table, req, res) {
-    // console.log("Req Params Are: ", req.params.cheaterIGN);
+    console.log("Req Params Are: ", req.query);
+    console.log("Searching For: ", req.query.cheaterIGN);
+    const searchTerm = req.query.cheaterIGN;
+    const searchString = "/"+ searchTerm +"/i";
+    console.log("Search String Is: ", searchString);
+
     table
-      .find({cheaterIGN : `/${req.params.cheaterIGN}/i`})
+      .find({cheaterIGN : searchTerm})
       .populate("cheatGame")
       .populate("cheatSystem")
       .populate("cheatType")
       .sort({ cheatSystem: 1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      .then(dbModel => {
+        // console.log(dbModel);  
+        res.json(dbModel);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(422).json(err)
+      });
   },
   create: function (table, req, res) {
     table
@@ -57,9 +68,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function (table, req, res) {
-    // console.log("Delete Request For: ", req.params.id);
+    console.log("Delete Request For: ", req.query.id);
     table
-      .findById({ _id: req.params.id })
+      .findById(req.query.id)
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
