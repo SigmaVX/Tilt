@@ -40,8 +40,8 @@ export default {
         return axios.get("/api/reports")
     },
     // Get All Reports By IGN
-    getReportsByIGN: function(query) {
-        return axios.get("/api/reports", {params: query})
+    getReportsByIGN: function(cheaterIGN) {
+        return axios.get("/api/reports/ign", {params: cheaterIGN})
     },
     // Get All Cheats
     getCheats: function() {
@@ -97,7 +97,7 @@ export default {
     },
     // Edit Report
     putReport: function(id, body) {
-        return axios.put(`/api/reports/${id}`, body)
+        return axios.put(`/api/reports/byid/${id}`, body)
     },
     // Edit Cheats
     putCheat: function(id, body) {
@@ -125,7 +125,7 @@ export default {
     },
     // Delete Report
     deleteReport: function(id) {
-        return axios.delete(`/api/reports/${id}`)
+        return axios.delete("/api/reports/id", {params:id})
     },
     // Delete Cheat
     deleteCheat: function(id) {

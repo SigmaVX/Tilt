@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import API from "../utilities/API";
 import Card from "../components/Card";
 import Search from "../components/Search";
+import Moment from "moment";
 // import ConfirmModal from "../components/Modal";
 // import { Button, Header, Image, Modal } from 'semantic-ui-react';
 
@@ -26,18 +27,6 @@ class Admin extends Component {
 
     componentDidMount(){
         this.pageLoad();
-    }
-
-    // Load Reports To State
-    loadReports = () => {
-        API.getReports()
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-              reports: res.data,
-            })
-        })
-        .catch(err => console.log(err))
     }
 
     // Load Cheats To State
@@ -79,24 +68,22 @@ class Admin extends Component {
 
     // Load State From Mongo
     pageLoad = () =>{
-        this.loadReports();
         this.loadGames();
         this.loadSystems();
         this.loadCheats();
     }
 
     // Search For Reports By IGN
-    reportSearch = (searchObj) => {
-        // event.preventDefault();
-        API.getReportsByIGN({
-            cheaterIGN: searchObj.searchTerm
-        }).then(res => {
-            console.log(res.data);
+    reportSearch = (searchObject) => {
+        console.log("Search Obj: ", searchObject);
+
+        API.getReportsByIGN(searchObject).then(res => {
+            console.log("Res Data: ", res.data);
             this.setState({
-            reports: res.data,
-            search: ""
+                reports: res.data
             })
-        }).catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
     }
 
     // Post Cheat
@@ -189,6 +176,19 @@ class Admin extends Component {
         }).catch(err => console.log(err))
     }
 
+    // Delete Report
+    deleteReportItem = (id) =>{
+        API.deleteReport({
+            id:id
+        })
+        .then(res => {
+            this.reportSearch({
+                cheaterIGN: res.data.cheaterIGN
+        });
+            console.log(res.data);
+        })
+        .catch(err => console.log(err))
+    }
 
 
   render() {
@@ -295,8 +295,37 @@ class Admin extends Component {
         <Search
             reportSearch={this.reportSearch}
         />
-    
-     
+                
+        <div className="container">
+              <h2 className="col-12 text-center">{this.state.reports.length
+                  ? ""
+                  : "No Search Results!"}
+              </h2>
+              <div className="row justify-content-center">
+              <table className="col-10">
+                <tbody>
+                {this.state.reports.map(report=>{
+                    return (
+                    <tr className="row justify-content-center reports-row py-2" key={report._id}>
+                        
+                        <td className="col-12 col-md-8">
+                            <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
+                            <h6 className="cheat-type my-1">Game Name: {report.cheatGame.gameName} Cheat Type: {report.cheatType.cheatName}</h6>
+                            <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
+                            <a className="video-link my-1" target="_blank" href={report.cheatVideo}>{report.cheatVideo ? report.cheatVideo : "No Video Link Posted"}</a>
+                            <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : "No Comments"}</p>
+                        </td>
+                        <td className="col-12 col-md-2 text-center">
+                            <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id)}>Delete</button>
+                            <button className="btn btn-block" onClick={() => this.editReport(report._id)}>Edit</button>
+                        </td>
+                    </tr>
+                    )
+                })}
+                </tbody>
+            </table>
+            </div>
+        </div>
         
        
 

@@ -32,13 +32,14 @@ class App extends Component {
     };
   }
 
+  // Setting State For Login
   LoginResult = (authObj) => {
     console.log(` in LoginResult
-    isLoggedIn: ${authObj.isLoggedIn}
-    isAdmin: ${authObj.isAdmin}
-    username: ${authObj.username}
-    email: ${authObj.email}
-    userId: ${authObj.userId}`);
+      isLoggedIn: ${authObj.isLoggedIn}
+      isAdmin: ${authObj.isAdmin}
+      username: ${authObj.username}
+      email: ${authObj.email}
+      userId: ${authObj.userId}`);
     this.setState(authObj);
   }
 

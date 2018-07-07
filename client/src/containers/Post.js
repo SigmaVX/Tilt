@@ -8,7 +8,7 @@ class Post extends Component {
         games: [],
         systems: [],
         cheats: [],
-        userID: 1
+        postedBy: this.props.userId
     }
 
     // Save On Change Data
@@ -96,6 +96,19 @@ class Post extends Component {
         }
     }
 
+    // Add Function To Load Reports to State From Past 24 hrs.
+
+
+    // Add Validation Function
+    // Create Loop
+    // Set const for check for IGN, Posted By, and System - equals state item
+    // Var for all match - set for false
+    //  if var for all match = true then stop post send msg
+    //  if false run post all.
+
+
+
+
     // Post Data To Mongo Via Send Object
     postAll = () => {
 
@@ -107,7 +120,8 @@ class Post extends Component {
             cheatSystem: this.state.cheatSystem,
             cheatType: this.state.cheatType,
             cheatVideo: this.state.cheatVideo,
-            cheatComments: this.state.cheatComments
+            cheatComments: this.state.cheatComments,
+            reportedBy: this.state.postedBy
         }
 
         console.log(sendObject);

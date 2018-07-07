@@ -11,9 +11,10 @@ class Search extends Component {
         this.setState({[name]: value});
     }
 
-    updateInfo = () =>{
+    updateInfo = (event) =>{
+        event.preventDefault();
         const searchObj = {
-            searchTerm: this.state.search
+            cheaterIGN: this.state.search
         }
         this.props.reportSearch(searchObj);
         this.setState({
@@ -34,7 +35,7 @@ class Search extends Component {
                                     className="form-control mb-2"
                                     name="search"
                                     value={this.state.search}
-                                    placeholder="Search For A Cheater's IGN"
+                                    placeholder="Search For A Cheater By IGN"
                                     onChange={this.handleOnChange}
                                     />
                                 <button 
