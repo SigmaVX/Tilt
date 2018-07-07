@@ -61,19 +61,32 @@ class Login extends Component {
           userId: res.data.userId,
           email: res.data.email
         });
-        // callback function to parent
-        this.props.getLoginResult({
-          isLoggedIn: res.data.isLoggedIn,
-          isAdmin: this.state.isAdmin, 
-          userId: res.data.userId,
-          username: res.data.username,
-          email: res.data.email
-        });
-        // put isAdmin overhere
+
+        // check if user is admin
+        AUTH
+        .adminCheck()
+        .then(res => {
+          this.setState({isAdmin: res.data.isAdmin});
+          // ------------------------------
+          // callback function to parent
+          // ------------------------------
+          this.props.getLoginResult({
+            isLoggedIn: this.state.isLoggedIn,
+            isAdmin: res.data.isAdmin, 
+            userId: this.state.userId,
+            username: this.state.username,
+            email: this.state.email
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          this.safeUpdate({isAdmin: false});  
+        })
       })
       .catch(err => {
-        // console.log(err.response);
+        console.log(err);
         let tempObj = {
+          returnStatus: -1,
           errorMsg: "Incorrect username/password",
           username: "",
           password: "",
@@ -87,7 +100,15 @@ class Login extends Component {
     // If user is logged in, take them to main page
     if (this.state.isLoggedIn) {
       return (
-        <Redirect to={{ pathname: "/" }} />
+        <Redirect to={{ pathname: "/", 
+        state: { 
+          isLoggedIn: this.state.isLoggedIn,
+          username: this.state.username,
+          email: this.state.email,
+          userId: this.state.userId,
+          isAdmin: this.state.isAdmin
+         }
+      }} />
       );
     } 
 
@@ -136,15 +157,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-/*
-              <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
-
-                this.props.getLoginResult({
-                  isLoggedIn: this.state.isLoggedIn,
-                  isAdmin: this.state.isAdmin, 
-                  userId: this.state.userId,
-                  username: this.state.username,
-                  email: this.state.email
-                });
- */

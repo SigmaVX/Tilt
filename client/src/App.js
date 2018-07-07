@@ -33,15 +33,17 @@ class App extends Component {
   }
 
   LoginResult = (authObj) => {
-    console.log(`isLoggedIn: ${authObj.isLoggedIn}
+    console.log(` in LoginResult
+    isLoggedIn: ${authObj.isLoggedIn}
     isAdmin: ${authObj.isAdmin}
-    userId: ${authObj.userId}
+    username: ${authObj.username}
     email: ${authObj.email}
     userId: ${authObj.userId}`);
     this.setState({
       isLoggedIn: authObj.isLoggedIn,
       isAdmin: authObj.isAdmin,
       userId: authObj.userId,
+      username: authObj.username,
       email: authObj.email
     });
   }
@@ -51,7 +53,6 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    // this.loginCheck();
     this._isMounted = false;
   }
 
@@ -59,60 +60,37 @@ class App extends Component {
     if (this._isMounted) this.setState(stateObj);
   }
 
-  checkLoggedIn() {
-    // return true;
-    this.loginCheck();
+  AuthRoute = ({ component: Component, ...rest }) => {
+      return (
+        <Route
+          {...rest}
+          render={props =>
+            this.state.isLoggedIn
+            ? ( <Component {...props} /> ) 
+            : ( <Redirect to={{ 
+                pathname: "/login",
+                state: { from: props.location } 
+            }} /> )
+          }
+        />
+      );
   }
 
-  loginCheck = () => {
-    AUTH
-      .loginCheck()
-      .then(res => {
-        let resObj = {
-          isLoggedIn: res.data.isLoggedIn,
-          username: res.data.username,
-          email: res.data.email,
-          userId: res.data.userId
-        };
-        this.safeUpdate(resObj);
-        console.log('isLoggedIn: ', res.data.isLoggedIn);
-        console.log('state isLoggedIn: ', this.state.isLoggedIn);
-        return res.data.isLoggedIn ? true : false;
-      })
-      .catch(err => {
-        if (err) console.log(err);
-        let errObj = {isLoggedIn: false};
-        this.safeUpdate(errObj);
-        return false;  
-      })
+  AdminRoute = ({ component: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          this.state.isAdmin
+          ? ( <Component {...props} /> ) 
+          : ( <Redirect to={{ 
+              pathname: "/login",
+              state: { from: props.location } 
+          }} /> )
+        }
+      />
+    );
   }
-
-  adminCheck = () => {
-    AUTH
-      .adminCheck()
-      .then(res =>
-        this.setState({isAdmin: res.data.isAdmin})
-      )
-      .catch(err => {
-        console.log(err);
-        this.setState({isAdmin: false});  
-      })
-  }
-
-  AuthRoute = ({ component: Component, ...rest }) => 
-  (
-    <Route
-      {...rest}
-      render={props =>
-        this.checkLoggedIn() 
-        ? ( <Component {...props} /> ) 
-        : ( <Redirect to={{ 
-            pathname: "/login",
-            state: { from: props.location } 
-        }} /> )
-      }
-    />
-  );
 
 
 
@@ -121,17 +99,24 @@ class App extends Component {
     <Router>
       <div>
         <Navbar 
-          isLoggedIn={this.state.isLoggedIn}
-          testVar="test variable" 
+          isLoggedIn = {this.state.isLoggedIn}
+          isAdmin = {this.state.isAdmin}
+          userId = {this.state.userId}
+          username = {this.state.username}
+          email = {this.state.email}
         />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" render={(props) => 
+            <Home username = {this.state.username} 
+                   userId = {this.state.userId}
+                   email = {this.state.email} />} />
+
           <this.AuthRoute exact path="/post" component={Post}/>
           <Route exact path="/videos" component={Videos}/>
           <this.AuthRoute exact path="/chat" component={Chat}/>
-          <Route exact path="/admin" component={Admin}/>
-          {/* <Route exact path="/login" render={props => <Login {...props} />} /> */}
-          <Route exact path="/login" component={Login} />
+          <this.AdminRoute exact path="/admin" component={Admin}/>
+          <Route exact path="/login" render={() => <Login getLoginResult = {this.LoginResult} />} /> 
+          {/* <Route exact path="/login" component={Login} /> */}
           <Route exact path="/signup" component={Signup}/>
           <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
         </Switch>
@@ -143,14 +128,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*
-          <Route 
-            exact path="/login"
-            render= {() =>
-              <Login
-                getLoginResult={this.LoginResult} 
-              />
-            }
-          />
-*/

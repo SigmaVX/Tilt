@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import API from "../utilities/API";
+import AUTH from "../utilities/AUTH";
 
 class Signup extends Component {
   state = {
     success: false,
     username: "",
-    password: ""
+    password: "",
+    email: "",
+    userId: 0
   }
   
-  handleInputChange = e => {
-    const { name, value } = e.target;
+  handleInputChange = event => {
+    const { name, value } = event.target;
     this.setState({
       [name] : value
     })
@@ -19,8 +21,8 @@ class Signup extends Component {
   // Method to register a new user
   register = (e) => {
     e.preventDefault();
-    API
-      .register({ username: this.state.username, password: this.state.password })
+    AUTH
+      .signup({ username: this.state.username, email: this.state.email, password: this.state.password, pswrdConfirmation: this.state.pswrdConfirmation })
       .then(res => {
         console.log(res.data);
         this.setState({ success: res.data })
@@ -52,6 +54,17 @@ class Signup extends Component {
               <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
             </div>
             <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChange}
+                className="form-control"
+                placeholder="Email" />
+              <small id="usernameHelp" className="form-text text-muted">Please enter your email</small>
+            </div>
+            <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -60,6 +73,17 @@ class Signup extends Component {
                 onChange={this.handleInputChange}
                 className="form-control"
                 placeholder="Password"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="pswrdConfirmation">Confirm Password</label>
+              <input
+                type="password"
+                name="pswrdConfirmation"
+                value={this.state.pswrdConfirmation}
+                onChange={this.handleInputChange}
+                className="form-control"
+                placeholder="Type password again"
               />
             </div>
 

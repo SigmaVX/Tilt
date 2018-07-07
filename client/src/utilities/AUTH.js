@@ -29,25 +29,4 @@ export default {
       return axios.get("/auth/logout")
     }
 }
-
-    // *********************************************************
-    // TEMPORARY FOR USERS CHAT
-    // *********************************************************
-    // getUsers: function() {
-    //  return axios.get("/api/users");
-    // },
-    // Post User
-    // postUsers: function(postInfo) {
-    //  return axios.post("/api/users", postInfo)
-    // },
-    // Edit Users
-    // putUsers: function(id, body) {
-    //  return axios.put(`/api/users/${id}`, body)
-    // },
-    // Delete User
-    // deleteUsers: function(id) {
-    //  return axios.delete(`/api/users/${id}`)
-    // },
-    // ************************************************************
-    // END USERS TEMPORARY 
-    // ************************************************************
+ 

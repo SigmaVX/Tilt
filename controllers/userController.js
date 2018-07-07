@@ -66,17 +66,20 @@ module.exports = {
   },
 
   findById: function (req, res) {
+    console.log(`req.session.userId: ${req.session.userId}`);
+    // console.log("req.session: ", JSON.stringify(req.session));
     Users
       .findById(req.session.userId)
       .then(dbModel => {
         // if user was not found send back false
-        if (!dbModel) return res.status(404).json({isAdmin: false});
+        if (!dbModel) return res.status(404).json({isLoggedIn: false});
         console.log("dbModel in findById: " + dbModel);
 
         // means user is signed in already send back true
+        // session: req.session
         res.json({
           isLoggedIn: true,
-          // session: req.session,
+          session: req.session,
           userId: req.session.userId,
           username: req.session.username,
           email: req.session.email
