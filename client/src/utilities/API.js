@@ -7,7 +7,11 @@ export default {
     },
     // Get & Update All Counts
     updateCounts: function(query) {
-        return axios.get("/api/counts", {params: query})
+        return axios.get("/api/counts/add", {params: query})
+    },
+    // Get & Update All Counts
+    reduceCounts: function(query) {
+        return axios.get("/api/counts/reduce", {params: query})
     },
     // Get Recap of Gams, Systems, Cheats, & Cheaters Sorted
     getRecapCounts: function() {
