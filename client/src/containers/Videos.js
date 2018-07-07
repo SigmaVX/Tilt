@@ -137,7 +137,8 @@ class Videos extends Component {
             vId: item._id,
             vLink: item.videoLink.slice(linkPos + 1),
             posted: item.createdOn
-          })
+          });
+          return true;
         });
         this.setState({
           videoList: videoList
