@@ -194,15 +194,13 @@ class Videos extends Component {
   displayUserVideos(opts) {
     return (
       this.state.videoList.map(uVid => (
-        <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={uVid.vId}>
-          <div className="card-body">
+          <div key={uVid.vId}>
             <YouTube
             videoId={uVid.vLink}
             opts={opts}
             onReady={this._onReady}
             /> 
           </div>
-        </div>
         )
       )
     );
@@ -211,16 +209,13 @@ class Videos extends Component {
   displayYtVideos(opts) {
     return (
       this.state.ytVideos.map(video => (
-          <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={video.id.videoId}>
-            <div className="card-body">
-              <h6 className="card-subtitle mb-2 text-primary text-center">{video.snippet.title}</h6>
+            <div key={video.id.videoId}>
               <YouTube
                 videoId={video.id.videoId}
                 opts={opts}
                 onReady={this._onReady}
               />                  
             </div>
-          </div>
         ) 
       )
     )
@@ -230,8 +225,8 @@ class Videos extends Component {
   render() { 
     // options for youtube video card rendering
     const opts = {
-      height: "146",
-      width: "240",
+      height: "205",
+      width: "336",
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 2 // paused
       }
