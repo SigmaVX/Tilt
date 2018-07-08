@@ -232,36 +232,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*     if (authObj.isLoggedIn) return (
-      <Route
-        render={() => (<Redirect to={{ 
-              pathname: "/login",
-              state: { referrer: window.location.pathname } 
-          }} /> )
-        }
-      />
-    ); 
-    
-                  if (this.state.isLoggedIn) {
-                return (
-                  ( <Redirect 
-                    to={{ pathname: this.redirPath,
-                          state: { referrer: window.location.pathname } }}                 
-                  /> )
-                ); 
-              }
-              else {
-                return (
-                  <h3>You must be logged in.</h3>
-                )
-              }
-
-
-                          return ( <Redirect 
-                  to={{ pathname: this.redirPath,
-                        state: { referrer: window.location.pathname } }}                 
-                /> );
-    
-    
-    */
