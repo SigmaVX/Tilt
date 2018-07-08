@@ -18,6 +18,18 @@ class Signup extends Component {
     })
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  safeUpdate(obj) {
+    if (this._isMounted) this.setState(obj);
+  }
+
   // Method to register a new user
   register = (e) => {
     e.preventDefault();
@@ -25,8 +37,18 @@ class Signup extends Component {
       .signup({ username: this.state.username, email: this.state.email, password: this.state.password, pswrdConfirmation: this.state.pswrdConfirmation })
       .then(res => {
         console.log(res.data);
-        this.setState({ success: res.data })
-
+        this.safeUpdate({ success: res.data })
+        // ------------------------------
+        // callback function to parent
+        // ------------------------------
+        this.props.getSignupResult({
+          isLoggedIn: this.state.isLoggedIn,
+          isAdmin: false, 
+          userId: this.state.userId,
+          username: this.state.username,
+          email: this.state.email
+        }, "/");
+        this.safeUpdate({ redirectToReferrer: true });
       })
       .catch(err => console.log(err.response.data));
   }
