@@ -33,6 +33,16 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByTime: function (table, req, res) {
+    console.log("Query Times Requested: ", req.query);
+
+    table
+      .find({date: {
+        $gte: new Date(req.query.yesterday)
+      }})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findByIGN: function (table, req, res) {
     // console.log("Req Params Are: ", req.query);
     // console.log("Searching For: ", req.query.cheaterIGN);

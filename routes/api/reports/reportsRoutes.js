@@ -21,10 +21,14 @@ router
   .route("/ign")  
   .get(function(req, res) {console.log("Route Hit For Reports By IGN"); dbController.findByIGN(Reports, req, res);})
 
+// For "/api/reports/commentsandvideo/:id"   
 router
   .route("/commentsandvideo/:id")
   .put(function(req, res) {console.log("Route Hit For Reports For Comments & Video Update");dbController.update(Reports, req, res);})
 
+// For "/api/reports/recent" 
+router
+  .route("/recent")
+  .get(function(req, res) {console.log("Route Hit For Reports By Time"); dbController.findByTime(Reports, req, res);})
   
-
 module.exports = router;

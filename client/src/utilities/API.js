@@ -5,6 +5,9 @@ export default {
     youtubeSearch: function(query) {
       return axios.get("/api/youtubevids", {params:query})
     },
+    getRecentReports: function(query){
+        return axios.get("/api/reports/recent", {params: query})
+    },
     // Get & Update All Counts
     updateCounts: function(query) {
         return axios.get("/api/counts/add", {params: query})
