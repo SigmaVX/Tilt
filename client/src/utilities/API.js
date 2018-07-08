@@ -107,6 +107,10 @@ export default {
     putCheat: function(id, body) {
         return axios.put(`/api/cheats/${id}`, body)
     },
+    // Edit Cheats
+    putCommentsAndVideos: function(id, body) {
+        return axios.put(`/api/reports/commentsandvideo/${id}`, body)
+    },
     // Edit Cheater
     putCheater: function(id, body) {
         return axios.put(`/api/cheaters/${id}`, body)

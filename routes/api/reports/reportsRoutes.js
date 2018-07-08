@@ -17,9 +17,14 @@ router
   .delete(function(req, res) {dbController.remove(Reports, req, res);});
 
  // For "/api/reports/ign" 
-  router
+router
   .route("/ign")  
   .get(function(req, res) {console.log("Route Hit For Reports By IGN"); dbController.findByIGN(Reports, req, res);})
 
+router
+  .route("/commentsandvideo/:id")
+  .put(function(req, res) {console.log("Route Hit For Reports For Comments & Video Update");dbController.update(Reports, req, res);})
+
+  
 
 module.exports = router;
