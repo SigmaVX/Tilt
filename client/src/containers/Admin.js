@@ -399,7 +399,6 @@ class Admin extends Component {
             </div>
         </div>
                
-        <button onClick={this.openModal}>Open Modal</button>
 
         <Modal
             className="animated fadeInDown"  
