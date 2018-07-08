@@ -14,7 +14,7 @@ class Card extends Component {
     }
 
     updateInfo = (id, name, image) => {
-        console.log("Name: ", name, "Image: ", image);
+        // console.log("Name: ", name, "Image: ", image);
 
         // Validatoion - Check If Empty
         if(this.state.cardName === "" && this.state.cardImage === ""){

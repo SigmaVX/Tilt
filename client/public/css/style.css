@@ -39,6 +39,14 @@
   background-color: #ffffff;
 }
 
+.ReactModal__Content--after-open{
+  margin-left: 20%;
+  width: 60%;
+  margin-top: 10%;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 2px solid #333333;
+}
 
 .reports-row:nth-child(even){
     background-color: lightblue;

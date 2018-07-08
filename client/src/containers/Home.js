@@ -80,9 +80,9 @@ class Home extends Component {
 
     // Search For Reports By IGN
     reportSearch = (searchObject) => {
-        console.log("Search Obj: ", searchObject);
+        // console.log("Search Obj: ", searchObject);
         API.getReportsByIGN(searchObject).then(res => {
-            console.log("Res Data: ", res.data);
+            // console.log("Res Data: ", res.data);
             this.setState({
                 reports: res.data
             })
@@ -101,10 +101,10 @@ class Home extends Component {
             cheatComments: this.state.cheatComments
         }
 
-        console.log(sendObject);
+        // console.log(sendObject);
         API.postReport(sendObject)
         .then(res=> {
-            console.log(res.data)
+            // console.log(res.data)
             this.setState({
             cheaterIGN: "",
             cheatGame: "",
@@ -119,7 +119,7 @@ class Home extends Component {
 
     // Update and Format Cheat Data For Chart - not used
     updateChart =()=>{
-        console.log("Cheat Array: ", this.state.cheats);
+        // console.log("Cheat Array: ", this.state.cheats);
         const chartData =[];
         this.state.cheats.map(cheat=>{
             chartData.push({theta: cheat.cheatCount});              
