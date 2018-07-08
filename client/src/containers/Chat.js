@@ -212,8 +212,15 @@ class Chat extends Component {
         </div>
 
         <div className="row">
-          <h6 className = "d-flex col-4">User: {this.props.username}</h6>
-          <h6 className = "d-flex col-4">Email: {this.props.email}</h6>
+          <span className = "d-flex col-4 col-xs-12 justify-content-center text-center">
+            <strong>
+              {
+                this.props.isLoggedIn 
+                ? `Welcome to chat, ${this.props.username}` 
+                : "You must be signed in in order to join chat."
+              }
+              </strong>
+            </span>
         </div>
 
         <div className="d-flex flex-row justify-content-center">
