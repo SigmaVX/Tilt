@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import {BrowserRouter as Router, Route, Switch, Redirect, withRouter} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/Navbar";
-// import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./containers/Home";
 import Videos from "./containers/Videos";
@@ -80,8 +79,7 @@ class App extends Component {
   componentDidMount() {
     this._isMounted = true;
     this.redirPath = "";
-    // this.isAuthenticated = false;
-    // this.isAdministrator = false;
+
     // check login status if page is reloaded
     this.isAuthenticated = this.checkAuthStatus();
   }

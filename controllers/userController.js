@@ -23,12 +23,18 @@ module.exports = {
       //use schema.create to insert data into the db 
       Users
         .create(userData, function (err, user) {
-          if (err) {console.log(err); res.status(404).send("Signup not successful.");}
+          if (err) {console.log(err); res.status(404).send("Username/email exists already.");}
 
           req.session.userId = user._id;
           req.session.username = user.username;
           req.session.userType = user.userType;
-          res.json(req.session);          
+          req.session.email = user.email;
+          res.json({
+            isLoggedIn: true,
+            userId: req.session.userId,
+            username: req.session.username,
+            email: req.session.email
+          });          
         });
     }
     else {
