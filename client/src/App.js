@@ -195,8 +195,6 @@ class App extends Component {
     );
   }
 
-
-
   render () { 
     return (
     <Router>
@@ -212,13 +210,22 @@ class App extends Component {
           <Route exact path="/" render={() => 
             <Home username = {this.state.username} 
                    userId = {this.state.userId}
-                   email = {this.state.email} />} />
+                   email = {this.state.email} />} 
+            />
 
           <this.AuthRoute exact path="/post" component={Post}/>
 
           <Route exact path="/videos" component={Videos}/>
 
-          <this.AuthRoute exact path="/chat" component={Chat} />
+          <Route exact path="/chat" render={(props) => 
+            <Chat 
+              username = {this.state.username} 
+              userId = {this.state.userId}
+              email = {this.state.email}
+              isLoggedIn = {this.state.isLoggedIn} 
+              isAdmin = {this.state.Admin}              
+              {...props}/>} 
+            />
 
           <this.AdminRoute exact path="/admin" component={Admin}/>
 

@@ -169,6 +169,38 @@ class Chat extends Component {
 
 
   render() {
+    let chatSubmitButton, leaveChatButton;
+    const isLoggedIn = this.props.isLoggedIn;
+
+    if (isLoggedIn) {
+      chatSubmitButton = <button 
+        className="col-1 btn btn-primary my-2 my-sm-0 mr-2" 
+        type="submit" 
+        onClick={this.handleOnSubmit}  
+        >
+      Send
+      </button>;
+      leaveChatButton = <button 
+      className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
+      type="submit" 
+      onClick={this.leaveChat}  
+      >
+      Leave Chat
+      </button>
+    } else {
+      chatSubmitButton = <button 
+        className="col-1 btn btn-primary my-2 my-sm-0 mr-2 disabled" 
+        disabled
+        >
+      Send
+      </button>;
+      leaveChatButton = <button 
+      className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2 disabled" 
+      disabled  
+      >
+      Leave Chat
+      </button>
+    }
 
     return (
 
@@ -213,20 +245,8 @@ class Chat extends Component {
               placeholder="Enter message here"
               onChange={this.handleOnChange} 
             />
-            <button 
-              className="col-1 btn btn-primary my-2 my-sm-0 mr-2" 
-              type="submit" 
-              onClick={this.handleOnSubmit}  
-            >
-              Send
-            </button>
-            <button 
-              className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
-              type="submit" 
-              onClick={this.leaveChat}  
-            >
-            Leave Chat
-            </button>
+            {chatSubmitButton}
+            {leaveChatButton}
           </form>
           <div className="row">
             <section className="offset-4">
