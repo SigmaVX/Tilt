@@ -28,7 +28,7 @@ class Post extends Component {
     loadCheats = () => {
         API.getCheats()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               cheats: res.data,
             })
@@ -40,7 +40,7 @@ class Post extends Component {
     loadGames = () => {
         API.getGames()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               games: res.data,
             })
@@ -52,7 +52,7 @@ class Post extends Component {
     loadSystems = ()=> {
         API.getSystems()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               systems: res.data,
             })
@@ -126,7 +126,7 @@ class Post extends Component {
 
         console.log(sendObject);
         API.postReport(sendObject).then(res=> {
-            console.log("Reports Table Updated")
+            // console.log("Reports Table Updated")
         
             const countObject = {   
                 gameName : this.state.cheatGame,
@@ -136,7 +136,7 @@ class Post extends Component {
             }
     
             API.updateCounts(countObject).then(res => {
-            console.log("Counts Updated");
+            // console.log("Counts Updated");
         
             this.setState({
                 cheaterIGN: "",

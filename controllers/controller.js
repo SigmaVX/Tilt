@@ -34,14 +34,14 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByIGN: function (table, req, res) {
-    console.log("Req Params Are: ", req.query);
-    console.log("Searching For: ", req.query.cheaterIGN);
+    // console.log("Req Params Are: ", req.query);
+    // console.log("Searching For: ", req.query.cheaterIGN);
     const searchTerm = req.query.cheaterIGN;
-    const searchString = "/"+ searchTerm +"/i";
-    console.log("Search String Is: ", searchString);
+    // const searchString = "/"+ searchTerm +"/i";
+    // console.log("Search String Is: ", searchString);
 
     table
-      .find({cheaterIGN : searchTerm})
+      .find({cheaterIGN : { "$regex": searchTerm, "$options": "ix" }})
       .populate("cheatGame")
       .populate("cheatSystem")
       .populate("cheatType")
@@ -68,7 +68,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function (table, req, res) {
-    console.log("Delete Request For: ", req.query.id);
+    // console.log("Delete Request For: ", req.query.id);
     table
       .findById(req.query.id)
       .then(dbModel => dbModel.remove())

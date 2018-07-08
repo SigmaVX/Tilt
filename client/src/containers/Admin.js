@@ -3,20 +3,33 @@ import API from "../utilities/API";
 import Card from "../components/Card";
 import Search from "../components/Search";
 import Moment from "moment";
-// import ConfirmModal from "../components/Modal";
-// import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import Modal from 'react-modal';
+// import ReactDOM from 'react-dom';
 
 class Admin extends Component {
 
+    constructor() {
+        super();
+
     // Set Initial State
-    state = {
+    this.state = {
         reports: [],
         games: [],
         systems: [],
         cheats: [],
         forum: [],
         videos: [],
-        userID: 1
+        editCheatComments: "",
+        editCheatVideo: "",
+        editCheaterIGN: "",
+        editId: "",
+        modalIsOpen: false
+    };
+
+    // Bind This For Modal
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     }
 
     // Save On Change Data
@@ -33,7 +46,7 @@ class Admin extends Component {
     loadCheats = () => {
         API.getCheats()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               cheats: res.data,
             })
@@ -46,7 +59,7 @@ class Admin extends Component {
     loadGames = () => {
         API.getGames()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               games: res.data,
             })
@@ -58,7 +71,7 @@ class Admin extends Component {
     loadSystems = ()=> {
         API.getSystems()
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               systems: res.data,
             })
@@ -75,10 +88,10 @@ class Admin extends Component {
 
     // Search For Reports By IGN
     reportSearch = (searchObject) => {
-        console.log("Search Obj: ", searchObject);
+        // console.log("Search Obj: ", searchObject);
 
         API.getReportsByIGN(searchObject).then(res => {
-            console.log("Res Data: ", res.data);
+            // console.log("Res Data: ", res.data);
             this.setState({
                 reports: res.data
             })
@@ -133,7 +146,7 @@ class Admin extends Component {
    
    // Update Cheat
    updateCheat = (cardObject) =>{
-        console.log("Cheat Object:", cardObject);
+        // console.log("Cheat Object:", cardObject);
         API.putCheat(cardObject.id, {
             cheatName: cardObject.cardName,
             cheatImage: cardObject.cardImage
@@ -145,6 +158,40 @@ class Admin extends Component {
             })
         }).catch(err => console.log(err))
     }
+
+    // Save Edit Info To State To Pass To Modal and Trigger Modal 
+    editReport = (id, comments, video, ign) =>{
+        this.setState({
+            editCheatComments: comments,
+            editCheatVideo: video,
+            editCheaterIGN: ign,
+            editId: id
+        })
+        // console.log("Edit Prams For State: ", id, comments, video, ign);
+        this.openModal();
+    }
+
+    // Update Comments & Video With Edit Button
+   updateCommentsAndVideo = (event, id) =>{
+    event.preventDefault();
+    const sendObject = {
+        cheatComments: this.state.editCheatComments,
+        cheatVideo: this.state.editCheatVideo
+    }
+
+    console.log("Send Object: ", sendObject);
+
+    API.putCommentsAndVideos(id, sendObject).then(res => {
+        this.reportSearch({cheaterIGN: this.state.editCheaterIGN})
+        this.setState({
+            editCheatName: "",
+            editCheatImage: "",
+            editCheaterIGN: "",
+            editId: ""
+        })
+        this.closeModal();
+    }).catch(err => console.log(err))
+}
 
     // Update Game
     updateGame = (cardObject) =>{
@@ -180,28 +227,43 @@ class Admin extends Component {
     deleteReportItem = (id, cheatGame, cheatSystem, cheatType, cheaterIGN) =>{
         API.deleteReport({id:id})
         .then(res => {
-            this.reportSearch({cheaterIGN: res.data.cheaterIGN})
-            
+            this.reportSearch({cheaterIGN: res.data.cheaterIGN});
             const countObject = {   
                 gameName : cheatGame,
                 systemName : cheatSystem,
                 cheatName : cheatType,
                 cheaterIGN: cheaterIGN
             };  
-    
-            console.log("Count Object: ", countObject);
-    
-            API.reduceCounts(countObject)
-            
-            console.log("Delete Done!")
-            
-    
+            // console.log("Count Object: ", countObject);
+            API.reduceCounts(countObject);
+            // console.log("Delete Done!")
         })
         .catch(err => console.log(err))
     }
 
 
+    // Modal Methods
+    // ==========================================================
+   
+        openModal() {
+            this.setState({modalIsOpen: true});
+        }
+       
+        afterOpenModal() {
+          // references are now sync'd and can be accessed.
+          this.subtitle.style.color = '#f00';
+        }
+       
+        closeModal() {
+          this.setState({modalIsOpen: false});
+        }
+
+
   render() {
+
+    // Set Target For Modal - Required As Per React Modal Docs
+    Modal.setAppElement('#root');
+
     return (
 
     <div>
@@ -327,7 +389,7 @@ class Admin extends Component {
                         </td>
                         <td className="col-12 col-md-2 text-center">
                             <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id, report.cheatGame._id, report.cheatSystem._id, report.cheatType._id, report.cheaterIGN)}>Delete</button>
-                            <button className="btn btn-block" onClick={() => this.editReport(report._id)}>Edit</button>
+                            <button className="btn btn-block" onClick={() => this.editReport(report._id, report.cheatComments, report.cheatVideo, report.cheaterIGN)}>Edit</button>
                         </td>
                     </tr>
                     )
@@ -336,8 +398,45 @@ class Admin extends Component {
             </table>
             </div>
         </div>
-        
-       
+               
+
+        <Modal
+            className="animated fadeInDown"  
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            contentLabel="Example Modal"
+        >
+ 
+            <h2 ref={subtitle => this.subtitle = subtitle}>Edit Report Comments And Video</h2>
+           
+            <div className="row justify-content-center text center my-4">
+                <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
+                    
+                    <div className="form-group">
+                        <label>Edit YouTube Video Link:</label>
+                        <input type="text" className="form-control" name="editCheatVideo" value={this.state.editCheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Edit Comments:</label>
+                        <textarea type="text" className="form-control" name="editCheatComments" value={this.state.editCheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" className="btn btn-block my-2" onClick={(event)=>this.updateCommentsAndVideo(event, this.state.editId)}>Update Data</button> 
+                        <button type="close" className="btn btn-block my-2" onClick={this.closeModal}>close</button>               
+                    </div>
+                    <div className="form-group text-center">
+                        <p id="error-text" className="error-text"></p>
+                    </div>
+                </form>
+            </div>                
+
+
+
+        </Modal>
+                
+
+
 
     </div>
     )
