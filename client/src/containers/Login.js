@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Redirect} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 import AUTH from "../utilities/AUTH";
 
 class Login extends Component {
@@ -7,6 +7,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirectToReferrer: false,
       isLoggedIn: false,
       username: "",
       email: "",
@@ -19,6 +20,7 @@ class Login extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    this.nextPathNav = "/";
   }
 
   componentWillUnmount() {
@@ -47,6 +49,7 @@ class Login extends Component {
     }
   }
 
+
   // Method to handle user login, should redirect to main page when done
   login = (event) => {
     event.preventDefault();
@@ -54,7 +57,7 @@ class Login extends Component {
       .login({username: this.state.username, password: this.state.password})
       .then(res => {
         console.log(res.data);
-        this.setState({
+        this.safeUpdate({
           isLoggedIn: res.data.isLoggedIn,
           username: res.data.username,
           userId: res.data.userId,
@@ -65,7 +68,7 @@ class Login extends Component {
         AUTH
         .adminCheck()
         .then(res => {
-          this.setState({isAdmin: res.data.isAdmin});
+          this.safeUpdate({isAdmin: res.data.isAdmin});
           // ------------------------------
           // callback function to parent
           // ------------------------------
@@ -75,7 +78,8 @@ class Login extends Component {
             userId: this.state.userId,
             username: this.state.username,
             email: this.state.email
-          });
+          }, this.nextPathNav);
+          this.safeUpdate({ redirectToReferrer: true });
         })
         .catch(err => {
           console.log(err);
@@ -96,18 +100,15 @@ class Login extends Component {
   }
 
   render() {
-    // If user is logged in, take them to main page
-    if (this.state.isLoggedIn) {
+    // return to page from which user was originally sent before login attempt
+    // if this fails, return to home page
+    this.nextPathNav = (this.props.location.state) ? this.props.location.state.referrer : "/";
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) {
+      console.log(`Login.js referrer: ${this.nextPathNav}`);
       return (
-        <Redirect to={{ pathname: "/", 
-        state: { 
-          isLoggedIn: this.state.isLoggedIn,
-          username: this.state.username,
-          email: this.state.email,
-          userId: this.state.userId,
-          isAdmin: this.state.isAdmin
-         }
-      }} />
+        <Redirect to={{ pathname: this.nextPathNav }} />
       );
     } 
 

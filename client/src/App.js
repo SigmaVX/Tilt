@@ -11,8 +11,22 @@ import Post from "./containers/Post";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Logout from "./containers/Logout";
+import AUTH from "./utilities/AUTH";
 import './App.css';
 
+function EntryMessage(props) {
+  return (
+    <div className="container my-5">
+    <div className="justify-content-center">
+      <h3>You must be logged in.</h3>
+      <p>You must log in or sign up to view the {window.location.pathname} page.</p>
+      <button className="btn-sm btn-success" onClick={props.renderLogin}>    
+      Goto Login
+      </button>
+    </div>
+  </div>
+  );
+}
 
 class App extends Component {
 
@@ -28,25 +42,35 @@ class App extends Component {
       username: "",
       email: "",
       userId: "",
-      usertestvalue: "hello"
+      usertestvalue: "hello",
+      returnStatus: 0,
+      errorMsg: "",
+      redirectReferrer: false
     };
   }
 
   // Setting State For Login
-  LoginResult = (authObj) => {
+  LoginResult = (authObj, redirPath) => {
     console.log(` in LoginResult
       isLoggedIn: ${authObj.isLoggedIn}
       isAdmin: ${authObj.isAdmin}
       username: ${authObj.username}
       email: ${authObj.email}
-      userId: ${authObj.userId}`);
-    this.setState(authObj);
+      userId: ${authObj.userId}
+      redirPath: ${redirPath}`);
+    this.safeUpdate(authObj);
+    this.redirPath = redirPath;
   }
 
   LogoutResult = (authObj) => this.setState(authObj);
 
   componentDidMount() {
     this._isMounted = true;
+    this.redirPath = "";
+    // this.isAuthenticated = false;
+    // this.isAdministrator = false;
+    // check login status if page is reloaded
+    this.isAuthenticated = this.checkAuthStatus();
   }
 
   componentWillUnmount() {
@@ -57,24 +81,77 @@ class App extends Component {
     if (this._isMounted) this.setState(stateObj);
   }
 
+  renderLogin = () => {
+    console.log("in renderLogin()");
+    this.safeUpdate({redirectReferrer: true});
+  }
+  
+  checkAuthStatus() {
+    AUTH
+      .loginCheck()
+      .then(res => {
+        console.log(res.data);
+        if (res.data.isLoggedIn) this.isAuthenticated = true;
+        this.safeUpdate({
+          isLoggedIn: res.data.isLoggedIn,
+          username: res.data.username,
+          userId: res.data.userId,
+          email: res.data.email
+        });
+
+        // check if user is admin
+        AUTH
+        .adminCheck()
+        .then(res => {this.setState({isAdmin: res.data.isAdmin}); return ({checkLogin: this.state.isLoggedIn, checkAdmin: this.state.isAdmin});} )
+        .catch(err => {
+          console.log(err);
+          this.safeUpdate({isAdmin: false});  
+        })
+      })
+      .catch(err => {
+        console.log(err);
+        let tempObj = {
+          returnStatus: -1,
+          errorMsg: "Incorrect username/password",
+          username: "",
+          password: "",
+          isLoggedIn: false
+        };
+        this.safeUpdate(tempObj);
+      });
+  }
+
   AuthRoute = ({ component: Component, ...rest }) => {
+      console.log(`App.js pathname: ${window.location.pathname}`)
       return (
         <Route
           {...rest}
-          render={props =>
-            this.state.isLoggedIn
-            ? ( <Component 
-                  username = {this.state.username} 
-                  userId = {this.state.userId}
-                  email = {this.state.email}
-                  isLoggedIn = {this.state.isLoggedIn} 
-                  {...props} 
-                /> ) 
-            : ( <Redirect to={{ 
-                pathname: "/login",
-                state: { from: props.location } 
-            }} /> )
+          render={props => {
+            if (this.state.isLoggedIn) {
+              return ( <Component 
+                    username = {this.state.username} 
+                    userId = {this.state.userId}
+                    email = {this.state.email}
+                    isLoggedIn = {this.state.isLoggedIn}
+                    isAdmin = {this.state.isAdmin} 
+                    {...props} 
+                  /> );
+            } else if (this.state.redirectReferrer) {
+              this.safeUpdate({redirectReferrer: false});
+              return (
+                <Redirect to={{ 
+                  pathname: "/login",
+                  state: { referrer: window.location.pathname } 
+                  }} />
+              );
+            } 
+            else {
+                return (
+                  <EntryMessage renderLogin={this.renderLogin} />
+                );
+            }
           }
+        }
         />
       );
   }
@@ -83,14 +160,26 @@ class App extends Component {
     return (
       <Route
         {...rest}
-        render={props =>
-          this.state.isAdmin
-          ? ( <Component {...props} /> ) 
-          : ( <Redirect to={{ 
-              pathname: "/login",
-              state: { from: props.location } 
-          }} /> )
+        render={props => {
+          if (this.state.isAdmin) {
+            return ( <Component 
+              username = {this.state.username} 
+              userId = {this.state.userId}
+              email = {this.state.email}
+              isLoggedIn = {this.state.isLoggedIn}               
+              {...props} /> );
+          } else if (this.state.isLoggedIn) {
+            return ( <Redirect to={{ 
+              pathname: this.redirPath,
+              state: { referrer: window.location.pathname } 
+            }} /> );
+          } else {
+              return (
+                <EntryMessage renderLogin={this.renderLogin} />
+              );
+          }
         }
+      }
       />
     );
   }
@@ -122,7 +211,12 @@ class App extends Component {
 
           <this.AdminRoute exact path="/admin" component={Admin}/>
 
-          <Route exact path="/login" render={() => <Login getLoginResult = {this.LoginResult} />} /> 
+          <Route exact path="/login" 
+                 render={(props) => 
+                  <Login 
+                    {...props}
+                    getLoginResult = {this.LoginResult} 
+                  />} /> 
 
           <Route exact path="/signup" component={Signup}/>
 
