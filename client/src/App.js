@@ -62,6 +62,19 @@ class App extends Component {
     this.redirPath = redirPath;
   }
 
+  // Setting State For Login
+  SignupResult = (authObj, redirPath) => {
+      console.log(` in SignupResult
+        isLoggedIn: ${authObj.isLoggedIn}
+        isAdmin: ${authObj.isAdmin}
+        username: ${authObj.username}
+        email: ${authObj.email}
+        userId: ${authObj.userId}
+        redirPath: ${redirPath}`);
+      this.safeUpdate(authObj);
+      this.redirPath = redirPath;
+    }
+
   LogoutResult = (authObj) => this.setState(authObj);
 
   componentDidMount() {
@@ -216,9 +229,16 @@ class App extends Component {
                   <Login 
                     {...props}
                     getLoginResult = {this.LoginResult} 
-                  />} /> 
+                  />} 
+          /> 
 
-          <Route exact path="/signup" component={Signup}/>
+          <Route exact path="/signup" 
+                render={(props) => 
+                  <Signup
+                  {...props}
+                  getSignupResult = {this.SignupResult}
+                  />} 
+          />
 
           <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
 

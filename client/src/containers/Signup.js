@@ -32,9 +32,9 @@ class Signup extends Component {
   }
 
   render() {
-    // If Signup was a success, take them to the Login page
+    // If Signup was a success, take them to the Home page
     if (this.state.success) {
-      return <Redirect to="/login" />
+      return <Redirect to="/" />
     }
 
     return (
