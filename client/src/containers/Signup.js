@@ -7,8 +7,10 @@ class Signup extends Component {
     success: false,
     username: "",
     password: "",
+    pswrdConfirmation: "",
     email: "",
-    userId: 0
+    userId: 0,
+    errorMsg: ""
   }
   
   handleInputChange = event => {
@@ -18,23 +20,72 @@ class Signup extends Component {
     })
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  safeUpdate(obj) {
+    if (this._isMounted) this.setState(obj);
+  }
+
+  displayErrorMessage() {
+    console.log("in check error message");
+    if (this.state.errorMsg !== "") {
+      return (
+        <span className="form-control bg-danger text-white mb-2">{this.state.errorMsg}</span>
+      );
+    }
+  }
+
   // Method to register a new user
   register = (e) => {
     e.preventDefault();
     AUTH
       .signup({ username: this.state.username, email: this.state.email, password: this.state.password, pswrdConfirmation: this.state.pswrdConfirmation })
       .then(res => {
-        console.log(res.data);
-        this.setState({ success: res.data })
-
+        console.log("register res.data: ", res.data);
+        this.safeUpdate({ 
+          success: res.data,
+          isLoggedIn: res.data.isLoggedIn,
+          isAdmin: false, 
+          userId: res.data.userId,
+          username: res.data.username,
+          email: res.data.email         
+         })
+        // ------------------------------
+        // callback function to parent
+        // ------------------------------
+        this.props.getSignupResult({
+          isLoggedIn: this.state.isLoggedIn,
+          isAdmin: false, 
+          userId: this.state.userId,
+          username: this.state.username,
+          email: this.state.email
+        }, "/");
+        this.safeUpdate({ redirectToReferrer: true });
       })
-      .catch(err => console.log(err.response.data));
+      .catch(err => {
+        console.log(err.response.data);
+        let tempObj = {
+          errorMsg: err.response.data,
+          username: "",
+          password: "",
+          email: "",
+          pswrdConfirmation: "",
+          isLoggedIn: false
+        };
+        this.safeUpdate(tempObj);
+      });
   }
 
   render() {
-    // If Signup was a success, take them to the Login page
+    // If Signup was a success, take them to the Home page
     if (this.state.success) {
-      return <Redirect to="/login" />
+      return <Redirect to="/" />
     }
 
     return (
@@ -86,7 +137,11 @@ class Signup extends Component {
                 placeholder="Type password again"
               />
             </div>
-
+            {
+              this.state.errorMsg !== "" 
+              ? this.displayErrorMessage()
+              : ""
+            }
             <button type="submit" className="btn btn-success" onClick={this.register}>Sign Up</button>
           </form>
 

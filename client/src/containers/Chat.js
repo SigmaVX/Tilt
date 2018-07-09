@@ -169,6 +169,38 @@ class Chat extends Component {
 
 
   render() {
+    let chatSubmitButton, leaveChatButton;
+    const isLoggedIn = this.props.isLoggedIn;
+
+    if (isLoggedIn) {
+      chatSubmitButton = <button 
+        className="col-1 btn btn-primary my-2 my-sm-0 mr-2" 
+        type="submit" 
+        onClick={this.handleOnSubmit}  
+        >
+      Send
+      </button>;
+      leaveChatButton = <button 
+      className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
+      type="submit" 
+      onClick={this.leaveChat}  
+      >
+      Leave Chat
+      </button>
+    } else {
+      chatSubmitButton = <button 
+        className="col-1 btn btn-primary my-2 my-sm-0 mr-2 disabled" 
+        disabled
+        >
+      Send
+      </button>;
+      leaveChatButton = <button 
+      className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2 disabled" 
+      disabled  
+      >
+      Leave Chat
+      </button>
+    }
 
     return (
 
@@ -180,8 +212,15 @@ class Chat extends Component {
         </div>
 
         <div className="row">
-          <h6 className = "d-flex col-4">User: {this.props.username}</h6>
-          <h6 className = "d-flex col-4">Email: {this.props.email}</h6>
+          <span className = "d-flex col-4 col-xs-12 justify-content-center text-center">
+            <strong>
+              {
+                this.props.isLoggedIn 
+                ? `Welcome to chat, ${this.props.username}` 
+                : "You must be signed in in order to join chat."
+              }
+              </strong>
+            </span>
         </div>
 
         <div className="d-flex flex-row justify-content-center">
@@ -213,20 +252,8 @@ class Chat extends Component {
               placeholder="Enter message here"
               onChange={this.handleOnChange} 
             />
-            <button 
-              className="col-1 btn btn-primary my-2 my-sm-0 mr-2" 
-              type="submit" 
-              onClick={this.handleOnSubmit}  
-            >
-              Send
-            </button>
-            <button 
-              className="col-1 btn btn-warning btn-sm my-2 my-sm-0 mr-2" 
-              type="submit" 
-              onClick={this.leaveChat}  
-            >
-            Leave Chat
-            </button>
+            {chatSubmitButton}
+            {leaveChatButton}
           </form>
           <div className="row">
             <section className="offset-4">
