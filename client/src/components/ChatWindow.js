@@ -8,7 +8,7 @@
 
 import React, { Component } from "react";
 
-//       onClick={this.handleOnSubmit}
+//       onClick={this.handleOnSubmit}2
 
 function DeleteChatOpt(props) {
   const isAdmin = props.isAdmin;
@@ -17,8 +17,9 @@ function DeleteChatOpt(props) {
       <section>
         <span>&nbsp;</span>
         <button 
-        className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
-        type="submit"   
+          className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
+          type="submit"
+          onClick={props.deleteItemHandler(props.chatIndex)}   
         >
         &times;
         </button>
@@ -34,6 +35,17 @@ class ChatWindow extends Component {
     this.state = {
       testVar: "test variable"
     };
+  }
+
+  componentDidMount() {
+    // const this.chatWindow = this;
+  }
+
+  deleteItemHandler(convoIndex) {
+    console.log(`in deleteItemHandler, item ${convoIndex}`);
+    this.props.getDeleteChatItem({
+      convoIndex: convoIndex
+    });
   }
 
   render() {

@@ -155,8 +155,9 @@ class Chat extends Component {
     });
   }
 
-  handleDeleteChat() {
-    console.log("handleDeleteChat()");
+  deleteChatItem = (delObj) => {
+    console.log("in deleteChatItem()");
+    console.log(`convoIndex ${delObj.convoIndex}`);
   }
 
   handleOnSubmit = event => {
@@ -236,6 +237,7 @@ class Chat extends Component {
                 convoArray = {this.state.chatConvo}
                 userName = {this.props.username}
                 isAdmin = {this.props.isAdmin}
+                getDeleteChatItem = {this.deleteChatItem}
               />
             </div>
           </section>
