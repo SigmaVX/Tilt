@@ -155,9 +155,13 @@ class Chat extends Component {
     });
   }
 
+  removeFromChat = (array, elemToRemove) => array.filter(elem => elem !== elemToRemove);
+
   deleteChatItem = (delObj) => {
-    console.log("in deleteChatItem()");
-    console.log(`convoIndex ${delObj.convoIndex}`);
+    console.log(`in deleteChatItem() convoIndex ${delObj.convoIndex}`);
+    const updatedChatConvo = this.removeFromChat(this.state.chatConvo, this.state.chatConvo[delObj.convoIndex]);
+    this.setState({chatConvo: updatedChatConvo,
+                   forumText: updatedChatConvo});
   }
 
   handleOnSubmit = event => {
