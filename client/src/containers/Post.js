@@ -88,34 +88,38 @@ class Post extends Component {
     // Validate If Multipe Report Has Already Been Posted In Last 24 Hrs
     validateDuplicate = () =>{
         // Note: Games, System, and PostedBy State Are IDs
-        const postedIGN = this.state.cheaterIGN;
-        const postedGame = this.state.cheatGame;
-        const postedSystem = this.state.cheatSystem;
-        const postedBy = this.state.postedBy;
-
+        let postedIGN = this.state.cheaterIGN;
+        let postedGame = this.state.cheatGame;
+        let postedSystem = this.state.cheatSystem;
+        let postedBy = this.state.postedBy;
 
         // Note: Games, System, Cheat Type, and Reported By are IDs
-        const recentReports = this.state.recentReports;
+        let recentReports = this.state.recentReports;
+        let foundMatch = false;
 
         // Logs To View Data
         // console.log(recentReports);
         // console.log(postedIGN, postedGame, postedSystem, postedBy);
 
-        let matchIGN = false;
-        let matchGame = false;
-        let matchSystem = false;
-        let matchPostedBy = false;
-        let matchAll = false; 
-
+        // Loop To Look For Match In Last 24Hr Data
         for(var i=0; i<recentReports.length; i++){
          
             if(recentReports[i].cheaterIGN === postedIGN && recentReports[i].cheatGame === postedGame && recentReports[i].cheatSystem === postedSystem && recentReports[i].reportedBy === postedBy){
-                console.log("found a match!")
-            }
+                console.log("found a match!");
+                document.getElementById("error-text").innerHTML="You Already Reported This Player For This Game<br>You Can Only Report A Cheater Once Each Day!";
+                document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello"); 
+                foundMatch = true;
+                break;
+            }     
         }
-
+            if(foundMatch === false){
+                this.postAll();
+                document.getElementById("error-text").innerHTML="Cheat Report Posted!";
+                document.getElementById("error-text").setAttribute("class", "col-12 correct animated rubberBand");
+                this.loadRecentReports(); 
+            }
+        
     }   
-
 
 
     // Validate Data Input
@@ -131,9 +135,6 @@ class Post extends Component {
                     // Check If Button Already Clicked
                     if(buttonClicked = true){
                         this.validateDuplicate();
-                        this.postAll();
-                        document.getElementById("error-text").innerHTML="Cheat Report Posted!";
-                        document.getElementById("error-text").setAttribute("class", "col-12 correct animated rubberBand");
                         buttonClicked = false;
                     } else {
                             document.getElementById("error-text").innerHTML="Button Double Clicked - Please Wait To Submit Your Data";
@@ -154,18 +155,6 @@ class Post extends Component {
             document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
         }
     }
-
-    
-
-    // Add Validation Function
-    // Create Loop
-    // Set const for check for IGN, Posted By, and System - equals state item
-    // Var for all match - set for false
-    //  if var for all match = true then stop post send msg
-    //  if false run post all.
-
-
-
 
     // Post Data To Mongo Via Send Object
     postAll = () => {
