@@ -155,6 +155,10 @@ class Chat extends Component {
     });
   }
 
+  handleDeleteChat() {
+    console.log("handleDeleteChat()");
+  }
+
   handleOnSubmit = event => {
     event.preventDefault();
 
@@ -231,12 +235,13 @@ class Chat extends Component {
               <ChatWindow
                 convoArray = {this.state.chatConvo}
                 userName = {this.props.username}
+                isAdmin = {this.props.isAdmin}
               />
             </div>
           </section>
           <section className="col-3">
             <ChatForums
-              getForumInfo = {this.forumInfo} 
+              getForumInfo = {this.forumInfo}
             />
             <p>{this.props.isLoggedIn ? `${this.props.username} joined ${this.state.activeNameGame}` : ""}</p>
           </section>

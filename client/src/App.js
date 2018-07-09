@@ -223,7 +223,7 @@ class App extends Component {
               userId = {this.state.userId}
               email = {this.state.email}
               isLoggedIn = {this.state.isLoggedIn} 
-              isAdmin = {this.state.Admin}              
+              isAdmin = {this.state.isAdmin}              
               {...props}/>} 
             />
 
