@@ -111,9 +111,7 @@ class Chat extends Component {
           forumText: thisChat.state.forumText,
           postedBy: thisChat.props.username
         })
-        .then(res => {
-          thisChat.setState({forumId: res.data._id});
-        })
+        .then(res => thisChat.setState({forumId: res.data._id}))
         .catch(err => console.log(err));
       } else if (thisChat.state.forumId !== -1) {
         API.putForum(thisChat.state.forumId,
@@ -248,6 +246,7 @@ class Chat extends Component {
           <section className="col-3">
             <ChatForums
               getForumInfo = {this.forumInfo}
+              isLoggedIn = {this.props.isLoggedIn}
             />
             <p>{this.props.isLoggedIn ? `${this.props.username} joined ${this.state.activeNameGame}` : ""}</p>
           </section>

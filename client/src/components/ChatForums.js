@@ -17,13 +17,34 @@ class ChatForums extends Component {
       // ----------------------------------------------------
       gamesList: [],
       forumId: -1,
-      activeId: "",
-      activeGameName: ""
+      activeGameId: -1,
+      activeGameName: "",
+      // --
+      // select menu option default
+      // ---------------------------
+      value: "none"
     };
+    this.handleForumChange = this.handleForumChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.loadGamesList();
+  }
+
+  handleForumChange = (event) => {
+
+    const {value} = event.target;
+    console.log("event.target.value: ", value);
+    this.setState({
+      activeGameId: 0,
+      value: value
+    });
+  } 
+
+  handleSubmit(event) {
+    console.log(`Chosen game: ${this.state.value}`);
+    event.preventDefault();
   }
 
   setActiveGame(id, gName) {
@@ -31,7 +52,7 @@ class ChatForums extends Component {
       // console.log(`active id: ${id}`);
     }
     this.setState({
-      activeId: id,
+      activeGameId: 1,
       activeGameName: gName
     });
   }  
@@ -48,28 +69,46 @@ class ChatForums extends Component {
   }
 
   render() {
+    let joinSubmitButton;
+    const isLoggedIn = this.props.isLoggedIn;
+
+    // choose whether join chat button is enabled or disabled depending on login status
+    joinSubmitButton = isLoggedIn
+    ?  <input className="btn btn-sm btn-success" type="submit" 
+        value= {this.state.value === "none" 
+        ? "No chatroom selected" 
+        : `Join ${this.state.value} chat` 
+      }/>
+    : <input className="btn btn-sm btn-success disabled" type="submit" 
+        value= {this.state.value === "none" 
+        ? "No chatroom selected" 
+        : `Join ${this.state.value} chat` 
+      } disabled/>;
+      
     return (
         <div>
           <h5 className="text-center">Join Chatroom</h5>
           <h6 className="text-center">(must be logged in)</h6>
-          <div className="card">
-            <ul className="list-group">
-            {this.state.gamesList.map((game) => (
-              <li key={game._id}
-              className={game._id === this.state.activeId 
-                        ? "list-group-item list-group-item-action active"
-                        : "list-group-item"}
-              onClick={() => {
-                this.setActiveGame(game._id, game.gameName);
-                this.props.getForumInfo(this.state.gamesList, game._id, game.gameName);
-              }}
-              >
-                <h6>{game.gameName}</h6>
-              </li>
-              ) 
-            )}
-            </ul>
+
+
+          {/* Select dropdown menu */}
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+              Select Chat Forum&nbsp;
+                <select value={this.state.value} onChange={this.handleForumChange}>
+                <option value="none">--Select game forum--</option>
+                {this.state.gamesList.map(game =>
+                  (
+                    <option key={game._id} gameid={game._id} value={game.gameName}>{game.gameName}</option>
+                  )
+                )}
+                </select>
+              </label>
+              {joinSubmitButton}
+            </form>
           </div>
+
         </div>
     );
   }

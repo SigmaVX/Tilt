@@ -43,6 +43,7 @@ class ChatWindow extends Component {
 
   render() {
     return (
+      
         <div>
           <ul>
             {this.props.convoArray.map((chatMsg, index) => (
