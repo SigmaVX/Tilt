@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
+import Moment from "moment";
 
 class Post extends Component {
 
@@ -8,6 +9,7 @@ class Post extends Component {
         games: [],
         systems: [],
         cheats: [],
+        recentReports: [],
         postedBy: this.props.userId
     }
 
@@ -21,7 +23,8 @@ class Post extends Component {
     componentDidMount(){
         this.loadGames();
         this.loadSystems();
-        this.loadCheats();  
+        this.loadCheats(); 
+        this.loadRecentReports(); 
     }
 
     // Load Cheats To State
@@ -60,6 +63,65 @@ class Post extends Component {
         .catch(err => console.log(err))
     }
 
+    // Load Reports From Within Past 24hrs Of Current Date
+    // Format Date with ("ddd, DD MMM YYYY hh:mm:ss") - not used so date will be ISO 8601 for Mongo
+    loadRecentReports = () =>{
+        const now = Moment().format();
+        const yesterday = Moment().subtract(1, "day").format();
+        console.log("Now: ", now,"  |  Yesterday: ", yesterday);
+
+        const sendTimes = {
+            now: now,
+            yesterday: yesterday
+        }
+
+        API.getRecentReports(sendTimes)
+        .then(res =>{
+            console.log("Res Data: ", res.data)
+            this.setState({
+                recentReports: res.data
+            })
+        })
+        .catch(err => console.log(err))
+    }
+
+    // Validate If Multipe Report Has Already Been Posted In Last 24 Hrs
+    validateDuplicate = () =>{
+        // Note: Games, System, and PostedBy State Are IDs
+        let postedIGN = this.state.cheaterIGN;
+        let postedGame = this.state.cheatGame;
+        let postedSystem = this.state.cheatSystem;
+        let postedBy = this.state.postedBy;
+
+        // Note: Games, System, Cheat Type, and Reported By are IDs
+        let recentReports = this.state.recentReports;
+        let foundMatch = false;
+
+        // Logs To View Data
+        // console.log(recentReports);
+        // console.log(postedIGN, postedGame, postedSystem, postedBy);
+
+        // Loop To Look For Match In Last 24Hr Data
+        for(var i=0; i<recentReports.length; i++){
+         
+            if(recentReports[i].cheaterIGN === postedIGN && recentReports[i].cheatGame === postedGame && recentReports[i].cheatSystem === postedSystem && recentReports[i].reportedBy === postedBy){
+                console.log("found a match!");
+                document.getElementById("error-text").innerHTML="You Already Reported This Player For This Game<br>You Can Only Report A Cheater Once Each Day!";
+                document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello"); 
+                foundMatch = true;
+                break;
+            }     
+        }
+            if(foundMatch === false){
+                this.postAll();
+                document.getElementById("error-text").innerHTML="Cheat Report Posted!";
+                document.getElementById("error-text").setAttribute("class", "col-12 correct animated rubberBand");
+                this.loadRecentReports(); 
+            }
+        
+    }   
+
+
     // Validate Data Input
     validateForm = (event) =>{
         let buttonClicked = true;
@@ -72,9 +134,7 @@ class Post extends Component {
                 if(this.state.cheaterIGN.length > 0 && this.state.cheatSystem.length > 0 && this.state.cheatGame.length > 0 && this.state.cheatType.length > 0){
                     // Check If Button Already Clicked
                     if(buttonClicked = true){
-                        this.postAll();
-                        document.getElementById("error-text").innerHTML="Cheat Report Posted!";
-                        document.getElementById("error-text").setAttribute("class", "col-12 correct animated rubberBand");
+                        this.validateDuplicate();
                         buttonClicked = false;
                     } else {
                             document.getElementById("error-text").innerHTML="Button Double Clicked - Please Wait To Submit Your Data";
@@ -95,19 +155,6 @@ class Post extends Component {
             document.getElementById("error-text").setAttribute("class", "col-12 wrong animated jello");
         }
     }
-
-    // Add Function To Load Reports to State From Past 24 hrs.
-    
-
-    // Add Validation Function
-    // Create Loop
-    // Set const for check for IGN, Posted By, and System - equals state item
-    // Var for all match - set for false
-    //  if var for all match = true then stop post send msg
-    //  if false run post all.
-
-
-
 
     // Post Data To Mongo Via Send Object
     postAll = () => {
@@ -151,15 +198,14 @@ class Post extends Component {
     };
 
 
-
-
   render() {
 
-    // Validate Form Data Is Present
+    // Validate That Form Data Is Present
     const { cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments} = this.state;
-    console.log(cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments);
+    // console.log(cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments);
     const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefinded" && typeof cheatType !== "undefined";
 
+    
 
     return (
 
