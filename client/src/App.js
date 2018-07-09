@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import {BrowserRouter as Router, Route, Switch, Redirect, withRouter} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/Navbar";
-// import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./containers/Home";
 import Videos from "./containers/Videos";
@@ -62,13 +61,25 @@ class App extends Component {
     this.redirPath = redirPath;
   }
 
+  // Setting State For Login
+  SignupResult = (authObj, redirPath) => {
+      console.log(` in SignupResult
+        isLoggedIn: ${authObj.isLoggedIn}
+        isAdmin: ${authObj.isAdmin}
+        username: ${authObj.username}
+        email: ${authObj.email}
+        userId: ${authObj.userId}
+        redirPath: ${redirPath}`);
+      this.safeUpdate(authObj);
+      this.redirPath = redirPath;
+    }
+
   LogoutResult = (authObj) => this.setState(authObj);
 
   componentDidMount() {
     this._isMounted = true;
     this.redirPath = "";
-    // this.isAuthenticated = false;
-    // this.isAdministrator = false;
+
     // check login status if page is reloaded
     this.isAuthenticated = this.checkAuthStatus();
   }
@@ -184,8 +195,6 @@ class App extends Component {
     );
   }
 
-
-
   render () { 
     return (
     <Router>
@@ -201,13 +210,22 @@ class App extends Component {
           <Route exact path="/" render={() => 
             <Home username = {this.state.username} 
                    userId = {this.state.userId}
-                   email = {this.state.email} />} />
+                   email = {this.state.email} />} 
+            />
 
           <this.AuthRoute exact path="/post" component={Post}/>
 
           <Route exact path="/videos" component={Videos}/>
 
-          <this.AuthRoute exact path="/chat" component={Chat} />
+          <Route exact path="/chat" render={(props) => 
+            <Chat 
+              username = {this.state.username} 
+              userId = {this.state.userId}
+              email = {this.state.email}
+              isLoggedIn = {this.state.isLoggedIn} 
+              isAdmin = {this.state.Admin}              
+              {...props}/>} 
+            />
 
           <this.AdminRoute exact path="/admin" component={Admin}/>
 
@@ -216,9 +234,16 @@ class App extends Component {
                   <Login 
                     {...props}
                     getLoginResult = {this.LoginResult} 
-                  />} /> 
+                  />} 
+          /> 
 
-          <Route exact path="/signup" component={Signup}/>
+          <Route exact path="/signup" 
+                render={(props) => 
+                  <Signup
+                  {...props}
+                  getSignupResult = {this.SignupResult}
+                  />} 
+          />
 
           <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
 
