@@ -14,11 +14,17 @@ import AUTH from "./utilities/AUTH";
 import './App.css';
 
 function EntryMessage(props) {
+  let messageToUser;
+
+  messageToUser =  (props.adminAttempt) 
+    ? <p>You must log in and have administrator privileges to access the {window.location.pathname} page.</p>
+    : <p>You must log in or sign up to view the {window.location.pathname} page.</p>;
+
   return (
     <div className="container my-5">
     <div className="justify-content-center">
       <h3>You must be logged in.</h3>
-      <p>You must log in or sign up to view the {window.location.pathname} page.</p>
+      {messageToUser}
       <button className="btn-sm btn-success" onClick={props.renderLogin}>    
       Goto Login
       </button>
@@ -158,7 +164,10 @@ class App extends Component {
             } 
             else {
                 return (
-                  <EntryMessage renderLogin={this.renderLogin} />
+                  <EntryMessage 
+                    renderLogin={this.renderLogin} 
+                    adminAttempt={false}  
+                  />
                 );
             }
           }
@@ -186,7 +195,10 @@ class App extends Component {
             }} /> );
           } else {
               return (
-                <EntryMessage renderLogin={this.renderLogin} />
+                <EntryMessage 
+                  renderLogin={this.renderLogin} 
+                  adminAttempt={true}  
+                />
               );
           }
         }

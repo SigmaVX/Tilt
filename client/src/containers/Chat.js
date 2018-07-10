@@ -49,19 +49,17 @@ class Chat extends Component {
       userStateMsg: "sample message",
       // forum information to be received from chat forums
       forumsList: null,
+      chatRoomSelected: false,
       activeForum: 0,
-      activeNameGame: ""
+      activeForumName: ""
     };
   }
 
-  forumInfo = (list, id, gName) => {
-    this.setState({
-      forumsList: list,
-      activeForum: id,
-      activeNameGame: gName   
-    });
+  forumInfo = (forumObj) => {
+    console.log("in forumInfo() gName: ", forumObj.activeForumName);
+    this.setState(forumObj);
     if (this.props.isLoggedIn) {
-      console.log(`user joined ${this.state.activeNameGame}`);
+      console.log(`user joined ${this.state.activeForumName}`);
     }
   }
 
@@ -233,7 +231,7 @@ class Chat extends Component {
         <div className="d-flex flex-row justify-content-center">
           <section className="col-6">
             <div className="card">
-              <h5 className="text-center">{this.state.activeNameGame} Chatroom</h5>
+              <h5 className="text-center">{this.state.activeForumName} Chatroom</h5>
               <hr />
               <ChatWindow
                 convoArray = {this.state.chatConvo}
@@ -248,7 +246,10 @@ class Chat extends Component {
               getForumInfo = {this.forumInfo}
               isLoggedIn = {this.props.isLoggedIn}
             />
-            <p>{this.props.isLoggedIn ? `${this.props.username} joined ${this.state.activeNameGame}` : ""}</p>
+            <p>{ this.props.isLoggedIn && this.state.activeForumName !== "" 
+                  ? `${this.props.username} joined ${this.state.activeForumName}` 
+                  : ""}
+            </p>
           </section>
         </div>
     

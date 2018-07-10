@@ -65,11 +65,50 @@ module.exports = {
         res.status(422).json(err)
       });
   },
+  findByForum: function(table, req, res) {
+		let forumId = req.params.id;
+    table
+		  // Find all chats
+		  .findById(forumId)
+		  // Specify that we want to populate the retrieved forum with any associated chats
+			.populate("chats")
+			.then(function(forumchatData) {
+				// If no data were found, send back a 404
+				if (!forumchatData) res.status(404).end();
+
+				// If able to successfully find and associate forum and chats, send back to client
+				res.json(forumchatData);
+			})
+			.catch(function(err) {
+				// If an error occurs, send it back to the client
+				res.json(err);
+			});
+  },
   create: function (table, req, res) {
     table
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  createItem: function(table, table2, req, res) {
+    table
+      .create(req.body)
+      .then(function(dbChat) {
+        // If a chat was created successfully, find the associated Forum and push the new Chat's _id 
+        // to the Forum's `notes` array
+        // { new: true } tells the query that we want it to return the updated Chat -- it returns the original by default
+        // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+        console.log(`dbChat: ${dbChat}`)
+        return table2.findOneAndUpdate({_id: req.params.id}, { $push: { chats: dbChat._id } }, { new: true });
+      })
+      .then(function(dbForum) {
+        // If the Forum was updated successfully, send it back to the client
+        res.json(dbForum);
+      })
+      .catch(function(err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
   },
   update: function (table, req, res) {
     table
@@ -84,6 +123,15 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  removeItemById: function(table, req, res) {
+    const itemId = req.params.id;
+    table
+      .findByIdAndRemove(itemId, function (err) {
+        if (err) throw err;
+        console.log("item deleted in /api/table/:id route");
+      res.end();
+      });
   }
 };
 

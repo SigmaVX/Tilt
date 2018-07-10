@@ -23,6 +23,22 @@ export default {
     // *********************************************************
     // TEMPORARY FOR USERS CHAT
     // *********************************************************
+    // get forum based on chat
+    getForum: function(id) {
+      return axios.get(`/api/forum/${id}`);
+    },
+    // get forum based on chat
+    getForumList: function() {
+      return axios.get(`/api/forum`);
+    },
+    // post chat
+    postChat: function(id, postInfo) {
+      return axios.post(`/api/chats/${id}`, postInfo);
+    },
+    // Delete Chat
+    deleteChat: function(id) {
+      return axios.delete(`/api/chats/${id}`)
+    },
     getUsers: function() {
       return axios.get("/api/users");
     },
