@@ -55,23 +55,21 @@ class Chat extends Component {
     };
   }
 
+  // callback function into ChatForum component to obtain the chatroom info selected by user
   forumInfo = (forumObj) => {
-    console.log(`in forumInfo() gName: ${forumObj.activeForumName}, activeForumId: ${forumObj.activeForumId}`);
     this.setState(forumObj);
-    // get 
-    if (this.props.isLoggedIn) {
-      console.log(`user joined ${forumObj.activeForumName}, forumId: ${forumObj.activeForumId}`);
-    }
+    this.setState({chatConvo: [], chatText: []});
+    console.log("Chat.js in forumInfo: " + JSON.stringify(this.state.chatConvo));
+    console.log("Chat.js in forumInfo activeForumId: " + this.state.activeForumId);
   }
 
   renderChatUserState() {
-    console.log("in renderChatUserState()");
+    // console.log("Chat.js in renderChatUserState()");
     if (this.props.isLoggedIn && this.state.chatMsg !== "") {
-      chatListener.emit("user state", `${this.props.username} is typing`);
-/*       this.setState({
-        userStateMsg: "user is typing"
-      }) */
-      return (<strong>{this.props.username} is typing</strong>);
+      // chatListener.emit("user state", `${this.props.username} is typing`);
+
+      // return (<strong>{this.props.username} is typing</strong>);
+      return null;
     }
   }
 
@@ -89,35 +87,37 @@ class Chat extends Component {
   // receive message from 'chat message' listener
   componentDidMount() {
     const thisChat = this;
-    let chatConvo = this.state.chatConvo;
+    // let chatConvo = thisChat.state.chatConvo;
  
-    chatListener.on("chat message", function(msg){
-      chatConvo.push(msg);
-      console.log(`current message: ${msg}`);
-      console.log(`chat Conversation: ${chatConvo}`);
-      // clear chat message
-      thisChat.setState({
-        chatConvo: chatConvo,
-        chatMsg: "",
-        chatText: chatConvo
-      });
+    function chatPostRoutine(msg, chatConvo) {
+      let msgId;
 
-      // post chat to forum
-      // create new conversation in database only on first message,
-      // otherwise update chatText with message id
-      if (thisChat.state.chatText.length <= 1) {
-        API.postChat({
-          chat: thisChat.state.chatText,
-          postedBy: thisChat.props.username
-        })
-        .then(res => thisChat.setState({forumId: res.data._id}))
-        .catch(err => console.log(err));
+      if (thisChat.state.activeForumId !== 0 && msg !== "") {
+        // post chat to forum
+        API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: thisChat.props.username})
+          .then(res => {
+            msgId = res.data.chats[res.data.chats.length - 1];
+            chatConvo.push({msg, msgId});
+            // clear chat message
+            thisChat.setState({chatConvo: chatConvo, chatMsg: "", chatText: msg});
+            console.log("Chat.js in API chat POST routine chatConvo: " + JSON.stringify(chatConvo));
+            console.log("Chat.js in API chat POST activeForumId: " + thisChat.state.activeForumId);
+          })
+          .catch(err => console.log(err));   
       }
+    }
+
+    chatListener.on("League of Legends", function(msg){
+      if (thisChat.state.activeForumName === "League of Legends") chatPostRoutine(msg, thisChat.state.chatConvo);
+    });
+
+    chatListener.on("Overwatch", function(msg){
+      if (thisChat.state.activeForumName === "Overwatch") chatPostRoutine(msg, thisChat.state.chatConvo);
     });
 
     // turn on user state listener
     chatListener.on("user state", function(uStateMsg){
-      console.log(uStateMsg);
+      // console.log(uStateMsg);
     });
 
     // turn on leave chat listener
@@ -129,7 +129,7 @@ class Chat extends Component {
   leaveChat = event => {
     event.preventDefault();
 
-    chatListener.emit("chat message", `${this.props.username} disconnected.`);
+    chatListener.emit(this.state.activeForumName, `${this.props.username} disconnected.`);
     chatListener.emit("leave chat");
   }
 
@@ -137,7 +137,7 @@ class Chat extends Component {
     const {name, value} = event.target;
 
     if ([name] === "chatMsg") {
-      console.log("user is typing");
+      // console.log("user is typing");
       this.renderChatUserState();
     }
     this.setState({
@@ -148,7 +148,7 @@ class Chat extends Component {
   removeFromChat = (array, elemToRemove) => array.filter(elem => elem !== elemToRemove);
 
   deleteChatItem = (delObj) => {
-    console.log(`in deleteChatItem() convoIndex ${delObj.convoIndex}`);
+    console.log(`Chat.js in deleteChatItem() convoIndex ${delObj.convoIndex}`);
     const updatedChatConvo = this.removeFromChat(this.state.chatConvo, this.state.chatConvo[delObj.convoIndex]);
     this.setState({chatConvo: updatedChatConvo,
                    chatText: updatedChatConvo});
@@ -159,8 +159,8 @@ class Chat extends Component {
 
     // send message to io.socket server
     if (this.props.isLoggedIn && this.state.chatMsg !== "") {
-      chatListener.emit("chat message", `${this.props.username}: ${this.state.chatMsg}`);
-      console.log(`chat message: ${this.state.chatMsg}`);
+      chatListener.emit(this.state.activeForumName, `${this.props.username}: ${this.state.chatMsg}`);
+      console.log(`Chat.js ${this.state.activeForumName}: ${this.state.chatMsg}`);
     } else {
       this.setState({chatMsg: ""});
     }
@@ -275,17 +275,3 @@ class Chat extends Component {
 } 
 
 export default Chat;
-
-/*
-
-else if (thisChat.state.forumId !== -1) {
-        API.putForum(thisChat.state.forumId,
-        {
-            chat: thisChat.state.chatText,
-            postedBy: thisChat.state.postedBy
-        })
-        .catch(err => console.log(err));
-      }
-
-
-*/

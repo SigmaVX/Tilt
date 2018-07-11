@@ -36,6 +36,7 @@ class ChatForums extends Component {
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
     // console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
+    console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
 
     this.setState({
       activeForumId: forum._id,
@@ -48,6 +49,7 @@ class ChatForums extends Component {
     // console.log(`Chosen forum: ${this.state.value}`);
     event.preventDefault();
     if (this.state.value !== "none"){
+      console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
       this.props.getForumInfo({
         chatRoomSelected: true,
         activeForumId: this.state.activeForumId,

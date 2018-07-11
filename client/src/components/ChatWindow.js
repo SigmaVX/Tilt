@@ -57,7 +57,7 @@ class ChatWindow extends Component {
   componentDidUpdate() {
     if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId) {
      this.loadChatHistory();
-     console.log(`chat History: ${this.state.chatHistory}`);
+     console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }
     this.prevForumId = this.props.forumId;
     this.scrollToBottom();
@@ -65,7 +65,7 @@ class ChatWindow extends Component {
 
   // Source: https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
   scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    this.chatsEnd.scrollIntoView({ behavior: "smooth" });
   }
 
   safeUpdate(updateObj) {
@@ -74,17 +74,13 @@ class ChatWindow extends Component {
   }
 
   loadChatHistory() {
-    console.log(`this.props.forumId: ${this.props.forumId}`);
+    console.log(`ChatWindow.js loadChatHistory() this.props.forumId: ${this.props.forumId}`);
     API
       .getChatForum(this.props.forumId)
       .then(res => {
-        // console.log(res.data);
-        // console.log(res.data.chats);
         this.safeUpdate({
           chatHistory: res.data.chats
         });
-        this.myChatHistory = res.data.chats;
-        console.log(`myChatHistory ${this.myChatHistory}`);
       })
       .catch(err => {
         console.log(err);
@@ -92,7 +88,7 @@ class ChatWindow extends Component {
   }
 
   deleteItemHandler(convoIndex) {
-    console.log(`in deleteItemHandler, item ${convoIndex}`);
+    console.log(`ChatWindow.js in deleteItemHandler, item ${convoIndex}`);
     this.props.getDeleteChatItem({
       convoIndex: convoIndex
     });
@@ -143,10 +139,10 @@ class ChatWindow extends Component {
               </CustomLi>
               )
             )}
-            {this.props.convoArray.map((chatMsg, index) => (
-                  <CustomLi key={index}>
+            {this.props.convoArray.map((chatMsg) => (
+                  <CustomLi key={chatMsg.msgId}>
                     <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                    {chatMsg} {this.chatDeleteOption(index)}
+                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
                     </h6>
                   </CustomLi>
               ) 
@@ -154,7 +150,7 @@ class ChatWindow extends Component {
           </StyledUl>
           <div 
             style={{ float:"left", clear: "both" }}
-            ref={(el) => { this.messagesEnd = el; }} >
+            ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
           </div>
       </StyledChatDiv>
     );
@@ -163,9 +159,3 @@ class ChatWindow extends Component {
 }
 
 export default ChatWindow;
-
-/*
-
-{this.props.forumId !== 0 ? this.loadChatHistory() : null}
-
- */
