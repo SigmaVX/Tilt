@@ -56,26 +56,12 @@ class App extends Component {
 
   // Setting State For Login
   LoginResult = (authObj, redirPath) => {
-    console.log(` in LoginResult
-      isLoggedIn: ${authObj.isLoggedIn}
-      isAdmin: ${authObj.isAdmin}
-      username: ${authObj.username}
-      email: ${authObj.email}
-      userId: ${authObj.userId}
-      redirPath: ${redirPath}`);
     this.safeUpdate(authObj);
     this.redirPath = redirPath;
   }
 
   // Setting State For Login
   SignupResult = (authObj, redirPath) => {
-      console.log(` in SignupResult
-        isLoggedIn: ${authObj.isLoggedIn}
-        isAdmin: ${authObj.isAdmin}
-        username: ${authObj.username}
-        email: ${authObj.email}
-        userId: ${authObj.userId}
-        redirPath: ${redirPath}`);
       this.safeUpdate(authObj);
       this.redirPath = redirPath;
     }

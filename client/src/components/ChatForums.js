@@ -17,8 +17,8 @@ class ChatForums extends Component {
       // ----------------------------------------------------
       forumsList: [],
       forumId: -1,
-      activeGameId: -1,
-      activeForumName: "",
+      activeForumId: -1,
+      activeForumName: "none",
       // --
       // select menu option default
       // ---------------------------
@@ -34,20 +34,24 @@ class ChatForums extends Component {
 
   handleForumChange = (event) => {
     const {value} = event.target;
-    console.log("event.target.value: ", value);
+    let forum = this.state.forumsList.find(forum => forum._id === value);
+    // console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
+
     this.setState({
-      activeGameId: 0,
+      activeForumId: forum._id,
+      activeForumName: forum.forumChatRoom,
       value: value
     });
   } 
 
   handleSubmit(event) {
-    console.log(`Chosen forum: ${this.state.value}`);
+    // console.log(`Chosen forum: ${this.state.value}`);
     event.preventDefault();
     if (this.state.value !== "none"){
       this.props.getForumInfo({
         chatRoomSelected: true,
-        activeForumName: this.state.value
+        activeForumId: this.state.activeForumId,
+        activeForumName: this.state.activeForumName
       });
     }
   }
@@ -72,12 +76,12 @@ class ChatForums extends Component {
     ?  <input className="btn btn-sm btn-success" type="submit" 
         value= {this.state.value === "none" 
         ? "No chatroom selected" 
-        : `Join ${this.state.value} chat` 
+        : `Join ${this.state.activeForumName} chat` 
       }/>
     : <input className="btn btn-sm btn-success disabled" type="submit" 
         value= {this.state.value === "none" 
         ? "No chatroom selected" 
-        : `Join ${this.state.value} chat` 
+        : `Join ${this.state.activeForumName} chat` 
       } disabled />;
       
     return (
@@ -92,7 +96,7 @@ class ChatForums extends Component {
                 <option value="none">--Select game forum--</option>
                 {this.state.forumsList.map(forum =>
                   (
-                    <option key={forum._id} gameid={forum._id} value={forum.forumChatRoom}>{forum.forumChatRoom}</option>
+                    <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
                   )
                 )}
                 </select>
@@ -107,18 +111,3 @@ class ChatForums extends Component {
 }
 
 export default ChatForums;
-
-/*
-
-  setActiveGame(id, gName) {
-    if (id) {
-      // console.log(`active id: ${id}`);
-    }
-    this.setState({
-      activeGameId: 1,
-      activeForumName: gName
-    });
-  }  
-
-
-*/

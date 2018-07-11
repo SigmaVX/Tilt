@@ -44,22 +44,23 @@ class Chat extends Component {
       chatMsg: "",
       // chat conversation will be an array of chat messages
       chatConvo: [],
-      forumText: [],
+      chatText: [],
       postedBy: "sampleUser",
       userStateMsg: "sample message",
       // forum information to be received from chat forums
       forumsList: null,
       chatRoomSelected: false,
-      activeForum: 0,
+      activeForumId: 0,
       activeForumName: ""
     };
   }
 
   forumInfo = (forumObj) => {
-    console.log("in forumInfo() gName: ", forumObj.activeForumName);
+    console.log(`in forumInfo() gName: ${forumObj.activeForumName}, activeForumId: ${forumObj.activeForumId}`);
     this.setState(forumObj);
+    // get 
     if (this.props.isLoggedIn) {
-      console.log(`user joined ${this.state.activeForumName}`);
+      console.log(`user joined ${forumObj.activeForumName}, forumId: ${forumObj.activeForumId}`);
     }
   }
 
@@ -98,25 +99,18 @@ class Chat extends Component {
       thisChat.setState({
         chatConvo: chatConvo,
         chatMsg: "",
-        forumText: chatConvo
+        chatText: chatConvo
       });
 
-      // post to forum
+      // post chat to forum
       // create new conversation in database only on first message,
-      // otherwise update forumText with message id
-      if (thisChat.state.forumText.length <= 1) {
-        API.postForum({
-          forumText: thisChat.state.forumText,
+      // otherwise update chatText with message id
+      if (thisChat.state.chatText.length <= 1) {
+        API.postChat({
+          chat: thisChat.state.chatText,
           postedBy: thisChat.props.username
         })
         .then(res => thisChat.setState({forumId: res.data._id}))
-        .catch(err => console.log(err));
-      } else if (thisChat.state.forumId !== -1) {
-        API.putForum(thisChat.state.forumId,
-        {
-            forumText: thisChat.state.forumText,
-            postedBy: thisChat.state.postedBy
-        })
         .catch(err => console.log(err));
       }
     });
@@ -157,7 +151,7 @@ class Chat extends Component {
     console.log(`in deleteChatItem() convoIndex ${delObj.convoIndex}`);
     const updatedChatConvo = this.removeFromChat(this.state.chatConvo, this.state.chatConvo[delObj.convoIndex]);
     this.setState({chatConvo: updatedChatConvo,
-                   forumText: updatedChatConvo});
+                   chatText: updatedChatConvo});
   }
 
   handleOnSubmit = event => {
@@ -238,6 +232,8 @@ class Chat extends Component {
                 userName = {this.props.username}
                 isAdmin = {this.props.isAdmin}
                 getDeleteChatItem = {this.deleteChatItem}
+                forumName = {this.state.activeForumName}
+                forumId = {this.state.activeForumId}
               />
             </div>
           </section>
@@ -279,3 +275,17 @@ class Chat extends Component {
 } 
 
 export default Chat;
+
+/*
+
+else if (thisChat.state.forumId !== -1) {
+        API.putForum(thisChat.state.forumId,
+        {
+            chat: thisChat.state.chatText,
+            postedBy: thisChat.state.postedBy
+        })
+        .catch(err => console.log(err));
+      }
+
+
+*/

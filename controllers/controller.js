@@ -71,7 +71,8 @@ module.exports = {
 		  // Find all chats
 		  .findById(forumId)
 		  // Specify that we want to populate the retrieved forum with any associated chats
-			.populate("chats")
+      .populate("chats")
+      // .limit(20 )
 			.then(function(forumchatData) {
 				// If no data were found, send back a 404
 				if (!forumchatData) res.status(404).end();
@@ -98,7 +99,7 @@ module.exports = {
         // to the Forum's `notes` array
         // { new: true } tells the query that we want it to return the updated Chat -- it returns the original by default
         // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-        console.log(`dbChat: ${dbChat}`)
+        // console.log(`dbChat: ${dbChat}`)
         return table2.findOneAndUpdate({_id: req.params.id}, { $push: { chats: dbChat._id } }, { new: true });
       })
       .then(function(dbForum) {

@@ -10,6 +10,10 @@ var ChatSchema = new Schema({
     type: String, 
     required: false 
   },
+  date: { 
+    type: Date,
+    default: Date.now()
+  }
 });
 
 // creates model from NoteSchema using mongoose's model method
