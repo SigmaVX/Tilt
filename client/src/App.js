@@ -14,11 +14,17 @@ import AUTH from "./utilities/AUTH";
 import './App.css';
 
 function EntryMessage(props) {
+  let messageToUser;
+
+  messageToUser =  (props.adminAttempt) 
+    ? <p>You must log in and have administrator privileges to access the {window.location.pathname} page.</p>
+    : <p>You must log in or sign up to view the {window.location.pathname} page.</p>;
+
   return (
     <div className="container my-5">
     <div className="justify-content-center">
       <h3>You must be logged in.</h3>
-      <p>You must log in or sign up to view the {window.location.pathname} page.</p>
+      {messageToUser}
       <button className="btn-sm btn-success" onClick={props.renderLogin}>    
       Goto Login
       </button>
@@ -50,26 +56,12 @@ class App extends Component {
 
   // Setting State For Login
   LoginResult = (authObj, redirPath) => {
-    console.log(` in LoginResult
-      isLoggedIn: ${authObj.isLoggedIn}
-      isAdmin: ${authObj.isAdmin}
-      username: ${authObj.username}
-      email: ${authObj.email}
-      userId: ${authObj.userId}
-      redirPath: ${redirPath}`);
     this.safeUpdate(authObj);
     this.redirPath = redirPath;
   }
 
   // Setting State For Login
   SignupResult = (authObj, redirPath) => {
-      console.log(` in SignupResult
-        isLoggedIn: ${authObj.isLoggedIn}
-        isAdmin: ${authObj.isAdmin}
-        username: ${authObj.username}
-        email: ${authObj.email}
-        userId: ${authObj.userId}
-        redirPath: ${redirPath}`);
       this.safeUpdate(authObj);
       this.redirPath = redirPath;
     }
@@ -158,7 +150,10 @@ class App extends Component {
             } 
             else {
                 return (
-                  <EntryMessage renderLogin={this.renderLogin} />
+                  <EntryMessage 
+                    renderLogin={this.renderLogin} 
+                    adminAttempt={false}  
+                  />
                 );
             }
           }
@@ -186,7 +181,10 @@ class App extends Component {
             }} /> );
           } else {
               return (
-                <EntryMessage renderLogin={this.renderLogin} />
+                <EntryMessage 
+                  renderLogin={this.renderLogin} 
+                  adminAttempt={true}  
+                />
               );
           }
         }
@@ -223,7 +221,7 @@ class App extends Component {
               userId = {this.state.userId}
               email = {this.state.email}
               isLoggedIn = {this.state.isLoggedIn} 
-              isAdmin = {this.state.Admin}              
+              isAdmin = {this.state.isAdmin}              
               {...props}/>} 
             />
 
