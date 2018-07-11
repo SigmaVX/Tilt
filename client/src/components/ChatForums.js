@@ -15,61 +15,98 @@ class ChatForums extends Component {
     this.state = {
       // forum information
       // ----------------------------------------------------
-      gamesList: [],
+      forumsList: [],
       forumId: -1,
-      activeId: "",
-      activeGameName: ""
+      activeForumId: -1,
+      activeForumName: "none",
+      // --
+      // select menu option default
+      // ---------------------------
+      value: "none"
     };
+    this.handleForumChange = this.handleForumChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.loadGamesList();
+    this.loadForumList();
   }
 
-  setActiveGame(id, gName) {
-    if (id) {
-      // console.log(`active id: ${id}`);
-    }
+  handleForumChange = (event) => {
+    const {value} = event.target;
+    let forum = this.state.forumsList.find(forum => forum._id === value);
+    // console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
+    console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
+
     this.setState({
-      activeId: id,
-      activeGameName: gName
+      activeForumId: forum._id,
+      activeForumName: forum.forumChatRoom,
+      value: value
     });
-  }  
+  } 
+
+  handleSubmit(event) {
+    // console.log(`Chosen forum: ${this.state.value}`);
+    event.preventDefault();
+    if (this.state.value !== "none"){
+      console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
+      this.props.getForumInfo({
+        chatRoomSelected: true,
+        activeForumId: this.state.activeForumId,
+        activeForumName: this.state.activeForumName
+      });
+    }
+  }
 
   // Load Games List To State
-  loadGamesList = () => {
-    API.getGames()
+  loadForumList = () => {
+    API.getForumList()
       .then(res => {
           this.setState({
-            gamesList: res.data,
+            forumsList: res.data,
           });
       })
       .catch(err => console.log(err));
   }
 
   render() {
+    let joinSubmitButton;
+    const isLoggedIn = this.props.isLoggedIn;
+
+    // choose whether join chat button is enabled or disabled depending on login status
+    joinSubmitButton = isLoggedIn
+    ?  <input className="btn btn-sm btn-success" type="submit" 
+        value= {this.state.value === "none" 
+        ? "No chatroom selected" 
+        : `Join ${this.state.activeForumName} chat` 
+      }/>
+    : <input className="btn btn-sm btn-success disabled" type="submit" 
+        value= {this.state.value === "none" 
+        ? "No chatroom selected" 
+        : `Join ${this.state.activeForumName} chat` 
+      } disabled />;
+      
     return (
         <div>
-          <h5 className="text-center">Join Chatroom</h5>
-          <h6 className="text-center">(must be logged in)</h6>
-          <div className="card">
-            <ul className="list-group">
-            {this.state.gamesList.map((game) => (
-              <li key={game._id}
-              className={game._id === this.state.activeId 
-                        ? "list-group-item list-group-item-action active"
-                        : "list-group-item"}
-              onClick={() => {
-                this.setActiveGame(game._id, game.gameName);
-                this.props.getForumInfo(this.state.gamesList, game._id, game.gameName);
-              }}
-              >
-                <h6>{game.gameName}</h6>
-              </li>
-              ) 
-            )}
-            </ul>
+          <h6 className="text-center">Join Chatroom (requires login)</h6>
+          {/* Select dropdown menu */}
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+              Select Chat Forum&nbsp;
+                <select value={this.state.value} onChange={this.handleForumChange}>
+                <option value="none">--Select game forum--</option>
+                {this.state.forumsList.map(forum =>
+                  (
+                    <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
+                  )
+                )}
+                </select>
+              </label>
+              {joinSubmitButton}
+            </form>
           </div>
+
         </div>
     );
   }

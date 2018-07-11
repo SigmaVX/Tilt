@@ -11,7 +11,7 @@ router
 // For "/api/forum/:id"
 router
   .route("/:id")
-  .get(function(req, res) {dbController.findById(Forum, req, res);})
+  .get(function(req, res) {dbController.findByForum(Forum, req, res);})
   .put(function(req, res) {dbController.update(Forum, req, res);})
   .delete(function(req, res) {dbController.remove(Forum, req, res);});
 
