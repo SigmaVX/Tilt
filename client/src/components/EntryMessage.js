@@ -2,7 +2,7 @@ import React from "react";
 
 const EntryMessage = (props) => {
 
-    messageToUser =  (props.adminAttempt) 
+    let messageToUser =  (props.adminAttempt) 
     ? <p>You must log in and have administrator privileges to access the {window.location.pathname} page.</p>
     : <p>You must log in or sign up to view the {window.location.pathname} page.</p>;
 
