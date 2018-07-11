@@ -114,9 +114,12 @@ class Login extends Component {
 
     return (
       <div className="container my-5">
+        
         <div className="row justify-content-center login-alert">
-          <h2 className="col-12 text-center">Login</h2>
-          <img className="col-12 key-icon my-2" src="/images/key.svg"/>
+          <h1 className="col-12 text-center">Login</h1>
+          <div className="col-12 key-icon-wrap my-1">
+            <i class="fab fa-keycdn"></i>
+          </div> 
           <form className="col-12 col-md-6 my-1">
             
             <div className="form-group">

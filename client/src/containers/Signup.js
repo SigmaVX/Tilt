@@ -92,9 +92,12 @@ class Signup extends Component {
     return (
       <div className="container my-5">
         <div className="row justify-content-center text-center">
-          <img className="col-12 col-md-6 my-1 signup-icon" src="/images/pinball-orange.png"/>
+        
           <form className="col-12 col-md-6 my-1">
-            <h3>Registration Form</h3>
+            <h1 className="col-12">Registration Form</h1>
+            <div className="col-12 key-icon-wrap my-1">
+              <i class="fas fa-key"></i>
+            </div> 
             <div className="form-group">
               <input
                 type="text"

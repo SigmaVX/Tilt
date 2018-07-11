@@ -97,12 +97,13 @@ a:hover{
 }
 
 .login-alert{
-  min-height: 100vh;
+  min-height: 95vh;
 }
 
-.key-icon{
-  font-size: 50px;
-  /* margin-top: -15px; */
+.key-icon-wrap{
+  font-size: 150px;
+  text-align: center;
+  color: #fa5900;
 }
 
 .nav-active{
