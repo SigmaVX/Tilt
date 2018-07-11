@@ -25,6 +25,7 @@ module.exports = {
         .create(userData, function (err, user) {
           if (err) {console.log(err); res.status(404).send("Username/email exists already.");}
 
+          // Left Hand Side Comes From Sessions and Is Mapped To Our User Table
           req.session.userId = user._id;
           req.session.username = user.username;
           req.session.userType = user.userType;

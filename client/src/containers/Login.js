@@ -114,39 +114,43 @@ class Login extends Component {
 
     return (
       <div className="container my-5">
-        <div className="row justify-content-center">
-          <form>
-            <h2 className="text-center">Login</h2>
+        <div className="row justify-content-center login-alert">
+          <h2 className="col-12 text-center">Login</h2>
+          <img className="col-12 key-icon my-2" src="/images/key.svg"/>
+          <form className="col-12 col-md-6 my-1">
+            
             <div className="form-group">
-              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChange}
-                className="form-control"
-                placeholder="Username"/>
+                className="form-control center-placeholder"
+                placeholder="Enter Username"/>
             </div>
+
             <div className="form-group">
-              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChange}
-                className="form-control"
-                placeholder="Password"
+                className="form-control center-placeholder"
+                placeholder="Enter Password"
               />
             </div>
+
             {
               this.state.returnStatus !== 0 
               ? this.checkErrorMessage()
               : ""
             } 
+            <div className="form-group">
+              <button type="submit" className="btn btn-block" onClick={this.login}>
+                Login
+              </button>
+            </div>
 
-            <button type="submit" className="btn btn-success" onClick={this.login}>
-            Login
-            </button>
           </form>
 
         </div>
