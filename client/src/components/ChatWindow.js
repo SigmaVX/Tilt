@@ -45,6 +45,7 @@ class ChatWindow extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    this._notAlreadyDeleted = true;
     this.myChatHistory = [];
     this.prevForumId = this.props.forumId;
     this.scrollToBottom();
@@ -54,12 +55,14 @@ class ChatWindow extends Component {
     this._isMounted = false;
   }
 
-  componentDidUpdate() {
-    if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId) {
+  componentDidUpdate(prevProps) {
+/*     if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId || this.props.isChatItemDeleted && this._notAlreadyDeleted && this.props.forumId !== this.prevForumId) { */
+  if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId || this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted) {
      this.loadChatHistory();
      console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }
     this.prevForumId = this.props.forumId;
+    this._notAlreadyDeleted = false;
     this.scrollToBottom();
   }
 
@@ -87,11 +90,12 @@ class ChatWindow extends Component {
       });
   }
 
-  deleteItemHandler(convoIndex) {
-    console.log(`ChatWindow.js in deleteItemHandler, item ${convoIndex}`);
+  deleteItemHandler(chatId) {
+    console.log(`ChatWindow.js in deleteItemHandler, item ${chatId}`);
     this.props.getDeleteChatItem({
-      convoIndex: convoIndex
+      chatId: chatId
     });
+    this._notAlreadyDeleted = true;
   }
 
   getChatForumHistory() {
@@ -107,7 +111,7 @@ class ChatWindow extends Component {
     );
   }
 
-  chatDeleteOption = (convoIndex) => {
+  chatDeleteOption = (chatId) => {
     if (this.props.isAdmin) {
       return (
         <section>
@@ -115,7 +119,7 @@ class ChatWindow extends Component {
           <button 
             className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
             type="submit"
-            onClick={() => this.deleteItemHandler(convoIndex)}   
+            onClick={() => this.deleteItemHandler(chatId)}   
           >
           &times;
           </button>
@@ -134,17 +138,17 @@ class ChatWindow extends Component {
             {this.state.chatHistory.map(chatHist => (
               <CustomLi key={chatHist._id}>
                 <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                  {chatHist.chat}
+                  {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
                 </h6>
               </CustomLi>
               )
             )}
             {this.props.convoArray.map((chatMsg) => (
-                  <CustomLi key={chatMsg.msgId}>
-                    <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                    </h6>
-                  </CustomLi>
+              <CustomLi key={chatMsg.msgId}>
+                <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                </h6>
+              </CustomLi>
               ) 
             )}
           </StyledUl>
@@ -159,3 +163,17 @@ class ChatWindow extends Component {
 }
 
 export default ChatWindow;
+
+/*
+
+            {this.props.convoArray.map((chatMsg) => (
+                  <CustomLi key={chatMsg.msgId}>
+                    <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                    </h6>
+                  </CustomLi>
+              ) 
+            )}
+
+
+*/

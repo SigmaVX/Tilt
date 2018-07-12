@@ -49,6 +49,7 @@ class Chat extends Component {
       userStateMsg: "sample message",
       // forum information to be received from chat forums
       forumsList: null,
+      isChatItemDeleted: false,
       chatRoomSelected: false,
       activeForumId: 0,
       activeForumName: ""
@@ -145,13 +146,16 @@ class Chat extends Component {
     });
   }
 
-  removeFromChat = (array, elemToRemove) => array.filter(elem => elem !== elemToRemove);
+  // removeFromChat = (array, elemToRemove) => array.filter(elem => elem !== elemToRemove);
 
   deleteChatItem = (delObj) => {
-    console.log(`Chat.js in deleteChatItem() convoIndex ${delObj.convoIndex}`);
-    const updatedChatConvo = this.removeFromChat(this.state.chatConvo, this.state.chatConvo[delObj.convoIndex]);
-    this.setState({chatConvo: updatedChatConvo,
-                   chatText: updatedChatConvo});
+    console.log(`Chat.js in deleteChatItem() chatId ${delObj.chatId}`);
+    // delete with API
+    // const updatedChatConvo = this.removeFromChat(this.state.chatConvo, this.state.chatConvo[delObj.chatId]);
+    // this.setState({chatConvo: updatedChatConvo,
+    //  chatText: updatedChatConvo});
+    this.setState({isChatItemDeleted: true, chatConvo: [], chatText: []});
+    API.deleteChat(delObj.chatId);
   }
 
   handleOnSubmit = event => {
@@ -161,6 +165,8 @@ class Chat extends Component {
     if (this.props.isLoggedIn && this.state.chatMsg !== "") {
       chatListener.emit(this.state.activeForumName, `${this.props.username}: ${this.state.chatMsg}`);
       console.log(`Chat.js ${this.state.activeForumName}: ${this.state.chatMsg}`);
+      if (this.state.isChatItemDeleted) 
+        this.setState({isChatItemDeleted: false});
     } else {
       this.setState({chatMsg: ""});
     }
@@ -234,6 +240,7 @@ class Chat extends Component {
                 getDeleteChatItem = {this.deleteChatItem}
                 forumName = {this.state.activeForumName}
                 forumId = {this.state.activeForumId}
+                isChatItemDeleted = {this.state.isChatItemDeleted}
               />
             </div>
           </section>
