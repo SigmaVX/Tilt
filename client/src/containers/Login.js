@@ -90,7 +90,7 @@ class Login extends Component {
         console.log(err);
         let tempObj = {
           returnStatus: -1,
-          errorMsg: "Incorrect username/password",
+          errorMsg: "Incorrect Username and/or Password",
           username: "",
           password: "",
           isLoggedIn: false

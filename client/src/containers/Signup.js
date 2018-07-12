@@ -94,7 +94,7 @@ class Signup extends Component {
         <div className="row justify-content-center text-center">
         
           <form className="col-12 col-md-6 my-1">
-            <h1 className="col-12">Registration Form</h1>
+            <h1 className="col-12">Sign Up</h1>
             <div className="col-12 key-icon-wrap my-1">
               <i class="fas fa-key"></i>
             </div> 

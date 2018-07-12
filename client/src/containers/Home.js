@@ -26,6 +26,12 @@ class Home extends Component {
         this.splashDelay();
     }
 
+    componentWillUnmount =()=>{
+        clearTimeout(this.dealyOne);
+        clearTimeout(this.delayTwo);
+        clearTimeout(this.delayThree);
+    }
+
 
     // Save On Change Data
     handleOnChange = (event) => {
@@ -131,15 +137,15 @@ class Home extends Component {
 
     // Splash Delay
     splashDelay = () =>{
-        setTimeout(function() { 
+        this.dealyOne =  setTimeout(function() { 
             document.getElementById("splash-video").src = "https://www.youtube.com/embed/NNfQpCIRsGA?rel=0;&autoplay=1&mute=1&loop=1&playlist=NNfQpCIRsGA"; 
         }, 1000);
-        setTimeout(function(){
+        this.delayTwo = setTimeout(function(){
             document.getElementById("splash-video").style.opacity = "1";
             document.getElementById("splash-video").setAttribute("class", "video animated fadeIn");
         }, 3000)
-        setTimeout(function(){
-            document.getElementById("splash-text").setAttribute("class", "col-12 no-gutters text-center animated fadeOut");
+        this.delayThree = setTimeout(function(){
+            document.getElementById("splash-subtitle").setAttribute("class", "col-12 no-gutters text-center animated fadeOut");
         }, 5000)
 
     }
@@ -155,13 +161,13 @@ class Home extends Component {
             <iframe className="video" id="splash-video" src="" frameBorder="0" allow="autoplay; encrypted-media" webkitallowfullscreen mozallowfullscreen allowFullScreen></iframe>
             <div className="col-12 no-gutters text-center" id="splash-text">
                 <h1 className="col-12 animated rotateIn">Tilt</h1>
-                <h2 className="col-12 animated fadeIn">Find, Report, & Track Cheaters</h2>
+                <h2 className="col-12 animated fadeIn" id="splash-subtitle">Find, Report, & Track Cheaters</h2>
             </div>    
         </div>
 
         <div className="container-fluid home-stats">
             <div className="row justify-content-center text-center pt-5">
-                <h2 className="col-12 pb-2">Top Five Cheats By Game</h2>
+                <h2 className="col-12 pb-4">Top Five Cheats By Game</h2>
                 
                 {this.state.games.map(game=>{
                     return(
@@ -193,7 +199,7 @@ class Home extends Component {
             </div>
         </div>
 
-        <div className="row justify-content-center text-center pb-3">
+        <div className="row justify-content-center text-center pt-5 pb-3">
             <h2 className="col-10">How Are Users Cheating?</h2>
             
             <CheatRadialChart
@@ -237,13 +243,17 @@ class Home extends Component {
                                         ?   (<div className="text-center">
                                                 <a className="video-link my-1" target="_blank" href={report.cheatVideo}>
                                                     <h6>Cheat Video</h6>
-                                                    <img className="video-icon" src="/images/youtube.svg"/>
+                                                    <div className="col-12 video-icon-wrap my-1">
+                                                        <i class="fab fa-youtube"></i>
+                                                    </div> 
                                                 </a>
                                             </div>
                                             )
                                         :   (<div className="text-center">
                                                     <h6>No Video</h6>
-                                                    <img className="video-icon" src="/images/novideo.svg"/>
+                                                    <div className="col-12 video-icon-wrap my-1">
+                                                        <i class="fas fa-video-slash"></i>
+                                                    </div>
                                              </div>
                                             )
                                     }

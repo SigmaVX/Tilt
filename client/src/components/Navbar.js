@@ -6,7 +6,7 @@ function AdminBar(props) {
   const isAdmin = props.isAdmin;
   if (isAdmin) {
     return (
-      <li className={window.location.pathname === "/admin" ? "nav-item active bg-warning" : "nav-item"}>
+      <li className={window.location.pathname === "/admin" ? "nav-item active nav-active" : "nav-item"}>
         <Link className="nav-link" to="/admin">Admin</Link>
       </li>
     );
@@ -20,11 +20,11 @@ function AuthMenu(props) {
   if (isLoggedIn) {
     return (
       <div className="d-flex">
-        <li className={window.location.pathname === "/logout" ? "nav-item active bg-warning" : "nav-item"}>
+        <li className={window.location.pathname === "/logout" ? "nav-item active nav-active" : "nav-item"}>
           <Link className="nav-link" to="/logout">Logout</Link>
         </li>
-        <li>
-          <span className="nav-item font-weight-bold">Welcome, {props.userName}</span>
+        <li className="nav-item">
+          <p className="username">{props.userName}</p>
         </li>
       </div>
     );
@@ -61,7 +61,7 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className={window.location.pathname === "/post" ? "nav-item active nav-active" : "nav-item"}>
-              <Link className="nav-link" to="/post">Post</Link>
+              <Link className="nav-link" to="/post">Report Cheater</Link>
             </li>
             <li className={window.location.pathname === "/videos" ? "nav-item active nav-active" : "nav-item"}>
                 <Link className="nav-link" to="/videos">Videos</Link>
