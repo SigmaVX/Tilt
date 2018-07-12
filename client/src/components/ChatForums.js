@@ -16,7 +16,6 @@ class ChatForums extends Component {
       // forum information
       // ----------------------------------------------------
       forumsList: [],
-      forumId: -1,
       activeForumId: -1,
       activeForumName: "none",
       // --
@@ -25,7 +24,6 @@ class ChatForums extends Component {
       value: "none"
     };
     this.handleForumChange = this.handleForumChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +31,8 @@ class ChatForums extends Component {
   }
 
   handleForumChange = (event) => {
+    event.preventDefault();
+
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
     // console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
@@ -43,7 +43,62 @@ class ChatForums extends Component {
       activeForumName: forum.forumChatRoom,
       value: value
     });
+    console.log(`ChatForums.js in handleForumChange state.value: ${this.state.value}`);
+    console.log(`ChatForums.js in handleForumChange 'normal' value: ${value}`);
+    if (value !== "none"){
+      console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
+      this.props.getForumInfo({
+        chatRoomSelected: true,
+        activeForumId: forum._id,
+        activeForumName: forum.forumChatRoom
+      });
+    }
   } 
+
+  // Load Games List To State
+  loadForumList = () => {
+    API.getForumList()
+      .then(res => {
+          this.setState({
+            forumsList: res.data,
+          });
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
+ 
+    return (
+        <div>
+          <h6 className="text-center">Join Chatroom (requires login)</h6>
+          {/* Select dropdown menu */}
+          <div>
+            <form>
+              <label>
+              Select Chat Forum&nbsp;
+                <select value={this.state.value} onChange={this.handleForumChange}>
+                <option value="none">--Select game forum--</option>
+                {this.state.forumsList.map(forum =>
+                  (
+                    <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
+                  )
+                )}
+                </select>
+              </label>
+            </form>
+          </div>
+
+        </div>
+    );
+  }
+}
+
+export default ChatForums;
+
+/*
+
+    let joinSubmitButton;
+    const isLoggedIn = this.props.isLoggedIn;
 
   handleSubmit(event) {
     // console.log(`Chosen forum: ${this.state.value}`);
@@ -58,22 +113,11 @@ class ChatForums extends Component {
     }
   }
 
-  // Load Games List To State
-  loadForumList = () => {
-    API.getForumList()
-      .then(res => {
-          this.setState({
-            forumsList: res.data,
-          });
-      })
-      .catch(err => console.log(err));
-  }
+      // this.handleSubmit = this.handleSubmit.bind(this);
+                  { <form onSubmit={this.handleSubmit}> }
+                               {  {joinSubmitButton} }
 
-  render() {
-    let joinSubmitButton;
-    const isLoggedIn = this.props.isLoggedIn;
-
-    // choose whether join chat button is enabled or disabled depending on login status
+        // choose whether join chat button is enabled or disabled depending on login status
     joinSubmitButton = isLoggedIn
     ?  <input className="btn btn-sm btn-success" type="submit" 
         value= {this.state.value === "none" 
@@ -85,31 +129,5 @@ class ChatForums extends Component {
         ? "No chatroom selected" 
         : `Join ${this.state.activeForumName} chat` 
       } disabled />;
-      
-    return (
-        <div>
-          <h6 className="text-center">Join Chatroom (requires login)</h6>
-          {/* Select dropdown menu */}
-          <div>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-              Select Chat Forum&nbsp;
-                <select value={this.state.value} onChange={this.handleForumChange}>
-                <option value="none">--Select game forum--</option>
-                {this.state.forumsList.map(forum =>
-                  (
-                    <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
-                  )
-                )}
-                </select>
-              </label>
-              {joinSubmitButton}
-            </form>
-          </div>
 
-        </div>
-    );
-  }
-}
-
-export default ChatForums;
+*/

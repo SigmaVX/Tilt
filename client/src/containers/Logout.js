@@ -16,7 +16,7 @@ class Logout extends Component {
     AUTH
       .logout()
       .then(res => {
-        console.log(res.data);
+          // console.log(res.data);
           // ------------------------------
           // callback function to parent
           // ------------------------------
