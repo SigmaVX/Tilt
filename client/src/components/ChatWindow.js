@@ -132,7 +132,7 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div>
+      <div style={{background: "#FBDAE7", height: "200px", overflow: "auto"}}>
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
