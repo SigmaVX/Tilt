@@ -56,8 +56,8 @@ class ChatWindow extends Component {
   }
 
   componentDidUpdate(prevProps) {
-/*     if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId || this.props.isChatItemDeleted && this._notAlreadyDeleted && this.props.forumId !== this.prevForumId) { */
-  if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId || this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted) {
+  if (this.props.forumId !== 0 && this.props.forumId !== this.prevForumId || 
+    this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted) {
      this.loadChatHistory();
      console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }
@@ -163,17 +163,3 @@ class ChatWindow extends Component {
 }
 
 export default ChatWindow;
-
-/*
-
-            {this.props.convoArray.map((chatMsg) => (
-                  <CustomLi key={chatMsg.msgId}>
-                    <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                    </h6>
-                  </CustomLi>
-              ) 
-            )}
-
-
-*/
