@@ -8,31 +8,31 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 // Styled component
-const StyledChatDiv = styled.div`
-  background: #ffe6e6;
-  height: 200px;
-  overflow: auto;
-`;
+// const StyledChatDiv = styled.div`
+//   background: #ffe6e6;
+//   height: 200px;
+//   overflow: auto;
+// `;
 
-const StyledChatWindow = styled.textarea`
-  background: salmon;
-  height: 200px;
-  overflow: auto;
-`;
+// const StyledChatWindow = styled.textarea`
+//   background: salmon;
+//   height: 200px;
+//   overflow: auto;
+// `;
 
-const StyledUl = styled.ul`
-  font-size: 120%;
-  color: black;
-  font-weight: bold;
-`;
+// const StyledUl = styled.ul`
+//   font-size: 120%;
+//   color: black;
+//   font-weight: bold;
+// `;
 
-const CustomLi = styled.li`
-  text-decoration: none;
-  color: green;
-`;
+// const CustomLi = styled.li`
+//   text-decoration: none;
+//   color: green;
+// `;
 
 class ChatWindow extends Component {
   constructor(props) {
@@ -132,31 +132,31 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <StyledChatDiv>
-          <StyledUl>
+      <div>
+          <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
-              <CustomLi key={chatHist._id}>
+              <li key={chatHist._id}>
                 <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
                   {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
                 </h6>
-              </CustomLi>
+              </li>
               )
             )}
             {this.props.convoArray.map((chatMsg) => (
-              <CustomLi key={chatMsg.msgId}>
-                <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                </h6>
-              </CustomLi>
+                  <li key={chatMsg.msgId}>
+                    <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                    </h6>
+                  </li>
               ) 
             )}
-          </StyledUl>
+          </ul>
           <div 
             style={{ float:"left", clear: "both" }}
             ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
           </div>
-      </StyledChatDiv>
+      </div>
     );
   }
   

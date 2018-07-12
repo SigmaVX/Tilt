@@ -210,10 +210,9 @@ class Post extends Component {
     return (
 
     <div>
-        <div className="row no-gutters jumbotron text-center">
-            <h1 className="col-12 animated pulse">Post A Cheat Report</h1>
-            <h2 className="col-12">Add Some Text</h2>
-            <h3 className="col-12">Add More Text</h3>
+        <div className="row no-gutters jumbotron post-jumbo text-center">
+            <h1 className="col-12 animated flipInX">Post A Cheat Report</h1>
+            <h2 className="col-12">See The Cheat Glossary For Terms</h2>
         </div>
 
         <div className="row justify-content-center text center my-4">

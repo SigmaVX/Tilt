@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = (props) => (
-    <div className="row no-gutters text-center my-4">  
+    <div className="row no-gutters text-center py-4 footer">  
         <footer className="col-12">
             &copy; 2018 NeedAName
         </footer>
