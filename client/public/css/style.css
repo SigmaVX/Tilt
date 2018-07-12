@@ -1,22 +1,70 @@
-
-.rv-discrete-color-legend-item__title{
-  font-size: 20px;
-  font-weight: 700;
+html {
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
-.ry-xy-plot{
-  position: relative
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
 }
 
-.rv-hint{
-  color: black;
+h1{
+  font-size: 60px;
+  /* font-weight: 700; */
+}
+
+h2{
+  font-size: 35px;
+}
+
+label{
+  color: #272a2e;
+  font-weight: 600;
+}
+
+p{
+  font-size: 14px;
+  font-family: 'Maven Pro', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover{
+  color: #fa5900;
+  text-decoration: none;
+}
+
+
+.adamin-text{
+  text-transform: capitalize;
+}
+
+.bg-danger{
+  text-transform: capitalize;
   text-align: center;
 }
 
-.animated {
-  animation-duration: 1s;
-  /* animation-fill-mode: both;
-  animation-iteration-count: 5; */
+.btn{
+  background-color: #fa5900;
+  color: #272a2e;
+  border: 2px solid #979797;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: capitalize;
+  line-height: 25px;
+}
+
+.btn:hover{
+  color: #fff;
+  background-color: #7e41d5;
+  border: 2px solid #979797;
+}
+
+.comment-text{
+  text-align: justify;
 }
 
 .correct{
@@ -34,9 +82,75 @@
   font-size: 30px;
 }
 
+.fadeIn{
+  animation-delay: 3s;
+  animation-duration: 2s;
+}
+
+.fadeInDown {
+  animation-duration: 1s; 
+}
+
+.footer{
+  background-color: #272a2e;
+  color: #fa5900;
+  border-top: 2px solid #fa5900;
+  font-weight: 600;
+}
+
+.home-stats{
+  /* background-color: #f91a51; */
+  color: #272a2e;
+}
+
+.home-results{
+  background-color: #272a2e;
+  color: #fff;
+}
+
 .icon-bubble{
   margin: 30px;
-  background-color: #ffffff;
+  /* background-color: #f91a51; */
+}
+
+.login-alert{
+  min-height: 95vh;
+}
+
+.key-icon-wrap{
+  font-size: 150px;
+  text-align: center;
+  color: #fa5900;
+}
+
+.nav-active{
+  color: #fa5900;
+}
+
+.navbar{
+  background-color: #272a2e;
+  color: #fff;
+  border-bottom: 3px solid #fa5900;
+}
+
+.nav-icon{
+  width: 40px;
+}
+
+.post-jumbo{
+  background-color: #979797;
+  color: #272a2e;
+  border-bottom: 3px solid #fa5900;
+}
+
+.pulse{
+  animation-iteration-count: 100;
+  animation-duration: 2s;
+}
+
+
+.rotateIn{
+  animation-duration: 3s;
 }
 
 .ReactModal__Content--after-open{
@@ -45,34 +159,74 @@
   margin-top: 10%;
   border-radius: 10px;
   background-color: #ffffff;
-  border: 2px solid #333333;
+  border: 3px solid #333333;
+}
+
+.reports-row{
+  color: #272a2e;
+}
+
+.reports-row:first-child{
+  border-radius: 7px 7px 0px 0px; 
+}
+
+.reports-row:last-child{
+  border-radius: 0px 0px 7px 7px; 
 }
 
 .reports-row:nth-child(even){
-    background-color: lightblue;
+    background-color:#979797;
 }
 
 .reports-row:nth-child(odd){
-  background-color: lightgreen;
+  background-color: #eee;
 }
 
 .round-img{
   border-radius: 50%;
-  border: 2px solid #333333;
+  /* border: 3px solid #979797; */
 }
 
 .round-img:hover{
-  border: 2px solid #aaaaaa;
+  border: 3 px solid #fa5900;
+}
+
+.splash{
+  display: block;
+  height: 300px;
+  border-radius: 0px;
+  font-size: 60px;
+  color: #fff;
+  font-family: 'Eagle Lake', cursive;
+  background-color: #000000;
+  border-bottom: 3px solid #fa5900;
+  margin-bottom: 0px;
+}
+
+.username{
+  position: absolute;
+  font-size: 25px;
+  right: 2%;
 }
 
 .video-link{
     margin-bottom: 15px;
 }
 
+.video-icon-wrap{
+  font-size: 50px;
+  color: #272a2e;
+  text-decoration: none;
+}
+
 .wrong{
   color: red;
   font-weight: 700;
   font-size: 30px;
+}
+
+#splash-video{
+  opacity: 0;
 }
 
 
@@ -93,4 +247,62 @@
     text-align: center; 
   }
   
-  
+/* React Vis Styles */
+.rv-discrete-color-legend-item__color{
+  height: 20px !important;
+  width: 20px !important;
+  border-radius: 50% !important;
+}
+
+.rv-discrete-color-legend-item__title{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.ry-xy-plot{
+  position: relative
+}
+
+.rv-hint{
+  color: black;
+  text-align: center;
+}
+
+.search-box{
+  text-align: center;
+}
+
+
+  /* CSS For Background Video */
+.videoHolder {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -100;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video {
+    height: 300%;
+    top: -100%;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .video {
+    width: 300%;
+    left: -100%;
+  }
+}
+

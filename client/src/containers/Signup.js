@@ -66,6 +66,7 @@ class Signup extends Component {
           username: this.state.username,
           email: this.state.email
         }, "/");
+        // Redirect On Successful Sign Up
         this.safeUpdate({ redirectToReferrer: true });
       })
       .catch(err => {
@@ -90,51 +91,51 @@ class Signup extends Component {
 
     return (
       <div className="container my-5">
-        <div className="row justify-content-center">
-          <form>
-            <h3>Registration form</h3>
+        <div className="row justify-content-center text-center">
+        
+          <form className="col-12 col-md-6 my-1">
+            <h1 className="col-12">Sign Up</h1>
+            <div className="col-12 key-icon-wrap my-1">
+              <i class="fas fa-key"></i>
+            </div> 
             <div className="form-group">
-              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChange}
                 className="form-control"
-                placeholder="Username" />
-              <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
+                placeholder="Enter Username" />
+              
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
               <input
                 type="text"
                 name="email"
                 value={this.state.email}
                 onChange={this.handleInputChange}
                 className="form-control"
-                placeholder="Email" />
-              <small id="usernameHelp" className="form-text text-muted">Please enter your email</small>
+                placeholder="Enter Email" />
+              
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChange}
                 className="form-control"
-                placeholder="Password"
+                placeholder="Enter Password"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="pswrdConfirmation">Confirm Password</label>
               <input
                 type="password"
                 name="pswrdConfirmation"
                 value={this.state.pswrdConfirmation}
                 onChange={this.handleInputChange}
                 className="form-control"
-                placeholder="Type password again"
+                placeholder="Confirm Password"
               />
             </div>
             {
@@ -142,9 +143,11 @@ class Signup extends Component {
               ? this.displayErrorMessage()
               : ""
             }
-            <button type="submit" className="btn btn-success" onClick={this.register}>Sign Up</button>
+            <div className="form-group">
+              <button type="submit" className="btn btn-block" onClick={this.register}>Sign Up</button>
+            </div>
+          
           </form>
-
         </div>
       </div>
     )

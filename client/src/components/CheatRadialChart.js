@@ -12,7 +12,7 @@ export default class CheatRadialChart extends Component {
   render() {
 
     const {value} = this.state;
-    
+
 
     return (
       <div>
@@ -26,8 +26,6 @@ export default class CheatRadialChart extends Component {
         colorType="literal"
         width={1000}
         height={500}
-        onValueMouseOver={v => this.setState({value: v})}
-        onSeriesMouseOut={v => this.setState({value: {}})}
         >
         
         <Hint value={value}>
@@ -38,7 +36,7 @@ export default class CheatRadialChart extends Component {
 
       </RadialChart>
       <DiscreteColorLegend
-          orientation="vertical"
+          orientation="horizontal"
           width={1000}
           items={this.props.legendData}
       />
@@ -47,3 +45,7 @@ export default class CheatRadialChart extends Component {
     );
   }
 }
+
+// Props for Radial Chart That Will Add Hover - Not Used
+// onValueMouseOver={v => this.setState({value: v})}
+// onSeriesMouseOut={v => this.setState({value: {}})}
