@@ -33,7 +33,7 @@ class ChatWindow extends Component {
   if ((this.props.forumId !== 0 && this.props.forumId !== this.prevForumId) || 
     (this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted)) {
      this.loadChatHistory();
-     console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
+     // console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }
     this.prevForumId = this.props.forumId;
     this._notAlreadyDeleted = false;
@@ -55,7 +55,7 @@ class ChatWindow extends Component {
     API
       .getChatForum(this.props.forumId)
       .then(res => {
-        console.log("ChatWindow.js getChatForum api call res.data: ", JSON.stringify(res.data));
+        // console.log("ChatWindow.js getChatForum api call res.data: ", JSON.stringify(res.data));
         this.safeUpdate({
           chatHistory: res.data.chats
         });

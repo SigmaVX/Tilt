@@ -9,6 +9,8 @@
 import React, { Component } from "react";
 import API from "../utilities/API";
 
+const GENERAL_FORUM_ID = "5b47c8472fe2ce8208c9f482";
+
 class ChatForums extends Component {
   constructor(props) {
     super(props);
@@ -17,11 +19,12 @@ class ChatForums extends Component {
       // ----------------------------------------------------
       forumsList: [],
       // default forum is "General" Forum
-      activeForumId: 0,
-      activeForumName: "",
+      activeForumId: GENERAL_FORUM_ID,
+      activeForumName: "General",
       // --
       // select menu option default
       // ---------------------------
+      // value: "none"
       value: "none"
     };
     this.handleForumChange = this.handleForumChange.bind(this);
@@ -30,6 +33,11 @@ class ChatForums extends Component {
   componentDidMount() {
     this.loadForumList();
     // load default chat forum: 'General'
+   /* this.setState({
+      value: GENERAL_FORUM_ID,
+      activeForumName: "General",
+      activeForumId: GENERAL_FORUM_ID
+    }) */
 /*     this.props.getForumInfo({
       chatRoomSelected: true,
       activeForumId: GENERAL_FORUM_ID,
@@ -42,7 +50,7 @@ class ChatForums extends Component {
 
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
-    //console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
+    // console.log(`in ChatForums.js event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
     // console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
 
     this.setState({
@@ -60,15 +68,26 @@ class ChatForums extends Component {
         activeForumName: forum.forumChatRoom
       });
     }
-  } 
-
-  // Load Games List To State
+  }
+  
+  // Load Games List To State, set default Chatroom to General
   loadForumList = () => {
+    const thisForum = this;
     API.getForumList()
       .then(res => {
           this.setState({
-            forumsList: res.data,
+            forumsList: res.data
           });
+      })
+      .then(() => {
+        setTimeout(function() {
+          thisForum.setState({value: GENERAL_FORUM_ID});
+          thisForum.props.getForumInfo({
+            chatRoomSelected: true,
+            activeForumId: GENERAL_FORUM_ID,
+            activeForumName: "General"
+          });
+        }, 0);
       })
       .catch(err => console.log(err));
   }
@@ -83,7 +102,8 @@ class ChatForums extends Component {
             <form>
               <label>
               Select Chat Forum&nbsp;
-                <select value={this.state.value} onChange={this.handleForumChange}>
+                <select value={this.state.value} 
+                onChange={this.handleForumChange}>
                 <option value="none">--Select game forum--</option>
                 {this.state.forumsList.map(forum =>
                   (
