@@ -56,7 +56,7 @@ class Login extends Component {
     AUTH
       .login({username: this.state.username, password: this.state.password})
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.safeUpdate({
           isLoggedIn: res.data.isLoggedIn,
           username: res.data.username,
