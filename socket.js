@@ -39,9 +39,7 @@ module.exports = function (io) {
       .on("World of Warcraft", function (data) {
         console.log(`World of Warcraft: ${data.msg}`);
         io.emit("World of Warcraft", data);
-      });
-
-    socket
+      })
       .on("add user", function(data) {
         console.log(`${data.uname} joined ${data.room} chatroom. msg is ${data.msg}`);
         if (joinedUser) {

@@ -217,7 +217,7 @@ class Chat extends Component {
     const {name, value} = event.target;
 
     if ([name] === "chatMsg") {
-      // console.log("user is typing");
+      console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
       this.renderChatUserState();
     }
