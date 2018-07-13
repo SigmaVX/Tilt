@@ -6,6 +6,7 @@ import EntryMessage from "./components/EntryMessage";
 import Home from "./containers/Home";
 import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
+import Glossary from "./containers/Glossary";
 import Admin from "./containers/Admin";
 import Post from "./containers/Post";
 import Login from "./containers/Login";
@@ -198,6 +199,8 @@ class App extends Component {
             />
 
           <this.AuthRoute exact path="/post" component={Post}/>
+
+          <Route exact path="/glossary" component={Glossary}/>
 
           <Route exact path="/videos" component={Videos}/>
 

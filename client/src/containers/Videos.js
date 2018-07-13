@@ -261,7 +261,7 @@ class Videos extends Component {
       <div>
         <div className="row no-gutters jumbotron text-center justify-content-center video-jumbo mb-0">
             
-            <h1 className="col-12 animated pulse">Videos</h1>
+            <h1 className="col-12 animated fadeInDown">Videos</h1>
         
             <form className="col-12 col-md-6 justify-content-center">
                   

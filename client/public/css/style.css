@@ -135,6 +135,15 @@ select {
   font-weight: 600;
 }
 
+.glossary-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/wowwp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .home-stats{
   /* background-color: #f91a51; */
   color: #fff;
@@ -292,7 +301,7 @@ select {
 .video-jumbo{
   border-bottom: 3px solid #fa5900;
   background-color: #000;
-  color: #fff;
+  color: #272a2e;
   background-image: url("/images/destinywp.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -302,7 +311,7 @@ select {
 
 .video-icon-wrap{
   font-size: 50px;
-  color: #242146;
+  color: #fa5900;
   text-decoration: none;
 }
 

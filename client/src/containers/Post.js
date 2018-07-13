@@ -268,38 +268,18 @@ class Post extends Component {
                     <div className="form-group">
                         <button disabled={!isEnabled} type="submit" className="btn btn-block my-2" onClick={this.validateForm}>Report Cheater</button>                
                     </div>
+                    <div className="form-group">
+                        <button className="btn btn-block my-2" onClick={()=>window.location.replace("/glossary")}>View Cheat Glossary</button>                
+                    </div>
+
+
+                            
                     <div className="form-group text-center">
                         <p id="error-text" className="error-text"></p>
                     </div>
                 </form>
             </div>
-        
-
-
-            <div className="container glossary py-5">
-                <div className="row justify-content-center text-center">
-                    
-                    <table className="col-12 col-md-8">
-                        {this.state.cheats.map(cheat=>{
-                            return(
-                                <tr className="row d-flex align-items-center">
-                                    <td className="col-2">
-                                        <img classImage="glossary-icon" src={cheat.cheatImage} alt={cheat.cheatName}/>
-                                    </td>    
-                                    <td className="col-10">
-                                        <h6 className="col-12"><strong>{cheat.cheatName}</strong></h6>
-                                        <p className="col-12">{cheat.cheatDescription}</p>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        
-                    </table>
-                </div>
-            </div>
         </div>
-
-
     </div>
     )
   }
