@@ -60,7 +60,7 @@ class Home extends Component {
             // console.log(this.state.cheats);
             const chartData =[];
             const legendData = [];
-            const myColors = ['#fa5900','#7e41d5','#f91a51','#9e77ad','#ea5900','#979797','#FF9505', '#E80C7A', '#FF4F19', '#E87E17'];
+            const myColors = ['#fa5900','#242146','#f91a51','#54457F','#ea5900','#979797','#FF9505', '#E80C7A', '#FF4F19', '#E87E17'];
             this.state.cheats.map(function(cheat,i){
                 chartData.push({theta: cheat.cheatCount, label: cheat.cheatName, color: myColors[i]})                
             });
@@ -158,7 +158,7 @@ class Home extends Component {
        
 
         <div className="videoHolder jumbotron splash d-flex align-items-center">
-            <iframe className="video" id="splash-video" src="" frameBorder="0" allow="autoplay; encrypted-media" webkitallowfullscreen mozallowfullscreen allowFullScreen></iframe>
+            <iframe className="video" id="splash-video" src="" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
             <div className="col-12 no-gutters text-center" id="splash-text">
                 <h1 className="col-12 animated rotateIn">Tilt</h1>
                 <h2 className="col-12 animated fadeIn" id="splash-subtitle">Find, Report, & Track Cheaters</h2>
