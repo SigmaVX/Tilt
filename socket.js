@@ -18,50 +18,51 @@ module.exports = function (io) {
       })
       .on("Fortnite", function (data) {
         console.log(`Fortnite: ${data.msg}`);
-        socket.emit("Fortnite", data);
+        io.emit("Fortnite", data);
       })
       .on("Destiny", function (data) {
         console.log(`Destiny: ${data.msg}`);
-        socket.emit("Destiny", data);
+        io.emit("Destiny", data);
       })
       .on("Anthem", function (data) {
         console.log(`Anthem: ${data.msg}`);
-        socket.emit("Anthem", data);
+        io.emit("Anthem", data);
       })
       .on("PUBG", function (data) {
         console.log(`PUBG: ${data.msg}`);
-        socket.emit("PUBG", data);
+        io.emit("PUBG", data);
       })
       .on("Call of Duty", function (data) {
         console.log(`Call of Duty: ${data.msg}`);
-        socket.emit("Call of Duty", data);
+        io.emit("Call of Duty", data);
       })
       .on("World of Warcraft", function (data) {
         console.log(`World of Warcraft: ${data.msg}`);
-        socket.emit("World of Warcraft", data);
+        io.emit("World of Warcraft", data);
       });
 
-    socket.on("add user", function(data) {
-      console.log(`${data.uname} joined ${data.room} chatroom. msg is ${data.msg}`);
-      if (joinedUser) {
-        numUsers++;
-      }
-      socket.emit(data.room, data);
-    });
+    socket
+      .on("add user", function(data) {
+        console.log(`${data.uname} joined ${data.room} chatroom. msg is ${data.msg}`);
+        if (joinedUser) {
+          numUsers++;
+        }
+        socket.emit(data.room, data);
+      })
+      .on("disconnect", function () {
+        console.log("user disconnected");
+        numUsers--;
+      })
+      .on("leave chat", function (data) {
+        console.log(`${data.uname} left ${data.room} chatroom. msg is ${data.msg}`);
+        joinedUser = false;
+        numUsers--;
+        socket.emit(data.room, data);
+      })
+  });
+}
+
 /*     socket.on("user state", function (msg) {
       console.log(`user state message: ${msg}`);
       io.emit("user state", msg);
     }); */
-    socket.on("disconnect", function () {
-      console.log("user disconnected");
-      numUsers--;
-    });
-    socket.on("leave chat", function (data) {
-      console.log(`${data.uname} left ${data.room} chatroom. msg is ${data.msg}`);
-      joinedUser = false;
-      numUsers--;
-      socket.emit(data.room, data);
-    })
-  });
-}
-
