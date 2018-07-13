@@ -218,11 +218,11 @@ class Post extends Component {
         </div>
 
         <div className="container-fluid post-content pt-3">
-            <div className="row justify-content-center text center py-4">
+            <div className="row justify-content-center text-center py-4">
                 <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
-                        <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
+                        <input type="text" className="form-control center-placeholder" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
                     </div>
                     <div className="form-group">
                         <label>What Game System Was The Cheater On?</label>
@@ -259,11 +259,11 @@ class Post extends Component {
                     </div>
                     <div className="form-group">
                         <label>Add A YouTube Video Link (Optional):</label>
-                        <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
+                        <input type="text" className="form-control center-placeholder" name="cheatVideo" value={this.state.cheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
                     </div>
                     <div className="form-group">
                         <label>Add Any Comments (Optional):</label>
-                        <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
+                        <textarea type="text" className="form-control center-placeholder" name="cheatComments" value={this.state.cheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
                     </div>
                     <div className="form-group">
                         <button disabled={!isEnabled} type="submit" className="btn btn-block my-2" onClick={this.validateForm}>Report Cheater</button>                

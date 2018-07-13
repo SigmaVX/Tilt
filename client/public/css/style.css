@@ -1,3 +1,14 @@
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover{
+  color: #fa5900;
+  text-decoration: none;
+}
+
 html {
   overflow: scroll;
   overflow-x: hidden;
@@ -27,14 +38,8 @@ p{
   font-family: 'Maven Pro', sans-serif;
 }
 
-a{
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover{
-  color: #fa5900;
-  text-decoration: none;
+select { 
+  text-align-last:center; 
 }
 
 
@@ -197,7 +202,7 @@ a:hover{
 
 .post-jumbo{ 
   border-bottom: 3px solid #fa5900;
-  background-color: #f91a51;
+  background-color: #000;
   color: #fff;
   background-image: url("/images/fortnite-wall.png");
   background-repeat: no-repeat;
@@ -263,15 +268,37 @@ a:hover{
   margin-bottom: 0px;
 }
 
+.splash-subtitle{
+  text-transform: capitalize;
+}
+
 .username{
   position: absolute;
   font-size: 25px;
   right: 2%;
 }
 
-.video-link{
-    margin-bottom: 15px;
+.video-card{
+  border-radius: 0px;
+  margin: 0px;
+  padding: 0px;
+  /* object-fit: cover; */
 }
+
+.video-link{
+  margin-bottom: 15px;
+}
+
+.video-jumbo{
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/destinywp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px;
+}
+
 
 .video-icon-wrap{
   font-size: 50px;
@@ -279,10 +306,19 @@ a:hover{
   text-decoration: none;
 }
 
+.videos-results{
+  background-color: #242146;
+}
+
 .wrong{
   color: red;
   font-weight: 700;
   font-size: 30px;
+}
+
+.yt-title{
+  /* color: #fa5900; */
+  background-color: #fff;
 }
 
 #splash-video{
