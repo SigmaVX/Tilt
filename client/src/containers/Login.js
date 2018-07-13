@@ -118,7 +118,7 @@ class Login extends Component {
         <div className="row justify-content-center login-alert">
           <h1 className="col-12 text-center">Login</h1>
           <div className="col-12 key-icon-wrap my-1">
-            <i class="fab fa-keycdn"></i>
+            <i className="fab fa-keycdn"></i>
           </div> 
           <form className="col-12 col-md-6 my-1">
             

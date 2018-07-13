@@ -46,14 +46,13 @@ class Admin extends Component {
     loadCheats = () => {
         API.getCheats()
         .then(res => {
-            // console.log(res.data);
+            console.log(res.data);
             this.setState({
               cheats: res.data,
             })
         })
         .catch(err => console.log(err))
     }
-
 
     // Load Games To State
     loadGames = () => {
@@ -104,12 +103,14 @@ class Admin extends Component {
         event.preventDefault();
         API.postCheats({
             cheatName: this.state.cheatName,
-            cheatImage: this.state.cheatImage
+            cheatImage: this.state.cheatImage,
+            cheatDescription: this.state.cheatDescription
         }).then(res => {
             this.loadCheats();
             this.setState({
             cheatName: "",
-            cheatImage: ""
+            cheatImage: "",
+            cheatDescription: ""
             });
         }).catch(err => console.log(err))
     }
@@ -146,15 +147,17 @@ class Admin extends Component {
    
    // Update Cheat
    updateCheat = (cardObject) =>{
-        // console.log("Cheat Object:", cardObject);
+        console.log("Cheat Object:", cardObject);
         API.putCheat(cardObject.id, {
             cheatName: cardObject.cardName,
-            cheatImage: cardObject.cardImage
+            cheatImage: cardObject.cardImage,
+            cheatDescription: cardObject.cheatDescription
         }).then(res => {
             this.loadCheats();
             this.setState({
                 cheatName: "",
-                cheatImage: ""
+                cheatImage: "",
+                cheatDescription: ""
             })
         }).catch(err => console.log(err))
     }
@@ -269,133 +272,142 @@ class Admin extends Component {
     <div>
         
         
-        <div className="row no-gutters jumbotron text-center">
-            <h1 className="col-12 animated pulse">Admin</h1>
-            <h2 className="col-12">Add Some Text</h2>
-            <h3 className="col-12">Add More Text</h3>
+        <div className="row no-gutters jumbotron text-center admin-jumbo mb-0">
+            <h1 className="col-12 animated bounceInLeft">Admin</h1>
+            <h2 className="col-12 animated bounceInLeft">Choose Wisely</h2>
         </div>
 
-        <div className="row justify-content-center text-center mx-3 my-2">
+        <div className="container-fluid admin-data py-4">
+            
+            <div className="row justify-content-center text-center mx-2 my-2">
 
-            <div className="col-12 col-md-4">
-                <h2>Add New System</h2>
-                <form>
-                    <div className="form-group">
-                        <input type="text" className="form-control my-2 center-placeholder" name="systemName" value={this.state.systemName}  placeholder="Enter New System Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2 center-placeholder" name="systemImage" value={this.state.systemImage}  placeholder="Enter System Image Path" onChange={this.handleOnChange}/>
-                    </div>
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postSystem}>Add System</button>
-                </form>
+                <div className="col-12 col-md-5">
+                    <h2>Add New System</h2>
+                    <form>
+                        <div className="form-group">
+                            <input type="text" className="form-control my-2 center-placeholder" name="systemName" value={this.state.systemName}  placeholder="Enter New System Name" onChange={this.handleOnChange}/>
+                            <input type="text" className="form-control my-2 center-placeholder" name="systemImage" value={this.state.systemImage}  placeholder="Enter System Image Path" onChange={this.handleOnChange}/>
+                            <button type="submit" className="btn btn-block my-2" onClick={this.postSystem}>Add System</button>
+                        </div>
+                        
+                    </form>
+                </div>
+
+                <div className="col-12 col-md-5">
+                    <h2>Add New Game</h2>
+                    <form>
+                        <div className="form-group">
+                            <input type="text" className="form-control my-2 center-placeholder" name="gameName" value={this.state.gameName}  placeholder="Enter New Game Name" onChange={this.handleOnChange}/>
+                            <input type="text" className="form-control my-2 center-placeholder" name="gameImage" value={this.state.gameImage}  placeholder="Enter Game Image Path" onChange={this.handleOnChange}/>
+                            <button type="submit" className="btn btn-block my-2" onClick={this.postGame}>Add Game</button>
+                        </div>
+                        
+                    </form>
+                </div>
             </div>
+            
+            <div className="row justify-content-center text-center mx-3 my-2">
+                
+                <div className="col-12 col-md-10">
+                    <h2>Add Cheat Type</h2>
+                    <form>
+                        <div className="form-group">
+                            <input type="text" className="form-control my-2 center-placeholder" name="cheatName" value={this.state.cheatName}  placeholder="Enter Cheat Name" onChange={this.handleOnChange}/>
+                            <input type="text" className="form-control my-2 center-placeholder" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
+                            <input type="text" className="form-control my-2 center-placeholder" name="cheatDescription" value={this.state.cheatDescription}  placeholder="Enter Cheat Description" onChange={this.handleOnChange}/>
+                            <button type="submit" className="btn btn-block my-2" onClick={this.postCheat}>Add Cheat</button>
+                        </div>
 
-            <div className="col-12 col-md-4">
-                <h2>Add New Game</h2>
-                <form>
-                    <div className="form-group">
-                        <input type="text" className="form-control my-2 center-placeholder" name="gameName" value={this.state.gameName}  placeholder="Enter New Game Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2 center-placeholder" name="gameImage" value={this.state.gameImage}  placeholder="Enter Game Image Path" onChange={this.handleOnChange}/>
-                    </div>
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postGame}>Add Game</button>
-                </form>
+                    </form>
+                </div>
+
             </div>
-
-
-            <div className="col-12 col-md-4">
-                <h2>Add Cheat Type</h2>
-                <form>
-                    <div className="form-group">
-                        <input type="text" className="form-control my-2 center-placeholder" name="cheatName" value={this.state.cheatName}  placeholder="Enter Cheat Name" onChange={this.handleOnChange}/>
-                        <input type="text" className="form-control my-2 center-placeholder" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
-                    </div>
-                    <button type="submit" className="btn btn-block my-2" onClick={this.postCheat}>Add Cheat</button>
-                </form>
-            </div>
-
-        </div>
 
         
-        <div className="row justify-content-center text-center mt-4 mb-2">
-            <h2 className="col-12">Tracked Systems</h2>
-            {this.state.systems.map(system => {
+            <div className="row justify-content-center text-center mt-4 mb-2">
+                <h2 className="col-12">Tracked Systems</h2>
+                {this.state.systems.map(system => {
 
-                return  (
-                    <Card 
-                        key={system._id} 
-                        systemName={system.systemName}
-                        systemImage={system.systemImage}
-                        cheatCount={system.cheatCount}
-                        _id = {system._id}
-                        updateSystem={this.updateSystem}
-                    />
-            )})}
-        </div>
-
-
-        <div className="row justify-content-center text-center my-2">
-            <h2 className="col-12">Tracked Games</h2>
-            {this.state.games.map(game => {
-
-                return  (
-                    <Card 
-                        key={game._id} 
-                        gameName={game.gameName}
-                        gameImage={game.gameImage}
-                        cheatCount={game.cheatCount}
-                        _id = {game._id}
-                        updateGame={this.updateGame}
-                    />
+                    return  (
+                        <Card 
+                            key={system._id} 
+                            systemName={system.systemName}
+                            systemImage={system.systemImage}
+                            cheatCount={system.cheatCount}
+                            _id = {system._id}
+                            updateSystem={this.updateSystem}
+                        />
                 )})}
-        </div>
-
-        <div className="row justify-content-center text-center my-2">
-            <h2 className="col-12">Tracked Cheats</h2>
-            {this.state.cheats.map(cheat => {
-
-                return  (
-                    <Card 
-                        key={cheat._id} 
-                        cheatName={cheat.cheatName}
-                        cheatImage={cheat.cheatImage}
-                        cheatCount={cheat.cheatCount}
-                        _id = {cheat._id}
-                        updateGame={this.updateCheat}
-                    />
-                )})}
-        </div>
+            </div>
 
 
-        <Search
-            reportSearch={this.reportSearch}
-        />
-                
-        <div className="container">
-              <h2 className="col-12 text-center">{this.state.reports.length
-                  ? ""
-                  : "No Search Results!"}
-              </h2>
-              <div className="row justify-content-center">
-              <table className="col-10">
-                <tbody>
-                {this.state.reports.map(report=>{
-                    return (
-                    <tr className="row justify-content-center reports-row py-2" key={report._id}>
-                        
-                        <td className="col-12 col-md-8">
-                            <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
-                            <h6 className="cheat-type my-1">Game Name: {report.cheatGame.gameName} Cheat Type: {report.cheatType.cheatName}</h6>
-                            <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
-                            <a className="video-link my-1" target="_blank" href={report.cheatVideo}>{report.cheatVideo ? report.cheatVideo : "No Video Link Posted"}</a>
-                            <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : "No Comments"}</p>
-                        </td>
-                        <td className="col-12 col-md-2 text-center">
-                            <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id, report.cheatGame._id, report.cheatSystem._id, report.cheatType._id, report.cheaterIGN)}>Delete</button>
-                            <button className="btn btn-block" onClick={() => this.editReport(report._id, report.cheatComments, report.cheatVideo, report.cheaterIGN)}>Edit</button>
-                        </td>
-                    </tr>
-                    )
-                })}
-                </tbody>
-            </table>
+            <div className="row justify-content-center text-center pt-3 pb-2">
+                <h2 className="col-12">Tracked Games</h2>
+                {this.state.games.map(game => {
+
+                    return  (
+                        <Card 
+                            key={game._id} 
+                            gameName={game.gameName}
+                            gameImage={game.gameImage}
+                            cheatCount={game.cheatCount}
+                            _id = {game._id}
+                            updateGame={this.updateGame}
+                        />
+                    )})}
+            </div>
+
+            <div className="row justify-content-center text-center pb-2">
+                <h2 className="col-12">Tracked Cheats</h2>
+                {this.state.cheats.map(cheat => {
+
+                    return  (
+                        <Card 
+                            key={cheat._id} 
+                            cheatName={cheat.cheatName}
+                            cheatImage={cheat.cheatImage}
+                            cheatCount={cheat.cheatCount}
+                            cheatDescription={cheat.cheatDescription}
+                            _id = {cheat._id}
+                            updateCheat={this.updateCheat}
+                        />
+                    )})}
+            </div>
+
+
+            <Search
+                reportSearch={this.reportSearch}
+            />
+                    
+            <div className="container py-5">
+                <h2 className="col-12 text-center">{this.state.reports.length
+                    ? ""
+                    : "No Search Results!"}
+                </h2>
+                <div className="row justify-content-center">
+                <table className="col-10">
+                    <tbody>
+                    {this.state.reports.map(report=>{
+                        return (
+                        <tr className="row justify-content-center reports-row py-2" key={report._id}>
+                            
+                            <td className="col-12 col-md-8">
+                                <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
+                                <h6 className="cheat-type my-1">Game Name: {report.cheatGame.gameName} Cheat Type: {report.cheatType.cheatName}</h6>
+                                <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
+                                <a className="video-link my-1" target="_blank" href={report.cheatVideo}>{report.cheatVideo ? report.cheatVideo : "No Video Link Posted"}</a>
+                                <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : "No Comments"}</p>
+                            </td>
+                            <td className="col-12 col-md-2 text-center">
+                                <button className="btn btn-block mt-4" onClick={() => this.deleteReportItem(report._id, report.cheatGame._id, report.cheatSystem._id, report.cheatType._id, report.cheaterIGN)}>Delete</button>
+                                <button className="btn btn-block" onClick={() => this.editReport(report._id, report.cheatComments, report.cheatVideo, report.cheaterIGN)}>Edit</button>
+                            </td>
+                        </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
+                </div>
             </div>
         </div>
                
@@ -407,28 +419,28 @@ class Admin extends Component {
             onRequestClose={this.closeModal}
             contentLabel="Example Modal"
         >
- 
-            <h2 ref={subtitle => this.subtitle = subtitle}>Edit Report Comments And Video</h2>
-           
-            <div className="row justify-content-center text center my-4">
-                <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
-                    
-                    <div className="form-group">
-                        <label>Edit YouTube Video Link:</label>
-                        <input type="text" className="form-control" name="editCheatVideo" value={this.state.editCheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Edit Comments:</label>
-                        <textarea type="text" className="form-control" name="editCheatComments" value={this.state.editCheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
-                    </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-block my-2" onClick={(event)=>this.updateCommentsAndVideo(event, this.state.editId)}>Update Data</button> 
-                        <button type="close" className="btn btn-block my-2" onClick={this.closeModal}>close</button>               
-                    </div>
-                    <div className="form-group text-center">
-                        <p id="error-text" className="error-text"></p>
-                    </div>
-                </form>
+            <div className="modal-header text-center">        
+                <h2 className="modal-title" ref={subtitle => this.subtitle = subtitle}>Edit Report Comments And Video</h2>
+           </div>
+
+           <div className="modal-body">
+                <div className="row justify-content-center text center my-4">
+                    <form className="col-12 col-md-11" onSubmit={this.handleSubmit}>
+                        
+                        <div className="form-group">
+                            <label>Edit YouTube Video Link:</label>
+                            <input type="text" className="form-control py-1" name="editCheatVideo" value={this.state.editCheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Edit Comments:</label>
+                            <textarea type="text" className="form-control py-1" name="editCheatComments" value={this.state.editCheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
+                        </div>
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-block py-1" onClick={(event)=>this.updateCommentsAndVideo(event, this.state.editId)}>Update Data</button> 
+                            <button type="close" className="btn btn-block py-1" onClick={this.closeModal}>close</button>               
+                        </div>
+                    </form>
+                </div>
             </div>                
 
 

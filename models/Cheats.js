@@ -14,7 +14,11 @@ const cheatsSchema = new Schema({
     type: Number,
     default: 0, 
     required: true 
-  },    
+  },
+  cheatDescription: { 
+    type: String,
+    required: true 
+  },      
   addedOnDate: { 
     type: Date,
     default: Date.now()

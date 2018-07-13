@@ -210,66 +210,95 @@ class Post extends Component {
     return (
 
     <div>
-        <div className="row no-gutters jumbotron post-jumbo text-center">
-            <h1 className="col-12 animated flipInX">Post A Cheat Report</h1>
-            <h2 className="col-12">See The Cheat Glossary For Terms</h2>
+        <div className="row no-gutters jumbotron post-jumbo text-center mb-0">
+            <div className="col-12 jumbo-text justify-content-center">
+                <h1 className="col-12 animated flipInX">Post A Cheat Report</h1>
+                <h2 className="col-12">See The Cheat Glossary For Terms</h2>
+            </div>
         </div>
 
-        <div className="row justify-content-center text center my-4">
-            <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
-                    <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
-                </div>
-                <div className="form-group">
-                    <label>What Game System Was The Cheater On?</label>
-                    <select required className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game System" onChange={this.handleOnChange}>
-                        <option value="">Select Game</option>
-                        {this.state.systems.map(system=>{
-                            return(
-                                <option key={system._id} value={system._id}>{system.systemName}</option>
-                            )    
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>"What Game Was The Cheater Playing?</label>
-                    <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select Game" onChange={this.handleOnChange}>
-                        <option value="">Select System</option>
-                        {this.state.games.map(game=>{
-                            return(
-                                <option key={game._id} value={game._id}>{game.gameName}</option>
-                            )    
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>How Did They Cheat?</label>
-                    <select className="form-control" name="cheatType" value={this.state.cheatType} placeholder="Select Cheat Type" onChange={this.handleOnChange}>
-                        <option value="">Select Cheat Type</option>
+        <div className="container-fluid post-content pt-3">
+            <div className="row justify-content-center text center py-4">
+                <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                        <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
+                        <input type="text" className="form-control" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>What Game System Was The Cheater On?</label>
+                        <select required className="form-control" name="cheatSystem" value={this.state.cheatSystem} placeholder="Select Game System" onChange={this.handleOnChange}>
+                            <option value="">Select Game</option>
+                            {this.state.systems.map(system=>{
+                                return(
+                                    <option key={system._id} value={system._id}>{system.systemName}</option>
+                                )    
+                            })}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>"What Game Was The Cheater Playing?</label>
+                        <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select Game" onChange={this.handleOnChange}>
+                            <option value="">Select System</option>
+                            {this.state.games.map(game=>{
+                                return(
+                                    <option key={game._id} value={game._id}>{game.gameName}</option>
+                                )    
+                            })}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>How Did They Cheat?</label>
+                        <select className="form-control" name="cheatType" value={this.state.cheatType} placeholder="Select Cheat Type" onChange={this.handleOnChange}>
+                            <option value="">Select Cheat Type</option>
+                            {this.state.cheats.map(cheat=>{
+                                return(
+                                    <option key={cheat._id} value={cheat._id}>{cheat.cheatName}</option>
+                                )    
+                            })}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Add A YouTube Video Link (Optional):</label>
+                        <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Add Any Comments (Optional):</label>
+                        <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
+                    </div>
+                    <div className="form-group">
+                        <button disabled={!isEnabled} type="submit" className="btn btn-block my-2" onClick={this.validateForm}>Report Cheater</button>                
+                    </div>
+                    <div className="form-group text-center">
+                        <p id="error-text" className="error-text"></p>
+                    </div>
+                </form>
+            </div>
+        
+
+
+            <div className="container glossary py-5">
+                <div className="row justify-content-center text-center">
+                    
+                    <table className="col-12 col-md-8">
                         {this.state.cheats.map(cheat=>{
                             return(
-                                <option key={cheat._id} value={cheat._id}>{cheat.cheatName}</option>
-                            )    
+                                <tr className="row d-flex align-items-center">
+                                    <td className="col-2">
+                                        <img classImage="glossary-icon" src={cheat.cheatImage} alt={cheat.cheatName}/>
+                                    </td>    
+                                    <td className="col-10">
+                                        <h6 className="col-12"><strong>{cheat.cheatName}</strong></h6>
+                                        <p className="col-12">{cheat.cheatDescription}</p>
+                                    </td>
+                                </tr>
+                            )
                         })}
-                    </select>
+                        
+                    </table>
                 </div>
-                <div className="form-group">
-                    <label>Add A YouTube Video Link (Optional):</label>
-                    <input type="text" className="form-control" name="cheatVideo" value={this.state.cheatVideo}  placeholder="https://youtu.be/6Zcib-ZT2qk" onChange={this.handleOnChange}/>
-                </div>
-                <div className="form-group">
-                    <label>Add Any Comments (Optional):</label>
-                    <textarea type="text" className="form-control" name="cheatComments" value={this.state.cheatComments}  placeholder="Comments Must Be Less Than 300 Characters" onChange={this.handleOnChange}/>
-                </div>
-                <div className="form-group">
-                    <button disabled={!isEnabled} type="submit" className="btn btn-block my-2" onClick={this.validateForm}>Report Cheater</button>                
-                </div>
-                <div className="form-group text-center">
-                    <p id="error-text" className="error-text"></p>
-                </div>
-            </form>
+            </div>
         </div>
+
 
     </div>
     )
