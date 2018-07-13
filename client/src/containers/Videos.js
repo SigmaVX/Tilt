@@ -94,7 +94,8 @@ class Videos extends Component {
       q: value     
     });
     this.setState({
-      submittedQuery: value
+      submittedQuery: value,
+      value: value
     });
 
   }
@@ -154,8 +155,8 @@ class Videos extends Component {
       this.setState({
         ytVideos: res.data.items,
         submittedQuery: query.q,
-        q: "",
-        value: "none"
+        q: ""//,
+        // value: "none"
       });
     })
     .catch(err => console.log(err));
