@@ -8,31 +8,6 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
-// import styled from "styled-components";
-
-// Styled component
-// const StyledChatDiv = styled.div`
-//   background: #ffe6e6;
-//   height: 200px;
-//   overflow: auto;
-// `;
-
-// const StyledChatWindow = styled.textarea`
-//   background: salmon;
-//   height: 200px;
-//   overflow: auto;
-// `;
-
-// const StyledUl = styled.ul`
-//   font-size: 120%;
-//   color: black;
-//   font-weight: bold;
-// `;
-
-// const CustomLi = styled.li`
-//   text-decoration: none;
-//   color: green;
-// `;
 
 class ChatWindow extends Component {
   constructor(props) {
@@ -46,7 +21,6 @@ class ChatWindow extends Component {
   componentDidMount() {
     this._isMounted = true;
     this._notAlreadyDeleted = true;
-    this.myChatHistory = [];
     this.prevForumId = this.props.forumId;
     this.scrollToBottom();
   }
@@ -77,10 +51,11 @@ class ChatWindow extends Component {
   }
 
   loadChatHistory() {
-    console.log(`ChatWindow.js loadChatHistory() this.props.forumId: ${this.props.forumId}`);
+    // console.log(`ChatWindow.js loadChatHistory() this.props.forumId: ${this.props.forumId}`);
     API
       .getChatForum(this.props.forumId)
       .then(res => {
+        console.log("ChatWindow.js getChatForum api call res.data: ", JSON.stringify(res.data));
         this.safeUpdate({
           chatHistory: res.data.chats
         });
@@ -91,7 +66,7 @@ class ChatWindow extends Component {
   }
 
   deleteItemHandler(chatId) {
-    console.log(`ChatWindow.js in deleteItemHandler, item ${chatId}`);
+    // console.log(`ChatWindow.js in deleteItemHandler, item ${chatId}`);
     this.props.getDeleteChatItem({
       chatId: chatId
     });
@@ -106,7 +81,7 @@ class ChatWindow extends Component {
               {chatHist.chat}
             </h6>
           </li>
-        ) 
+        )
       )
     );
   }
@@ -138,17 +113,23 @@ class ChatWindow extends Component {
             {this.state.chatHistory.map(chatHist => (
               <li key={chatHist._id}>
                 <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                  {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                  {chatHist.postedBy}: {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
                 </h6>
               </li>
               )
             )}
-            {this.props.convoArray.map((chatMsg) => (
-                  <li key={chatMsg.msgId}>
-                    <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                    {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                    </h6>
-                  </li>
+            {this.props.convoArray.map((chatMsg, index) => (
+                chatMsg.post 
+                  ? <li key={chatMsg.msgId}>
+                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                      {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                      </h6>
+                    </li>
+                  : <li key={index} style={{listStyleType: "none"}}>
+                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                      <em>{chatMsg.msg}</em>
+                      </h6>
+                    </li>
               ) 
             )}
           </ul>

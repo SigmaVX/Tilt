@@ -16,8 +16,9 @@ class ChatForums extends Component {
       // forum information
       // ----------------------------------------------------
       forumsList: [],
-      activeForumId: -1,
-      activeForumName: "none",
+      // default forum is "General" Forum
+      activeForumId: 0,
+      activeForumName: "",
       // --
       // select menu option default
       // ---------------------------
@@ -28,6 +29,12 @@ class ChatForums extends Component {
 
   componentDidMount() {
     this.loadForumList();
+    // load default chat forum: 'General'
+/*     this.props.getForumInfo({
+      chatRoomSelected: true,
+      activeForumId: GENERAL_FORUM_ID,
+      activeForumName: "General"
+    }); */
   }
 
   handleForumChange = (event) => {
@@ -35,18 +42,18 @@ class ChatForums extends Component {
 
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
-    // console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
-    console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
+    //console.log(`event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
+    // console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
 
     this.setState({
       activeForumId: forum._id,
       activeForumName: forum.forumChatRoom,
       value: value
     });
-    console.log(`ChatForums.js in handleForumChange state.value: ${this.state.value}`);
-    console.log(`ChatForums.js in handleForumChange 'normal' value: ${value}`);
+     // console.log(`ChatForums.js in handleForumChange state.value: ${this.state.value}`);
+     // console.log(`ChatForums.js in handleForumChange 'normal' value: ${value}`);
     if (value !== "none"){
-      console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
+       // console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
       this.props.getForumInfo({
         chatRoomSelected: true,
         activeForumId: forum._id,
@@ -94,40 +101,3 @@ class ChatForums extends Component {
 }
 
 export default ChatForums;
-
-/*
-
-    let joinSubmitButton;
-    const isLoggedIn = this.props.isLoggedIn;
-
-  handleSubmit(event) {
-    // console.log(`Chosen forum: ${this.state.value}`);
-    event.preventDefault();
-    if (this.state.value !== "none"){
-      console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
-      this.props.getForumInfo({
-        chatRoomSelected: true,
-        activeForumId: this.state.activeForumId,
-        activeForumName: this.state.activeForumName
-      });
-    }
-  }
-
-      // this.handleSubmit = this.handleSubmit.bind(this);
-                  { <form onSubmit={this.handleSubmit}> }
-                               {  {joinSubmitButton} }
-
-        // choose whether join chat button is enabled or disabled depending on login status
-    joinSubmitButton = isLoggedIn
-    ?  <input className="btn btn-sm btn-success" type="submit" 
-        value= {this.state.value === "none" 
-        ? "No chatroom selected" 
-        : `Join ${this.state.activeForumName} chat` 
-      }/>
-    : <input className="btn btn-sm btn-success disabled" type="submit" 
-        value= {this.state.value === "none" 
-        ? "No chatroom selected" 
-        : `Join ${this.state.activeForumName} chat` 
-      } disabled />;
-
-*/
