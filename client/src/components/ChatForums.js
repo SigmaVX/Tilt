@@ -24,7 +24,6 @@ class ChatForums extends Component {
       // --
       // select menu option default
       // ---------------------------
-      // value: "none"
       value: "none"
     };
     this.handleForumChange = this.handleForumChange.bind(this);
@@ -32,17 +31,6 @@ class ChatForums extends Component {
 
   componentDidMount() {
     this.loadForumList();
-    // load default chat forum: 'General'
-   /* this.setState({
-      value: GENERAL_FORUM_ID,
-      activeForumName: "General",
-      activeForumId: GENERAL_FORUM_ID
-    }) */
-/*     this.props.getForumInfo({
-      chatRoomSelected: true,
-      activeForumId: GENERAL_FORUM_ID,
-      activeForumName: "General"
-    }); */
   }
 
   handleForumChange = (event) => {
