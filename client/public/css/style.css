@@ -1,3 +1,14 @@
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover{
+  color: #fa5900;
+  text-decoration: none;
+}
+
 html {
   overflow: scroll;
   overflow-x: hidden;
@@ -18,7 +29,7 @@ h2{
 }
 
 label{
-  color: #272a2e;
+
   font-weight: 600;
 }
 
@@ -27,19 +38,27 @@ p{
   font-family: 'Maven Pro', sans-serif;
 }
 
-a{
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover{
-  color: #fa5900;
-  text-decoration: none;
+select { 
+  text-align-last:center; 
 }
 
 
 .adamin-text{
   text-transform: capitalize;
+}
+
+.admin-data{
+  background-color: #242146;
+  color: #fff;
+}
+
+.admin-jumbo{
+  border-bottom: 3px solid #fa5900;
+  /* background-color: #f91a51; */
+  color: #fff;
+  background-image: url("/images/genji.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .bg-danger{
@@ -59,8 +78,19 @@ a:hover{
 
 .btn:hover{
   color: #fff;
-  background-color: #7e41d5;
+  background-color: #f91a51;
   border: 2px solid #979797;
+}
+
+.card{
+  padding-left: 0px;
+  padding-right: 0px;
+  border: 1px solid #979797;
+}
+
+.card-body{
+  color: #272a2e;
+  background-color: #eee;
 }
 
 .comment-text{
@@ -76,6 +106,13 @@ a:hover{
 .center-placeholder{
     text-align:center;
   }
+
+.crop {
+    height: 100px;
+    object-fit: cover;
+    background-color: #333333;
+}
+
 
 .error-text{
   text-align: center;
@@ -98,14 +135,28 @@ a:hover{
   font-weight: 600;
 }
 
+.glossary-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/wowwp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .home-stats{
   /* background-color: #f91a51; */
-  color: #272a2e;
+  color: #fff;
+  background-color: #242146;
 }
 
 .home-results{
   background-color: #272a2e;
   color: #fff;
+
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
+  background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
+  background-image: linear-gradient(to bottom, #272a2e 0%,  #242146 94%);
 }
 
 .icon-bubble{
@@ -117,10 +168,26 @@ a:hover{
   min-height: 95vh;
 }
 
+.modal-header{
+  color: #fa5900;
+  background-color: #242146;
+  display: block;
+}
+
+.modal-body{
+  color: #272a2e;
+  background-color: #eee;
+  border-radius: 0 0 7px 7px;
+}
+
 .key-icon-wrap{
   font-size: 150px;
   text-align: center;
   color: #fa5900;
+}
+
+.jumbo-text{
+  background-color: rgba(20,20,20,.5);
 }
 
 .nav-active{
@@ -137,17 +204,24 @@ a:hover{
   width: 40px;
 }
 
-.post-jumbo{
-  background-color: #979797;
-  color: #272a2e;
+.post-content{
+  background-color: #242146;
+  color: #fff;
+}
+
+.post-jumbo{ 
   border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/fortnite-wall.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .pulse{
   animation-iteration-count: 100;
   animation-duration: 2s;
 }
-
 
 .rotateIn{
   animation-duration: 3s;
@@ -156,7 +230,7 @@ a:hover{
 .ReactModal__Content--after-open{
   margin-left: 20%;
   width: 60%;
-  margin-top: 10%;
+  margin-top: 5%;
   border-radius: 10px;
   background-color: #ffffff;
   border: 3px solid #333333;
@@ -175,7 +249,7 @@ a:hover{
 }
 
 .reports-row:nth-child(even){
-    background-color:#979797;
+    background-color:#ddd;
 }
 
 .reports-row:nth-child(odd){
@@ -184,7 +258,7 @@ a:hover{
 
 .round-img{
   border-radius: 50%;
-  /* border: 3px solid #979797; */
+  border: 3px solid #fa5900;
 }
 
 .round-img:hover{
@@ -203,26 +277,57 @@ a:hover{
   margin-bottom: 0px;
 }
 
+.splash-subtitle{
+  text-transform: capitalize;
+}
+
 .username{
   position: absolute;
   font-size: 25px;
   right: 2%;
 }
 
-.video-link{
-    margin-bottom: 15px;
+.video-card{
+  border-radius: 0px;
+  margin: 0px;
+  padding: 0px;
+  /* object-fit: cover; */
 }
+
+.video-link{
+  margin-bottom: 15px;
+}
+
+.video-jumbo{
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #272a2e;
+  background-image: url("/images/destinywp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px;
+}
+
 
 .video-icon-wrap{
   font-size: 50px;
-  color: #272a2e;
+  color: #fa5900;
   text-decoration: none;
+}
+
+.videos-results{
+  background-color: #242146;
 }
 
 .wrong{
   color: red;
   font-weight: 700;
   font-size: 30px;
+}
+
+.yt-title{
+  /* color: #fa5900; */
+  background-color: #fff;
 }
 
 #splash-video{
