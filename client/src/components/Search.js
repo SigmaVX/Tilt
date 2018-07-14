@@ -24,7 +24,7 @@ class Search extends Component {
 
     render(){
         return(
-            <div className="container-fluid">
+            <div className="container-fluid pt-3">
                 <div className="row justify-content-center text-center">
                     <div className="col-8">
                         <h2 className="col-12">Search For Cheaters</h2>
@@ -32,10 +32,10 @@ class Search extends Component {
                             <div className="form-group">
                                 <input
                                     type="text"
-                                    className="form-control mb-2"
+                                    className="form-control mb-2 search-box"
                                     name="search"
                                     value={this.state.search}
-                                    placeholder="Search For A Cheater By IGN"
+                                    placeholder="Enter An IGN To Search For A Cheater"
                                     onChange={this.handleOnChange}
                                     />
                                 <button 

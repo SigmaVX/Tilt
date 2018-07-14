@@ -5,9 +5,16 @@ export default {
     youtubeSearch: function(query) {
       return axios.get("/api/youtubevids", {params:query})
     },
+    getRecentReports: function(query){
+        return axios.get("/api/reports/recent", {params: query})
+    },
     // Get & Update All Counts
     updateCounts: function(query) {
-        return axios.get("/api/counts", {params: query})
+        return axios.get("/api/counts/add", {params: query})
+    },
+    // Get & Update All Counts
+    reduceCounts: function(query) {
+        return axios.get("/api/counts/reduce", {params: query})
     },
     // Get Recap of Gams, Systems, Cheats, & Cheaters Sorted
     getRecapCounts: function() {
@@ -16,6 +23,22 @@ export default {
     // *********************************************************
     // TEMPORARY FOR USERS CHAT
     // *********************************************************
+    // get forum list based (list of chatrooms)
+    getForumList: function() {
+      return axios.get(`/api/forum`);
+    },
+    // Get Chat Forum
+    getChatForum: function(id) {
+      return axios.get(`/api/forum/${id}`)
+    },
+    // post chat
+    postChat: function(id, postInfo) {
+      return axios.post(`/api/chats/${id}`, postInfo);
+    },
+    // Delete Chat
+    deleteChat: function(id) {
+      return axios.delete(`/api/chats/${id}`)
+    },
     getUsers: function() {
       return axios.get("/api/users");
     },
@@ -41,7 +64,7 @@ export default {
     },
     // Get All Reports By IGN
     getReportsByIGN: function(cheaterIGN) {
-        return axios.get("/api/reports", {params: cheaterIGN})
+        return axios.get("/api/reports/ign", {params: cheaterIGN})
     },
     // Get All Cheats
     getCheats: function() {
@@ -97,11 +120,15 @@ export default {
     },
     // Edit Report
     putReport: function(id, body) {
-        return axios.put(`/api/reports/${id}`, body)
+        return axios.put(`/api/reports/byid/${id}`, body)
     },
     // Edit Cheats
     putCheat: function(id, body) {
         return axios.put(`/api/cheats/${id}`, body)
+    },
+    // Edit Cheats
+    putCommentsAndVideos: function(id, body) {
+        return axios.put(`/api/reports/commentsandvideo/${id}`, body)
     },
     // Edit Cheater
     putCheater: function(id, body) {
@@ -125,7 +152,7 @@ export default {
     },
     // Delete Report
     deleteReport: function(id) {
-        return axios.delete(`/api/reports/${id}`)
+        return axios.delete("/api/reports/id", {params:id})
     },
     // Delete Cheat
     deleteCheat: function(id) {

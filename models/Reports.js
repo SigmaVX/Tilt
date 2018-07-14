@@ -18,6 +18,10 @@ const reportsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Cheats'
   },
+  reportedBy: { 
+    type: Schema.Types.ObjectId,
+    ref: 'Users'
+  },
   cheatVideo: { 
     type: String 
   },

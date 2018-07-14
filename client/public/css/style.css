@@ -1,22 +1,106 @@
 
-.rv-discrete-color-legend-item__title{
-  font-size: 20px;
-  font-weight: 700;
+a{
+  text-decoration: none;
+  color: inherit;
 }
 
-.ry-xy-plot{
-  position: relative
+a:hover{
+  color: #fa5900;
+  text-decoration: none;
 }
 
-.rv-hint{
-  color: black;
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+h1{
+  font-size: 60px;
+  /* font-weight: 700; */
+}
+
+h2{
+  font-size: 35px;
+}
+
+label{
+
+  font-weight: 600;
+}
+
+p{
+  font-size: 14px;
+  font-family: 'Maven Pro', sans-serif;
+}
+
+select { 
+  text-align-last:center; 
+}
+
+
+.adamin-text{
+  text-transform: capitalize;
+}
+
+.admin-data{
+  background-color: #242146;
+  color: #fff;
+}
+
+.admin-jumbo{
+  border-bottom: 3px solid #fa5900;
+  /* background-color: #f91a51; */
+  color: #fff;
+  background-image: url("/images/genji.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.bg-danger{
+  text-transform: capitalize;
   text-align: center;
 }
 
-.animated {
-  animation-duration: 1s;
-  /* animation-fill-mode: both;
-  animation-iteration-count: 5; */
+.blue-background{
+  background-color: #242146;
+  color: #fff;
+}
+
+
+.btn{
+  background-color: #fa5900;
+  color: #242146;
+  border: 2px solid #fff;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: capitalize;
+  line-height: 25px;
+}
+
+.btn:hover{
+  color: #fff;
+  background-color: #f91a51;
+  border: 2px solid #fff;
+}
+
+.card{
+  padding-left: 0px;
+  padding-right: 0px;
+  border: 1px solid #979797;
+}
+
+.card-body{
+  color: #272a2e;
+  background-color: #eee;
+}
+
+.comment-text{
+  text-align: justify;
 }
 
 .correct{
@@ -29,42 +113,234 @@
     text-align:center;
   }
 
+.crop {
+    height: 100px;
+    object-fit: cover;
+    background-color: #333333;
+}
+
 .error-text{
   text-align: center;
   font-size: 30px;
 }
 
-.icon-bubble{
-  margin: 30px;
-  background-color: #ffffff;
+.fadeIn{
+  animation-delay: 3s;
+  animation-duration: 2s;
 }
 
+.fadeInDown {
+  animation-duration: 1s; 
+}
+
+.footer{
+  background-color: #272a2e;
+  color: #fa5900;
+  border-top: 2px solid #fa5900;
+  font-weight: 600;
+}
+
+.glossary-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/wowwp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.home-stats{
+  /* background-color: #f91a51; */
+  color: #fff;
+  background-color: #242146;
+}
+
+.home-results{
+  background-color: #272a2e;
+  color: #fff;
+
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
+  background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
+  background-image: linear-gradient(to bottom,#242146 0%, #272a2e 33%,  #242146 66%);
+}
+
+.icon-bubble{
+  margin: 30px;
+  /* background-color: #f91a51; */
+}
+
+.login-alert{
+  min-height: 95vh;
+}
+
+.modal-header{
+  color: #fa5900;
+  background-color: #242146;
+  display: block;
+}
+
+.modal-body{
+  color: #272a2e;
+  background-color: #eee;
+  border-radius: 0 0 7px 7px;
+}
+
+.key-icon-wrap{
+  font-size: 150px;
+  text-align: center;
+  color: #fa5900;
+}
+
+.jumbo-text{
+  background-color: rgba(20,20,20,.5);
+}
+
+.nav-active{
+  color: #fa5900;
+}
+
+.navbar{
+  background-color: #272a2e;
+  color: #fff;
+  border-bottom: 3px solid #fa5900;
+}
+
+.nav-icon{
+  width: 40px;
+}
+
+.post-content{
+  background-color: #242146;
+  color: #fff;
+}
+
+.post-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #fff;
+  background-image: url("/images/fortnite-wall.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pulse{
+  animation-iteration-count: 100;
+  animation-duration: 2s;
+}
+
+.rotateIn{
+  animation-duration: 3s;
+}
+
+.ReactModal__Content--after-open{
+  margin-left: 20%;
+  width: 60%;
+  margin-top: 5%;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 3px solid #333333;
+}
+
+.reports-row{
+  color: #272a2e;
+}
+
+.reports-row:first-child{
+  border-radius: 7px 7px 0px 0px; 
+}
+
+.reports-row:last-child{
+  border-radius: 0px 0px 7px 7px; 
+}
 
 .reports-row:nth-child(even){
-    background-color: lightblue;
+    background-color:#ddd;
 }
 
 .reports-row:nth-child(odd){
-  background-color: lightgreen;
+  background-color: #eee;
 }
 
 .round-img{
   border-radius: 50%;
-  border: 2px solid #333333;
+  border: 3px solid #fa5900;
 }
 
 .round-img:hover{
-  border: 2px solid #aaaaaa;
+  border: 3 px solid #fa5900;
+}
+
+.splash{
+  display: block;
+  height: 300px;
+  border-radius: 0px;
+  font-size: 60px;
+  color: #fff;
+  font-family: 'Eagle Lake', cursive;
+  background-color: #000000;
+  border-bottom: 3px solid #fa5900;
+  margin-bottom: 0px;
+}
+
+.splash-subtitle{
+  text-transform: capitalize;
+}
+
+.username{
+  position: absolute;
+  font-size: 25px;
+  right: 2%;
+}
+
+.video-card{
+  border-radius: 0px;
+  margin: 0px;
+  padding: 0px;
+  /* object-fit: cover; */
+}
+
+.video-card:hover{
+  border: 3px solid #f91a51;
 }
 
 .video-link{
-    margin-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.video-jumbo{
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #272a2e;
+  background-image: url("/images/destinywp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px;
+}
+
+
+.video-icon-wrap{
+  font-size: 50px;
+  color: #fa5900;
+  text-decoration: none;
+}
+
+.videos-results{
+  background-color: #242146;
 }
 
 .wrong{
   color: red;
   font-weight: 700;
   font-size: 30px;
+}
+
+.yt-title{
+  /* color: #fa5900; */
+  background-color: #fff;
+}
+
+#splash-video{
+  opacity: 0;
 }
 
 
@@ -85,4 +361,63 @@
     text-align: center; 
   }
   
-  
+/* React Vis Styles */
+.rv-discrete-color-legend-item__color{
+  height: 20px !important;
+  width: 20px !important;
+  border-radius: 50% !important;
+}
+
+.rv-discrete-color-legend-item__title{
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ry-xy-plot{
+  position: relative
+}
+
+.rv-hint{
+  color: black;
+  text-align: center;
+}
+
+.search-box{
+  text-align: center;
+}
+
+
+  /* CSS For Background Video */
+.videoHolder {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -100;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video {
+    height: 300%;
+    top: -100%;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .video {
+    width: 300%;
+    left: -100%;
+  }
+}
+

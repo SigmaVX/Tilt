@@ -48,7 +48,7 @@ class Videos extends Component {
       // part = "snippet is required for youtube" 
       part: "snippet" ,
       safeSearch: "moderate",
-      maxResults: 10,
+      maxResults: 15,
       relevanceLanguage: "en",
       // --
       // select menu option default
@@ -94,7 +94,8 @@ class Videos extends Component {
       q: value     
     });
     this.setState({
-      submittedQuery: value
+      submittedQuery: value,
+      value: value
     });
 
   }
@@ -137,7 +138,8 @@ class Videos extends Component {
             vId: item._id,
             vLink: item.videoLink.slice(linkPos + 1),
             posted: item.createdOn
-          })
+          });
+          return true;
         });
         this.setState({
           videoList: videoList
@@ -153,8 +155,8 @@ class Videos extends Component {
       this.setState({
         ytVideos: res.data.items,
         submittedQuery: query.q,
-        q: "",
-        value: "none"
+        q: ""//,
+        // value: "none"
       });
     })
     .catch(err => console.log(err));
@@ -193,15 +195,23 @@ class Videos extends Component {
   displayUserVideos(opts) {
     return (
       this.state.videoList.map(uVid => (
-        <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={uVid.vId}>
-          <div className="card-body">
+
+          <div className="card video-card col-4" key={uVid.vId}>
+
             <YouTube
             videoId={uVid.vLink}
             opts={opts}
             onReady={this._onReady}
+            className="card-img-top"
             /> 
+
+            <div className="d-flex align-items-center text-center yt-title px-2 py-2">
+              <h5 className="col-12 card-title">{uVid.snippet.title}</h5> 
+            </div>
+
           </div>
-        </div>
+
+
         )
       )
     );
@@ -210,16 +220,21 @@ class Videos extends Component {
   displayYtVideos(opts) {
     return (
       this.state.ytVideos.map(video => (
-          <div style={styles.customCardStyle} className="col-4 col-xs-12 card justify-content-between align-items-center mb-2"  key={video.id.videoId}>
-            <div className="card-body">
-              <h6 className="card-subtitle mb-2 text-primary text-center">{video.snippet.title}</h6>
+
+            <div className="card video-card col-4" key={video.id.videoId}>
+
               <YouTube
                 videoId={video.id.videoId}
                 opts={opts}
                 onReady={this._onReady}
-              />                  
+                className="card-img-top"
+              />  
+              <div className="card-body d-flex align-items-center text-center yt-title px-2 py-1">
+                <h6 className="col-12 card-title">{video.snippet.title}</h6> 
+              </div>
+
             </div>
-          </div>
+
         ) 
       )
     )
@@ -229,87 +244,85 @@ class Videos extends Component {
   render() { 
     // options for youtube video card rendering
     const opts = {
-      height: "146",
-      width: "240",
+      height: "205",
+      width: "336",
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 2 // paused
+        autoplay: 2, // paused
+        modestbranding:1,
+        autohide:1,
+        showinfo:0,
+        controls:0
+        
+
+
       }
     };
 
     return (
       <div>
-        <div className="row no-gutters jumbotron text-center">
-            <h1 className="col-12 animated pulse" >Videos</h1>
-            <h2 className="col-12">Add Some Text</h2>
-            <h3 className="col-12">Add More Text</h3>
+        <div className="row no-gutters jumbotron text-center justify-content-center video-jumbo mb-0">
+            
+            <h1 className="col-12 animated fadeInDown">Videos</h1>
+        
+            <form className="col-12 col-md-6 justify-content-center">
+                  
+                  {/* Select dropdown menu */}
+                  <div className="form-group">
+                      <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
+                        <option value="none"><center>Videos By Cheat Type</center></option>
+                        {this.state.cheatList.map(cheat =>
+                          (
+                            <option key={cheat._id} value={cheat.cheatName}>{cheat.cheatName}</option>
+                          )
+                        )}
+                      </select>
+                  </div>
+
+                  {/* Search box */}
+                  <div className="form-group">
+                    <input 
+                      name="q" 
+                      value={this.state.q}
+                      placeholder="Search YouTube Videos"
+                      type="text"
+                      className="form-control center-placeholder"
+                      onChange={this.handleOnChange}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <button
+                      type="submit"
+                      name="isSubHovered"
+                      value={this.state.isSubHovered}
+                      onMouseEnter = {this.handleMouseEnter}
+                      onMouseLeave = {this.handleMouseLeave}
+                      className="btn btn-block"
+                      onClick={this.videoSearch}
+                    >
+                      Search Videos
+                    </button>
+                  </div>
+
+                  <div className="row text-center justify-content-center">
+                    <h3 className="text-center splash-subtitle">{this.state.ytVideos.length || this.state.videoList.length
+                      ? `${this.state.submittedQuery} Cheat Videos` 
+                      : "Top YouTube Cheat Videos"}
+                    </h3>
+                  </div>
+
+            </form>
         </div>
 
-        <div className="container-fluid">
-          <div className="row mb-2">
-            {/* Form for video search */}
-            <div className="offset-2 col-4 col-xs-12">
-              <form className="form-inline">
-                <div className="form-group">
-                  <h6 className="inline mr-2">Search Term: </h6>
-                </div>
-                <div className="form-group">
-                  <input 
-                    name="q" 
-                    value={this.state.q}
-                    placeholder="Search for topic"
-                    type="text"
-                    className="form-control mr-2"
-                    onChange={this.handleOnChange}
-                  />
-                  <button
-                    type="submit"
-                    name="isSubHovered"
-                    value={this.state.isSubHovered}
-                    onMouseEnter = {this.handleMouseEnter}
-                    onMouseLeave = {this.handleMouseLeave}
-                    style={this.state.isSubHovered ? styles.customBtnHover : styles.customButton}
-                    className="btn"
-                    onClick={this.videoSearch}
-                  >
-                    Search
-                  </button>
-                </div>
-              </form>
-            </div>
-            {/* User video posts */}
-            <div className="col-2 col-xs-12">
-              <button
-                name = "isUservidHovered"
-                value = {this.state.isUservidHovered}
-                onMouseEnter = {this.handleMouseEnter}
-                onMouseLeave = {this.handleMouseLeave}
-                style={this.state.isUservidHovered ? styles.customBtnHover : styles.customButton}
-                className="btn"
-                onClick={this.userVideoSearch}
-              >User Video Posts
-              </button>
-            </div>
-            {/* Select dropdown menu */}
-            <div className="col-4 col-xs-12">
-              Select from Menu&nbsp;
-              <select value={this.state.value} onChange={this.handleSelectMenuChange}>
-              <option value="none">--Please select an option--</option>
-              {this.state.cheatList.map(cheat =>
-                (
-                  <option key={cheat._id} value={cheat.cheatName}>{cheat.cheatName}</option>
-                )
-              )}
-              </select>
-            </div>
-          </div>
+     
+         
+          
 
-          <div className="row">
+        
+      
             {/* Video results container */}
-            <div className="offset-2 col-9 col-xs-12">
-              <h3 className="text-center">{this.state.ytVideos.length || this.state.videoList.length
-                 ? `Video Results of ${this.state.submittedQuery}` 
-                 : "Search for videos on gamecheaters"}</h3>
-                <div className="row">
+            
+              <div className="row video-result justify-content-center no-gutters mb-0">
                 {
                   this.state.submittedQuery === "User Submitted Videos"
                   ? 
@@ -318,13 +331,26 @@ class Videos extends Component {
                   this.displayYtVideos(opts) 
                 }
               </div>
-            </div>
-
-          </div>        
-        </div>
+      
+               
+       
       </div>
     );
   }  
 } 
 
 export default Videos;
+
+
+//    {/* User video posts */}
+//    <div className="col-2 col-xs-12">
+//    <button
+//      name = "isUservidHovered"
+//      value = {this.state.isUservidHovered}
+//      onMouseEnter = {this.handleMouseEnter}
+//      onMouseLeave = {this.handleMouseLeave}
+//      className="btn"
+//      onClick={this.userVideoSearch}
+//    >User Video Posts
+//    </button>
+//  </div>
