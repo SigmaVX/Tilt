@@ -9,8 +9,6 @@
 import React, { Component } from "react";
 import API from "../utilities/API";
 
-const GENERAL_FORUM_ID = "5b47c8472fe2ce8208c9f482";
-
 class ChatForums extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +17,7 @@ class ChatForums extends Component {
       // ----------------------------------------------------
       forumsList: [],
       // default forum is "General" Forum
-      activeForumId: GENERAL_FORUM_ID,
+      activeForumId: "",
       activeForumName: "General",
       // --
       // select menu option default
@@ -27,6 +25,7 @@ class ChatForums extends Component {
       value: "none"
     };
     this.handleForumChange = this.handleForumChange.bind(this);
+    this._defaultForumName = "General";
   }
 
   componentDidMount() {
@@ -38,18 +37,13 @@ class ChatForums extends Component {
 
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
-    // console.log(`in ChatForums.js event.target.value: ${value}, chatroom: ${forum.forumChatRoom}`);
-    // console.log(`in ChatForums.js handleForumChange() forum._id: ${forum._id}`);
 
     this.setState({
       activeForumId: forum._id,
       activeForumName: forum.forumChatRoom,
       value: value
     });
-     // console.log(`ChatForums.js in handleForumChange state.value: ${this.state.value}`);
-     // console.log(`ChatForums.js in handleForumChange 'normal' value: ${value}`);
     if (value !== "none"){
-       // console.log(`in ChatForums.js handleSubmit() activeForumId: ${this.state.activeForumId}`);
       this.props.getForumInfo({
         chatRoomSelected: true,
         activeForumId: forum._id,
@@ -61,19 +55,25 @@ class ChatForums extends Component {
   // Load Games List To State, set default Chatroom to General
   loadForumList = () => {
     const thisForum = this;
+    let defaultForum;
     API.getForumList()
       .then(res => {
+          const forums = res.data;
+
+          // search for General chatroom's id
+          defaultForum = forums.find(forum => this._defaultForumName === forum.forumChatRoom);
           this.setState({
-            forumsList: res.data
-          });
+            forumsList: forums,
+            activeForumId: defaultForum._id
+          });          
       })
       .then(() => {
         setTimeout(function() {
-          thisForum.setState({value: GENERAL_FORUM_ID});
+          thisForum.setState({value: defaultForum._id});
           thisForum.props.getForumInfo({
             chatRoomSelected: true,
-            activeForumId: GENERAL_FORUM_ID,
-            activeForumName: "General"
+            activeForumId: defaultForum._id,
+            activeForumName: this._defaultForumName
           });
         }, 0);
       })
