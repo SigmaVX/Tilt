@@ -71,7 +71,7 @@ class Chat extends Component {
       
       if (thisChat.state.activeForumId !== 0) {
       // if (thisChat.state.activeForumId !== 0 && !thisChat._hasPosted)  {
-        if (shouldPost) {
+        if (shouldPost && !thisChat._hasPosted) {
           // post chat to forum
           API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: uname})
             .then(res => {
@@ -170,7 +170,7 @@ class Chat extends Component {
       chatListener.emit("send chat", {
         uname: this.props.username,
         msg: this.state.chatMsg,
-        post: true
+        post: !this._hasPosted
       });
       this._hasPosted = true;
       if (this.state.isChatItemDeleted) 
