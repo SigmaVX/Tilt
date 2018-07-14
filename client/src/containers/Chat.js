@@ -153,16 +153,16 @@ class Chat extends Component {
   handleChangeForumNotices(forumObj) {
     if (this.props.isLoggedIn && forumObj.activeForumName !== "") { 
       // console.log(`Chat.js forumInfo() ${this.props.username} joined ${forumObj.activeForumName}`);
-      chatListener.emit("add user", {
-        room: forumObj.activeForumName,
+      chatListener.emit(forumObj.activeForumName, {
+        // room: forumObj.activeForumName,
         uname: this.props.username, 
         msg: `${this.props.username} joined ${forumObj.activeForumName} chatroom`,
         post: false
       });
       // console.log(`Chat.js forumInfo() ${this.props.username} left ${this.state.prevForumName}`);
       if (this.state.prevForumName !== forumObj.activeForumName) {
-        chatListener.emit("leave chat", {
-          room: this.state.prevForumName,
+        chatListener.emit(this.state.prevForumName, {
+          // room: this.state.prevForumName,
           uname: this.props.username, 
           msg: `${this.props.username} left ${this.state.prevForumName} chatroom`,
           post: false
@@ -173,8 +173,8 @@ class Chat extends Component {
 
   // callback function into ChatForum component to obtain the chatroom info selected by user
   forumInfo = (forumObj) => {
-    this.safeUpdate(forumObj);
-    this.safeUpdate({chatConvo: []});
+    this.safeUpdate(forumObj, {chatConvo: []});
+    // this.safeUpdate({chatConvo: []});
     this.safeUpdate((prevState) => {
       return {prevForumName: prevState.activeForumName}
     });
@@ -214,11 +214,12 @@ class Chat extends Component {
   }
 
   handleOnChange = event => {
-    const {name, value} = event.target;
+    let {name, value} = event.target;
 
     if ([name] === "chatMsg") {
-      // console.log("user is typing");
+      console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
+      value = value.substring(0, 10);
       this.renderChatUserState();
     }
     this.safeUpdate({
