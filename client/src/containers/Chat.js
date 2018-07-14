@@ -153,16 +153,16 @@ class Chat extends Component {
   handleChangeForumNotices(forumObj) {
     if (this.props.isLoggedIn && forumObj.activeForumName !== "") { 
       // console.log(`Chat.js forumInfo() ${this.props.username} joined ${forumObj.activeForumName}`);
-      chatListener.emit("add user", {
-        room: forumObj.activeForumName,
+      chatListener.emit(forumObj.activeForumName, {
+        // room: forumObj.activeForumName,
         uname: this.props.username, 
         msg: `${this.props.username} joined ${forumObj.activeForumName} chatroom`,
         post: false
       });
       // console.log(`Chat.js forumInfo() ${this.props.username} left ${this.state.prevForumName}`);
       if (this.state.prevForumName !== forumObj.activeForumName) {
-        chatListener.emit("leave chat", {
-          room: this.state.prevForumName,
+        chatListener.emit(this.state.prevForumName, {
+          // room: this.state.prevForumName,
           uname: this.props.username, 
           msg: `${this.props.username} left ${this.state.prevForumName} chatroom`,
           post: false
