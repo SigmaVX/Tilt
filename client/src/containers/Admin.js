@@ -144,6 +144,18 @@ class Admin extends Component {
             })    
         }).catch(err => console.log(err))
     }
+
+    // Post Forum
+    postForum = (event) =>{
+      event.preventDefault();
+      API.postForum({
+          forumChatRoom: this.state.forumChatRoom
+      }).then(() => {
+          this.setState({
+            forumChatRoom: ""
+          })    
+      }).catch(err => console.log(err))
+    }
    
    // Update Cheat
    updateCheat = (cardObject) =>{
@@ -308,7 +320,7 @@ class Admin extends Component {
             
             <div className="row justify-content-center text-center mx-3 my-2">
                 
-                <div className="col-12 col-md-10">
+                <div className="col-12 col-md-5">
                     <h2>Add Cheat Type</h2>
                     <form>
                         <div className="form-group">
@@ -316,6 +328,19 @@ class Admin extends Component {
                             <input type="text" className="form-control my-2 center-placeholder" name="cheatImage" value={this.state.cheatImage}  placeholder="Enter Cheat Image Path" onChange={this.handleOnChange}/>
                             <input type="text" className="form-control my-2 center-placeholder" name="cheatDescription" value={this.state.cheatDescription}  placeholder="Enter Cheat Description" onChange={this.handleOnChange}/>
                             <button type="submit" className="btn btn-block my-2" onClick={this.postCheat}>Add Cheat</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div className="col-12 col-md-5">
+                    <h2>Add Chat Forum</h2>
+                    <form>
+                        <div className="form-group">
+                            <input type="text" className="form-control my-2 center-placeholder" name="forumChatRoom" value={this.state.forumChatRoom}  placeholder="Enter Chatforum Name" onChange={this.handleOnChange}/>
+                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Instructions: Enter names of different chat forums.</span>
+                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Also enter "General" as default chatroom.</span>
+                            <button type="submit" className="btn btn-block my-2" onClick={this.postForum}>Add Forum</button>
                         </div>
 
                     </form>
