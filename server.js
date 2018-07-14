@@ -17,7 +17,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3001;
 // const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
-const MONGODB_LOCATION = process.env.MONGODB_URI || "mongodb://localhost/tilt"  ;
+const MONGODB_LOCATION = process.env.MONGODB_URI || "mongodb://localhost/tilt";
 
 
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
