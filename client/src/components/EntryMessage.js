@@ -15,7 +15,7 @@ const EntryMessage = (props) => {
     : <h2 className="admin-text">You must log in or sign up to view this page.</h2>;
 
     return (
-    <div className="container login-alert my-4">
+    <div className="container-fluid login-alert py-4 blue-background">
         <div className="row text-center">
         
             <h1 className="col-12">Please Sign Up or Login</h1>

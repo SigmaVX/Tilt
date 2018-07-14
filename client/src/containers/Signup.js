@@ -90,7 +90,7 @@ class Signup extends Component {
     }
 
     return (
-      <div className="container my-5">
+      <div className="container-fluid py-5 blue-background">
         <div className="row justify-content-center text-center">
         
           <form className="col-12 col-md-6 my-1">
