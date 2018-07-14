@@ -229,8 +229,8 @@ class Videos extends Component {
                 onReady={this._onReady}
                 className="card-img-top"
               />  
-              <div className="card-body d-flex align-items-center text-center yt-title px-2 py-2">
-                <h5 className="col-12 card-title">{video.snippet.title}</h5> 
+              <div className="card-body d-flex align-items-center text-center yt-title px-2 py-1">
+                <h6 className="col-12 card-title">{video.snippet.title}</h6> 
               </div>
 
             </div>
