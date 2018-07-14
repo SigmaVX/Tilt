@@ -100,7 +100,6 @@ class Chat extends Component {
     });
 
     chatListener.on("chat msg", function (obj) {
-      // if (!thisChat._hasPosted || obj.post) {
       if (!thisChat._hasPosted) {
         chatPostRoutine(obj, thisChat.state.chatConvo);
       } else {
