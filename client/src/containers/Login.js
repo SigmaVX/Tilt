@@ -113,7 +113,7 @@ class Login extends Component {
     } 
 
     return (
-      <div className="container my-5">
+      <div className="container-fluid no-guters py-5 px-0 blue-background">
         
         <div className="row justify-content-center login-alert">
           <h1 className="col-12 text-center">Login</h1>

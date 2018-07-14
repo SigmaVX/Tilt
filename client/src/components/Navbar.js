@@ -61,16 +61,16 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className={window.location.pathname === "/post" ? "nav-item active nav-active" : "nav-item"}>
-              <Link className="nav-link" to="/post">Report Cheater</Link>
+              <Link className="nav-link" to="/post">Report Cheaters</Link>
             </li>
             <li className={window.location.pathname === "/glossary" ? "nav-item active nav-active" : "nav-item"}>
               <Link className="nav-link" to="/glossary">Glossary</Link>
             </li>
             <li className={window.location.pathname === "/videos" ? "nav-item active nav-active" : "nav-item"}>
-                <Link className="nav-link" to="/videos">Videos</Link>
+                <Link className="nav-link" to="/videos">Cheat Videos</Link>
             </li>
             <li className={window.location.pathname === "/chat" ? "nav-item active nav-active" : "nav-item"}>
-                <Link className="nav-link" to="/chat">Chat</Link>
+                <Link className="nav-link" to="/chat">Cheat Chat</Link>
             </li>
             <AdminBar isAdmin = {this.props.isAdmin} />
             <AuthMenu 

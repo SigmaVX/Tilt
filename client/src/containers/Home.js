@@ -60,7 +60,7 @@ class Home extends Component {
             // console.log(this.state.cheats);
             const chartData =[];
             const legendData = [];
-            const myColors = ['#fa5900','#242146','#f91a51','#54457F','#ea5900','#979797','#FF9505', '#E80C7A', '#FF4F19', '#E87E17'];
+            const myColors = ['#681D7F','#E287FF','#D03AFF','#71437F','#A72FCC','#570D7F','#C966FF', '#AE1AFF', '#65337F', '#8B15CC'];
             this.state.cheats.map(function(cheat,i){
                 chartData.push({theta: cheat.cheatCount, label: cheat.cheatName, color: myColors[i]})                
             });
@@ -165,7 +165,7 @@ class Home extends Component {
             </div>    
         </div>
 
-        <div className="container-fluid home-stats">
+        <div className="container-fluid home-results">
             <div className="row justify-content-center text-center pt-5">
                 <h2 className="col-12 pb-4">Top Five Cheats By Game</h2>
                 
@@ -197,7 +197,7 @@ class Home extends Component {
                 })}
 
             </div>
-        </div>
+        
 
         <div className="row justify-content-center text-center pt-5 pb-3">
             <h2 className="col-10">How Are Users Cheating?</h2>
@@ -210,35 +210,35 @@ class Home extends Component {
         </div>
 
 
-        <div className="container-fluid home-results pt-4 pb-4">
+            <div className="container-fluid pt-4 pb-4">
 
-            <div className="row justify-content-center text center my-4">
-                <Search reportSearch={this.reportSearch}/>
-            </div>
+                <div className="row justify-content-center text center my-4">
+                    <Search reportSearch={this.reportSearch}/>
+                </div>
 
-            <div className="container">
-                <h2 className="col-12 text-center">{this.state.reports.length
-                    ? ""
-                    : "No Cheat Reports Right Now!"}
-                </h2>
-                <div className="row justify-content-center">
-                <table className="col-10">
-                    <tbody>
-                    {this.state.reports.map(report=>{
-                        return (
-                        <tr className="row reports-row py-2" key={report._id}>
-                            <td className="col-10 col-md-2 text-center">
-                                <img className="img-fluid rounded my-1" src={report.cheatGame.gameImage} alt={report.cheatGame.gameName}/>            
-                            </td>
-                            <td className="col-12 col-md-8">
-                                <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
-                                <h6 className="game-title my-1">Cheat Game: {report.cheatGame.gameName}</h6>
-                                <h6 className="cheat-type my-1">Cheat Type: {report.cheatType.cheatName}</h6>
-                                <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
-                                <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : ""}</p>
-                            </td>
-                            <td className="col-12 col-md-2 d-flex align-items-center justify-content-center text-center">
-                                
+                <div className="container">
+                    <h2 className="col-12 text-center">{this.state.reports.length
+                        ? ""
+                        : "No Cheat Reports Right Now!"}
+                    </h2>
+                    <div className="row justify-content-center">
+                    <table className="col-10">
+                        <tbody>
+                        {this.state.reports.map(report=>{
+                            return (
+                            <tr className="row reports-row py-2" key={report._id}>
+                                <td className="col-10 col-md-2 text-center">
+                                    <img className="img-fluid rounded my-1" src={report.cheatGame.gameImage} alt={report.cheatGame.gameName}/>            
+                                </td>
+                                <td className="col-12 col-md-8">
+                                    <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
+                                    <h6 className="game-title my-1">Cheat Game: {report.cheatGame.gameName}</h6>
+                                    <h6 className="cheat-type my-1">Cheat Type: {report.cheatType.cheatName}</h6>
+                                    <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
+                                    <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : ""}</p>
+                                </td>
+                                <td className="col-12 col-md-2 d-flex align-items-center justify-content-center text-center">
+                                    
                                     {report.cheatVideo 
                                         ?   (<div className="text-center">
                                                 <a className="video-link my-1" target="_blank" href={report.cheatVideo}>
@@ -254,21 +254,21 @@ class Home extends Component {
                                                     <div className="col-12 video-icon-wrap my-1">
                                                         <i class="fas fa-video-slash"></i>
                                                     </div>
-                                             </div>
+                                            </div>
                                             )
                                     }
-                                                         
-                            </td>
-                        </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
+                                   
+                                </td>
+                            </tr>
+                            )
+                        })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
+</div>
     )
   }
 }

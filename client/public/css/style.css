@@ -66,10 +66,16 @@ select {
   text-align: center;
 }
 
+.blue-background{
+  background-color: #242146;
+  color: #fff;
+}
+
+
 .btn{
   background-color: #fa5900;
-  color: #272a2e;
-  border: 2px solid #979797;
+  color: #242146;
+  border: 2px solid #fff;
   font-weight: 600;
   font-size: 20px;
   text-transform: capitalize;
@@ -79,7 +85,7 @@ select {
 .btn:hover{
   color: #fff;
   background-color: #f91a51;
-  border: 2px solid #979797;
+  border: 2px solid #fff;
 }
 
 .card{
@@ -112,7 +118,6 @@ select {
     object-fit: cover;
     background-color: #333333;
 }
-
 
 .error-text{
   text-align: center;
@@ -156,7 +161,7 @@ select {
 
   background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
   background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
-  background-image: linear-gradient(to bottom, #272a2e 0%,  #242146 94%);
+  background-image: linear-gradient(to bottom,#242146 0%, #272a2e 33%,  #242146 66%);
 }
 
 .icon-bubble{
@@ -294,6 +299,10 @@ select {
   /* object-fit: cover; */
 }
 
+.video-card:hover{
+  border: 3px solid #f91a51;
+}
+
 .video-link{
   margin-bottom: 15px;
 }
@@ -362,6 +371,7 @@ select {
 .rv-discrete-color-legend-item__title{
   font-size: 20px;
   font-weight: 600;
+  color: #fff;
 }
 
 .ry-xy-plot{
