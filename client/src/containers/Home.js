@@ -158,7 +158,7 @@ class Home extends Component {
        
 
         <div className="videoHolder jumbotron splash d-flex align-items-center">
-            <iframe className="video" id="splash-video" src="" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+            <iframe className="video" id="splash-video" title="Splash Video" src="" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
             <div className="col-12 no-gutters text-center" id="splash-text">
                 <h1 className="col-12 animated rotateIn">Tilt</h1>
                 <h2 className="col-12 animated fadeIn" id="splash-subtitle">Find, Report, & Track Cheaters</h2>
