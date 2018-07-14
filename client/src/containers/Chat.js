@@ -12,7 +12,7 @@ import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
 
 const io = require("socket.io-client");
-// const GENERAL_FORUM_ID = "5b47c8472fe2ce8208c9f482";
+const MAX_CHAT_LENGTH = 300;
 
 // const TILT_URL = process.env.APP_URL || "http://localhost:3000";
 let TILT_URL = (process.env.NODE_ENV === "production") 
@@ -70,7 +70,6 @@ class Chat extends Component {
 
       
       if (thisChat.state.activeForumId !== 0) {
-      // if (thisChat.state.activeForumId !== 0 && !thisChat._hasPosted)  {
         if (shouldPost && !thisChat._hasPosted) {
           // post chat to forum
           API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: uname})
@@ -90,8 +89,7 @@ class Chat extends Component {
     }
 
     function addToConvo(chatObj, chatConvo) {
-      console.log("Chat.js in addToConvo()");
-      chatConvo.push({uname: chatObj.uname, msg: chatObj.msg, msgId: chatObj.msgId, post: false});
+      chatConvo.push({uname: chatObj.uname, msg: chatObj.msg, msgId: chatObj.msgId, post: true});
       thisChat.safeUpdate({chatConvo: chatConvo, chatMsg: ""});
     }
 
@@ -105,14 +103,13 @@ class Chat extends Component {
       // if (!thisChat._hasPosted || obj.post) {
       if (!thisChat._hasPosted) {
         chatPostRoutine(obj, thisChat.state.chatConvo);
-        thisChat._hasPosted = true;
       } else {
         // regular emit add to chatConvo but do not store
         // name routine something else
         addToConvo({
         uname: obj.uname,
         msg: obj.msg,
-        post: false}, thisChat.state.chatConvo);
+        post: true}, thisChat.state.chatConvo);
       }
     });
 
@@ -162,7 +159,6 @@ class Chat extends Component {
     const {name, value} = event.target;
 
     if ([name] === "chatMsg") {
-      // console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
     }
     this.safeUpdate({
@@ -179,14 +175,23 @@ class Chat extends Component {
   handleOnSubmit = event => {
     event.preventDefault();
 
+    // validate message
+    if (!this.state.chatMsg) {
+      alert("Message cannot be empty.");
+    } else if (this.state.chatMsg.length > MAX_CHAT_LENGTH) {
+      alert(
+        `Message must be shorter than ${MAX_CHAT_LENGTH} characters.`
+      );
+    }
+
     if (this.props.isLoggedIn && this.state.chatMsg !== "" && this.props.username !== "") {
       // send chat message to io.socket server
+      this._hasPosted = false;
       chatListener.emit("send chat", {
         uname: this.props.username,
         msg: this.state.chatMsg,
         post: !this._hasPosted
       });
-      this._hasPosted = true;
       if (this.state.isChatItemDeleted) 
         this.safeUpdate({isChatItemDeleted: false});
     }
