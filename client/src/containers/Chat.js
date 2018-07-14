@@ -70,7 +70,8 @@ class Chat extends Component {
 
       
       if (thisChat.state.activeForumId !== 0) {
-        if (shouldPost && !thisChat._hasPosted) {
+      // if (thisChat.state.activeForumId !== 0 && !thisChat._hasPosted)  {
+        if (shouldPost) {
           // post chat to forum
           API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: uname})
             .then(res => {
@@ -115,7 +116,7 @@ class Chat extends Component {
         chatListener.emit("add user", this.props.username);
         this._hasJoined = true;
       } else if (this.state.prevForumName !== forumObj.activeForumName) {
-          chatListener.emit("switch forum", forumObj.activeForumName);
+          chatListener.emit("switch forum", forumObj.activeForumName, this.props.username);
       }
   }
 
@@ -171,7 +172,7 @@ class Chat extends Component {
         msg: this.state.chatMsg,
         post: true
       });
-      this._hasPosted = false;
+      this._hasPosted = true;
       if (this.state.isChatItemDeleted) 
         this.safeUpdate({isChatItemDeleted: false});
     }
