@@ -45,8 +45,6 @@ class Chat extends Component {
       chatMsg: "",
       // chat conversation will be an array of chat messages
       chatConvo: [],
-      postedBy: "sampleUser",
-      userStateMsg: "sample message",
       // forum information to be received from chat forums
       forumsList: null,
       isChatItemDeleted: false,
@@ -60,8 +58,9 @@ class Chat extends Component {
   // receive message from chat listeners
   componentDidMount() {
     this._isMounted = true;
+    this._hasJoined= false;
+    this._hasPosted = false;
     const thisChat = this;
-    // let chatConvo = thisChat.state.chatConvo;
 
     function chatPostRoutine(obj, chatConvo) {
       let msgId;
@@ -69,77 +68,38 @@ class Chat extends Component {
             msg = obj.msg,
             shouldPost = obj.post;
 
-      // console.log(`Chat.js in chatPostRoutine: ${shouldPost}`);
       
       if (thisChat.state.activeForumId !== 0) {
-        if (shouldPost) {
+        if (shouldPost && !thisChat._hasPosted) {
           // post chat to forum
-          console.log("Chat.js in (shouldpost) chatPostRoutine obj: ", JSON.stringify(obj));
-          // API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: thisChat.props.username})
           API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: uname})
             .then(res => {
-              // console.log("res.data", res.data);
               msgId = res.data.chats[res.data.chats.length - 1];
               chatConvo.push({uname, msg, msgId, post: shouldPost});
               // clear chat message
               thisChat.safeUpdate({chatConvo: chatConvo, chatMsg: ""});
-              console.log("Chat.js in API chat POST routine chatConvo: " + JSON.stringify(chatConvo));
-              console.log("Chat.js in API chat POST activeForumId: " + thisChat.state.activeForumId);
+              thisChat._hasPosted = true;
             })
             .catch(err => console.log(err)); 
         } else {
-          if (uname) {
-            // console.log("Chat.js in (not shouldpost and uname) chatPostRoutine obj: ", JSON.stringify(obj));
             chatConvo.push({uname, msg, post: shouldPost});
             thisChat.safeUpdate({chatConvo: chatConvo, chatMsg: ""});  
-          }
         }
       }
     }
 
-    chatListener
-      .on("League of Legends", function(obj) {
-        console.log(`in League of Legends Listener: ${obj.msg}`)
-        if (thisChat.state.activeForumName === "League of Legends" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("Overwatch", function(obj) {
-        console.log(`in Overwatch Listener: ${obj.msg}`)
-        if (thisChat.state.activeForumName === "Overwatch" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("General", function(obj){
-        console.log("Chat.js chatListener General: " + JSON.stringify(obj));
-        if (thisChat.state.activeForumName === "General" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("Fortnite", function(obj) {
-        if (thisChat.state.activeForumName === "Fortnite" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("Destiny", function(obj){
-        if (thisChat.state.activeForumName === "Destiny" && obj.msg)
-          chatPostRoutine(obj.msg, thisChat.state.chatConvo);
-      })
-      .on("Anthem", function(obj){
-        if (thisChat.state.activeForumName === "Anthem" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("PUBG", function(obj){
-        if (thisChat.state.activeForumName === "PUBG" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("Call of Duty", function(obj){
-        if (thisChat.state.activeForumName === "Call of Duty" && obj.msg)
-          chatPostRoutine(obj.msg, thisChat.state.chatConvo);
-      })
-      .on("World of Warcraft", function(obj){
-        if (thisChat.state.activeForumName === "World of Warcraft" && obj.msg)
-          chatPostRoutine(obj, thisChat.state.chatConvo);
-      })
-      .on("leave chat", function(){
-        console.log(`${thisChat.props.username} disconnected.`);
-      });
+    chatListener.on("info msg", function (uname, info) {
+      let obj = {uname: uname, msg: info, post: false};
+      chatPostRoutine(obj, thisChat.state.chatConvo);
+    });
+
+    chatListener.on("chat msg", function (obj) {
+      if (!thisChat._hasPosted) {
+        chatPostRoutine(obj, thisChat.state.chatConvo);
+        thisChat._hasPosted = true;
+      }
+    });
+
   }
 
   componentWillUnmount() {
@@ -151,24 +111,12 @@ class Chat extends Component {
   }
 
   handleChangeForumNotices(forumObj) {
-    if (this.props.isLoggedIn && forumObj.activeForumName !== "") { 
-      // console.log(`Chat.js forumInfo() ${this.props.username} joined ${forumObj.activeForumName}`);
-      chatListener.emit("add user", {
-        room: forumObj.activeForumName,
-        uname: this.props.username, 
-        msg: `${this.props.username} joined ${forumObj.activeForumName} chatroom`,
-        post: false
-      });
-      // console.log(`Chat.js forumInfo() ${this.props.username} left ${this.state.prevForumName}`);
-      if (this.state.prevForumName !== forumObj.activeForumName) {
-        chatListener.emit("leave chat", {
-          room: this.state.prevForumName,
-          uname: this.props.username, 
-          msg: `${this.props.username} left ${this.state.prevForumName} chatroom`,
-          post: false
-        });
+    if (this.props.isLoggedIn && forumObj.activeForumName !== "" && !this._hasJoined) { 
+        chatListener.emit("add user", this.props.username);
+        this._hasJoined = true;
+      } else if (this.state.prevForumName !== forumObj.activeForumName) {
+          chatListener.emit("switch forum", forumObj.activeForumName);
       }
-    }
   }
 
   // callback function into ChatForum component to obtain the chatroom info selected by user
@@ -178,21 +126,9 @@ class Chat extends Component {
     this.safeUpdate((prevState) => {
       return {prevForumName: prevState.activeForumName}
     });
-    // console.log(`Chat.js prevState info: forumInfo.
-    //  prevState.activeForumName: ${this.state.prevForumName}`);
-    // console.log("Chat.js chatConvo in forumInfo: " + JSON.stringify(this.state.chatConvo));
-    // console.log("Chat.js activeForumId in forumInfo activeForumId: " + forumObj.activeForumId);
     this.handleChangeForumNotices(forumObj);
   }
 
-  renderChatUserState() {
-    // console.log("Chat.js in renderChatUserState()");
-    if (this.props.isLoggedIn && this.state.chatMsg !== "") {
-      // chatListener.emit("user state", `${this.props.username} is typing`);
-      // return (<strong>{this.props.username} is typing</strong>);
-      // return null;
-    }
-  }
 
   renderIntroChat() {
     if (this.props.isLoggedIn) {
@@ -205,13 +141,6 @@ class Chat extends Component {
     );
   }
 
-
-  leaveChat = event => {
-    event.preventDefault();
-
-    chatListener.emit(this.state.activeForumName, `${this.props.username} disconnected.`);
-    chatListener.emit("leave chat");
-  }
 
   handleOnChange = event => {
     const {name, value} = event.target;
@@ -227,7 +156,6 @@ class Chat extends Component {
   }
 
   deleteChatItem = (delObj) => {
-    // console.log(`Chat.js in deleteChatItem() chatId ${delObj.chatId}`);
     // delete with API
     this.safeUpdate({isChatItemDeleted: true, chatConvo: [], chatText: []});
     API.deleteChat(delObj.chatId);
@@ -235,20 +163,19 @@ class Chat extends Component {
 
   handleOnSubmit = event => {
     event.preventDefault();
-    console.log(`Chat.js handleOnSubmit chatMsg: ${this.state.chatMsg}`)
-    // send message to io.socket server
+
     if (this.props.isLoggedIn && this.state.chatMsg !== "" && this.props.username !== "") {
-      chatListener.emit(this.state.activeForumName, {
+      // send chat message to io.socket server
+      chatListener.emit("send chat", {
         uname: this.props.username,
         msg: this.state.chatMsg,
         post: true
       });
-      console.log(`Chat.js handleOnSubmit within if.... ${this.state.activeForumName}: ${this.state.chatMsg}`);
+      this._hasPosted = false;
       if (this.state.isChatItemDeleted) 
         this.safeUpdate({isChatItemDeleted: false});
     }
     this.safeUpdate({chatMsg: ""});
-
   }
 
 
@@ -260,15 +187,10 @@ class Chat extends Component {
       chatSubmitButton = 
       <button className="col-1 btn btn-primary my-2 my-sm-0 mr-2" type="submit" onClick={this.handleOnSubmit}>
       Send</button>;
-      leaveChatButton = 
-      <button className="col-1 btn btn-warning my-2 my-sm-0 mr-2" type="submit" onClick={this.leaveChat}>
-      Leave Chat</button>
     } else {
       chatSubmitButton = 
       <button className="col-1 btn btn-primary my-2 my-sm-0 mr-2 disabled" disabled>
       Send</button>;
-      leaveChatButton = <button className="col-1 btn btn-warning my-2 my-sm-0 mr-2 disabled" disabled>
-      Leave Chat</button>
     }
 
     return (
@@ -327,13 +249,7 @@ class Chat extends Component {
               onChange={this.handleOnChange} 
             />
             {chatSubmitButton}
-            {leaveChatButton}
           </form>
-          <div className="row">
-            <section className="offset-4">
-              {this.renderChatUserState()}
-            </section>
-          </div>
         </div>
 
       </div>
@@ -342,8 +258,3 @@ class Chat extends Component {
 } 
 
 export default Chat;
-
-    // turn on user state listener
-    // chatListener.on("user state", function(uStateMsg){
-      // console.log(uStateMsg);
-    // });
