@@ -95,10 +95,10 @@ class Chat extends Component {
     });
 
     chatListener.on("chat msg", function (obj) {
-      if (!thisChat._hasPosted) {
+      // if (!thisChat._hasPosted) {
         chatPostRoutine(obj, thisChat.state.chatConvo);
         thisChat._hasPosted = true;
-      }
+      // }
     });
 
   }
