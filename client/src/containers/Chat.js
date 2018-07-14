@@ -173,8 +173,8 @@ class Chat extends Component {
 
   // callback function into ChatForum component to obtain the chatroom info selected by user
   forumInfo = (forumObj) => {
-    this.safeUpdate(forumObj);
-    this.safeUpdate({chatConvo: []});
+    this.safeUpdate(forumObj, {chatConvo: []});
+    // this.safeUpdate({chatConvo: []});
     this.safeUpdate((prevState) => {
       return {prevForumName: prevState.activeForumName}
     });
@@ -214,11 +214,12 @@ class Chat extends Component {
   }
 
   handleOnChange = event => {
-    const {name, value} = event.target;
+    let {name, value} = event.target;
 
     if ([name] === "chatMsg") {
       console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
+      value = value.substring(0, 10);
       this.renderChatUserState();
     }
     this.safeUpdate({
