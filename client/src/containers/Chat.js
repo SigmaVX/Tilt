@@ -61,9 +61,9 @@ class Chat extends Component {
     this._hasJoined= false;
     this._hasPosted = false;
     const thisChat = this;
+    let msgId; // keeps track of chat entry id in chats table
 
     function chatPostRoutine(obj, chatConvo) {
-      let msgId;
       const uname = obj.uname,
             msg = obj.msg,
             shouldPost = obj.post;
@@ -89,16 +89,31 @@ class Chat extends Component {
       }
     }
 
+    function addToConvo(chatObj, chatConvo) {
+      console.log("Chat.js in addToConvo()");
+      chatConvo.push({uname: chatObj.uname, msg: chatObj.msg, msgId: chatObj.msgId, post: false});
+      thisChat.safeUpdate({chatConvo: chatConvo, chatMsg: ""});
+    }
+
+
     chatListener.on("info msg", function (uname, info) {
       let obj = {uname: uname, msg: info, post: false};
       chatPostRoutine(obj, thisChat.state.chatConvo);
     });
 
     chatListener.on("chat msg", function (obj) {
-      // if (!thisChat._hasPosted) {
+      // if (!thisChat._hasPosted || obj.post) {
+      if (!thisChat._hasPosted) {
         chatPostRoutine(obj, thisChat.state.chatConvo);
         thisChat._hasPosted = true;
-      // }
+      } else {
+        // regular emit add to chatConvo but do not store
+        // name routine something else
+        addToConvo({
+        uname: obj.uname,
+        msg: obj.msg,
+        post: false}, thisChat.state.chatConvo);
+      }
     });
 
   }
@@ -149,7 +164,6 @@ class Chat extends Component {
     if ([name] === "chatMsg") {
       // console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
-      this.renderChatUserState();
     }
     this.safeUpdate({
       [name]: value
