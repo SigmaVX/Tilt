@@ -2,22 +2,6 @@ import React, { Component } from "react";
 import API from "../utilities/API";
 import YouTube from "react-youtube";
 
-const styles = {
-  customButton: {
-    color: "white",
-    textShadow: "2px 2px #555858",
-    background: "linear-gradient(to right, #a7cfdf, #23538a)"
-  },
-  customBtnHover: {
-    color: "white",
-    textShadow: "2px 2px #555858",
-    background: "linear-gradient(to right, #82bbd1, #193b61)"
-  },
-  customCardStyle: {
-    width: "50%"
-  }
-}
-
 class Videos extends Component {
 
   constructor(props) {

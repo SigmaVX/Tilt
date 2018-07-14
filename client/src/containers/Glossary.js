@@ -36,10 +36,6 @@ class Glossary extends Component {
 
   render() {
 
-    // Validate That Form Data Is Present
-    const { cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments} = this.state;
-    
-
     return (
 
     <div>
