@@ -123,6 +123,7 @@ class Login extends Component {
           <form className="col-12 col-md-6 my-1">
             
             <div className="form-group">
+              <label htmlFor="username"></label>
               <input
                 type="text"
                 name="username"
@@ -133,6 +134,7 @@ class Login extends Component {
             </div>
 
             <div className="form-group">
+              <label htmlFor="password"></label>
               <input
                 type="password"
                 name="password"
