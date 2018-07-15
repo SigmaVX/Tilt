@@ -11,4 +11,4 @@ export const UnameMinLength = 2;
 export const UnameMaxLength = 10;
 
 // Minimum password length
-export const MinPasswordLength = 6;
+export const MinPasswordLength = 2;

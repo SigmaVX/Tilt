@@ -16,7 +16,7 @@ const MAX_CHAT_LENGTH = 300;
 
 // const TILT_URL = process.env.APP_URL || "http://localhost:3000";
 let TILT_URL = (process.env.NODE_ENV === "production") 
-    ? "https://polar-shore-76735.herokuapp.com" 
+    ? "https://infinite-fjord-30472.herokuapp.com" 
     : "http://localhost:3000"; 
 let chatListener  = io.connect(TILT_URL);
 

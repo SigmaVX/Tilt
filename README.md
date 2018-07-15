@@ -1,30 +1,81 @@
 # Tilt
+
 Track and report online gaming cheaters.
 
 [Live Version of Tilt App](https://infinite-fjord-30472.herokuapp.com/)
 
 ## Description
 
-Tilt is a MERN stack application which provides a way to report online gaming cheaters. With the growth of the online gaming industry, video game cheating has evolved and acquired various forms. Aimbot, wallhack cheats, as well as network manipulation, and account recovery are but a few of the ways gaming cheaters alter results. To address this core issue, which will likely expand in the near future, the Tilt app provides a detailed reporting system that tracks online game cheaters, their methods, and their frequency among other valuable pieces of data. 
+Tilt is a MERN stack application which provides a way to report online gaming cheaters. With the growth of the online gaming industry, video game cheating has evolved and acquired various forms. Aimbot, sabotage, as well as network manipulation, and account recovery are but a few of the ways gaming cheaters alter results. To address this core issue, which will likely expand in the near future, the Tilt app provides a detailed reporting system that tracks online game cheaters, their methods, and their frequency among other valuable pieces of data.
 
 In addition, Tilt includes a social media interface through which users can share relevant videos on gamecheats. There is also a chat feature; users can join "cheat chat" forums and exchange information.
 
 ## How Tilt Works
 
-The app leverages MongoDB to store tables.....
-React based app....
+The user is presented with a summary page which presents a variety of information regarding game cheats. First, the page displays the top five cheats by game. Second, the front page presents cheats by system. Third, Tilt presents a graphical radial chart which outlines the ways in which users are cheating. Lastly, a user can track an online game cheater by searching a player's IGN.
 
-![alt text](https://via.placeholder.com/200x200 "Home Screen")
+![alt text](./README_images/home.gif "Home Screen")
+
+If a player a encounters an online game cheater, the user can post a game cheat report. The procedure to post is to enter the cheaters one screen name or IGN. Then, through a series of drop down menus, the user selects which game system the cheater was playing, which game, and what method was utilized. Optionally, the player can post a video link and/or comments associated with the game cheat.
+
+![alt text](./README_images/post.gif "Post")
+
+For online players unfamiliar with popular game cheating terms, there is also a glossary section.
+
+![alt text](./README_images/glossary.gif "Glossary")
+
+Importantly, Tilt also provides special features for a user with administrator privileges. 
 
 ![alt text](https://via.placeholder.com/200x200 "Admin")
 
 ![alt text](https://via.placeholder.com/200x200 "Post Cheater")
 
-![alt text](https://via.placeholder.com/200x200 "Video")
+![alt text](https://via.placeholder.com/200x200 "Videos")
 
 ![alt text](https://via.placeholder.com/200x200 "Signup, Login")
 
 ![alt text](https://via.placeholder.com/200x200 "Chat")
+
+## Main Technologies Used
+
+* Front end:
+
+1. React (react, react-dom, react-modal, react-router-dom)
+
+2. Javascript
+
+3. Bootstrap 4
+
+4. CSS and HTML
+
+5. react-vis
+
+6. moment
+
+7. react-youtube
+
+8. socket.io-client
+
+9. axios
+
+* Backend:
+
+1. node express, express-session to handle routes and sessions.
+
+2. mongoose to store tables.
+
+3. axios to handle requests
+
+4. bcrypt
+
+5. googleapis
+
+6. socket.io
+
+7. moment
+
+8. others: body-parser, concurrently, connect-mongo,
+    create-react-app, dotenv, if-env, nodemon
 
 ## Installation
 
