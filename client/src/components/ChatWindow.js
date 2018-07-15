@@ -128,7 +128,7 @@ class ChatWindow extends Component {
                     </li>
                   : <li key={index} className="chat-list">
                       <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                        <em>{chatMsg.uname}: chatMsg.msg}</em>
+                        <em>{chatMsg.uname}: {chatMsg.msg}</em>
                       </h6>
                     </li>
               ) 
