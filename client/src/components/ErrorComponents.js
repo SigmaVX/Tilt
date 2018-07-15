@@ -8,10 +8,26 @@ export const ErrorUserName = (props) =>
       }
   </div>
 
-  export const ErrorPassword = (props) =>
+export const ErrorPassword = (props) =>
   <div className="bg-danger text-light">
       { (props.ErrorInPassword) 
         ?  <p>Password must be at least {props.MinPasswordLength} characters long.</p>        
+        : null
+      }
+  </div>
+
+export const ErrorPasswordMatch = (props) =>
+  <div className="bg-danger text-light">
+      { (props.ErrorInPasswordMatch) 
+        ?  <p>Password and confirmation do not match. Please try again.</p>        
+        : null
+      }
+  </div>
+
+export const ErrorEmail = (props) =>
+  <div className="bg-danger text-light">
+      { (props.ErrorInEmail) 
+        ?  <p>Please enter a valid password in the form of 'username@example.com'</p>        
         : null
       }
   </div>

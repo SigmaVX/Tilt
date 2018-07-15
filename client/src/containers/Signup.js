@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AUTH from "../utilities/AUTH";
+import {ErrorUserName, ErrorPassword, ErrorEmail, ErrorPasswordMatch} from "../components/ErrorComponents";
+import * as VConst from "../constants/VConst";
+
 
 class Signup extends Component {
   state = {
@@ -10,7 +13,11 @@ class Signup extends Component {
     pswrdConfirmation: "",
     email: "",
     userId: 0,
-    errorMsg: ""
+    errorMsg: "",
+    isValidUserName: true,
+    isValidEmail: true,
+    isValidPassword: true,
+    doPasswordsMatch: true
   }
   
   handleInputChange = event => {
@@ -41,9 +48,49 @@ class Signup extends Component {
     }
   }
 
+  // -----------------------------------------------------------------------
+  // isValidEmail() checks if an email is valid
+  // source code for regular expression:
+  // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript/1373724#1373724
+  //
+  isValidEmail = (email) => {
+    var re = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
+
+    return re.test(email);
+  }
+
   // Method to register a new user
-  register = (e) => {
-    e.preventDefault();
+  register = (event) => {
+    event.preventDefault();
+    let isValidForm = true;
+
+    // validate username
+    if (this.state.username.length < VConst.UnameMinLength || 
+      this.state.username.length > VConst.UnameMaxLength) {
+      this.safeUpdate({isValidUserName: false});
+      isValidForm = false;
+    }
+
+    // validate email
+    if (!this.isValidEmail(this.state.email)) {
+      this.safeUpdate({isValidEmail: false});
+      isValidForm = false;
+    }
+
+    // validate password
+    if (this.state.password.length < VConst.MinPasswordLength) {
+      this.safeUpdate({isValidPassword: false});
+      isValidForm = false;
+    }
+
+    // validate password match
+    if (this.state.password !== this.state.pswrdConfirmation) {
+      this.safeUpdate({doPasswordsMatch: false});
+      isValidForm = false;
+    }
+
+    if (!isValidForm) return;
+
     AUTH
       .signup({ username: this.state.username, email: this.state.email, password: this.state.password, pswrdConfirmation: this.state.pswrdConfirmation })
       .then(res => {
@@ -81,6 +128,12 @@ class Signup extends Component {
         };
         this.safeUpdate(tempObj);
       });
+    this.safeUpdate({            
+      isValidUserName: true,
+      isValidPassword: true,
+      isValidEmail: true,
+      doPasswordsMatch: true
+    });
   }
 
   render() {
@@ -108,6 +161,15 @@ class Signup extends Component {
                 placeholder="Enter Username" />
               
             </div>
+            { !this.state.isValidUsername 
+              ? <ErrorUserName 
+                  ErrorInUserName={!this.state.isValidUserName} 
+                  UnameMinLength={VConst.UnameMinLength}
+                  UnameMaxLength={VConst.UnameMaxLength}
+                />
+              : null
+            }
+
             <div className="form-group">
               <input
                 type="text"
@@ -118,6 +180,11 @@ class Signup extends Component {
                 placeholder="Enter Email" />
               
             </div>
+            { !this.state.isValidEmail 
+              ? <ErrorEmail ErrorInEmail={!this.state.isValidEmail} />
+              : null
+            }
+
             <div className="form-group">
               <input
                 type="password"
@@ -128,6 +195,13 @@ class Signup extends Component {
                 placeholder="Enter Password"
               />
             </div>
+            { !this.state.isValidPassword 
+              ? <ErrorPassword 
+                  ErrorInPassword={!this.state.isValidPassword} 
+                  MinPasswordLength={VConst.MinPasswordLength}
+                />
+              : null
+            }
             <div className="form-group">
               <input
                 type="password"
@@ -138,6 +212,10 @@ class Signup extends Component {
                 placeholder="Confirm Password"
               />
             </div>
+            { !this.state.doPasswordsMatch
+              ? <ErrorPasswordMatch ErrorInPasswordMatch={!this.state.doPasswordsMatch} />
+              : null
+            }
             {
               this.state.errorMsg !== "" 
               ? this.displayErrorMessage()
@@ -153,5 +231,7 @@ class Signup extends Component {
     )
   }
 }
+
+
 
 export default Signup;

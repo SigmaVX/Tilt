@@ -57,18 +57,22 @@ class Login extends Component {
   // Method to handle user login, should redirect to main page when done
   // validates entries first
   login = (event) => {
+    let isValidForm = true;
     event.preventDefault();
 
     // validate username
     if (this.state.username.length < VConst.UnameMinLength || 
         this.state.username.length > VConst.UnameMaxLength) {
       this.safeUpdate({isValidUserName: false});
+      isValidForm = false;
     }
 
     if (this.state.password.length < VConst.MinPasswordLength) {
       this.safeUpdate({isValidPassword: false});
-      return;
+      isValidForm = false;
     }
+
+    if (!isValidForm) return;
     
     AUTH
       .login({username: this.state.username, password: this.state.password})
