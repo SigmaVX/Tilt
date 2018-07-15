@@ -2,7 +2,6 @@
 // =============================================================
 const express = require("express");
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -16,8 +15,6 @@ const path = require("path");
 // =============================================================
 const app = express();
 const PORT = process.env.PORT || 3001;
-// const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
-const MONGODB_LOCATION = process.env.MONGODB_URI || "mongodb://localhost/tilt";
 
 
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -44,10 +41,7 @@ app.use(bodyParser.json());
 app.use(session({
   secret: "The quick brown fox jumps over a lazy dog",
   resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    url: MONGODB_LOCATION
-  })
+  saveUninitialized: false
 }));
 
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

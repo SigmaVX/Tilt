@@ -231,11 +231,16 @@ class Home extends Component {
                                     <img className="img-fluid rounded my-1" src={report.cheatGame.gameImage} alt={report.cheatGame.gameName}/>            
                                 </td>
                                 <td className="col-12 col-md-8">
-                                    <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
-                                    <h6 className="game-title my-1">Cheat Game: {report.cheatGame.gameName}</h6>
-                                    <h6 className="cheat-type my-1">Cheat Type: {report.cheatType.cheatName}</h6>
-                                    <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
-                                    <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : ""}</p>
+                                    <h6 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h6>
+                                    <p className="game-title my-1"><strong>Cheat Game:</strong> {report.cheatGame.gameName}</p>
+                                    <p className="cheat-type my-1"><strong>Cheat Type: </strong> {report.cheatType.cheatName}</p>
+                                    <p className="date my-1"><strong>Reported On: </strong>{Moment(report.date).format('MMM Do YY')}</p>
+                                    <p className="comment-text my-1">
+                                        {report.cheatComments 
+                                            ? report.cheatComments 
+                                            : null}
+                                    </p>
+                                
                                 </td>
                                 <td className="col-12 col-md-2 d-flex align-items-center justify-content-center text-center">
                                     
