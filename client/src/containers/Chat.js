@@ -10,9 +10,10 @@ import React, { Component } from "react";
 import ChatWindow from "../components/ChatWindow";
 import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
+import {ErrorChatEmpty, ErrorChatLong} from "../components/ErrorComponents";
+import * as VConst from "../constants/VConst";
 
 const io = require("socket.io-client");
-const MAX_CHAT_LENGTH = 300;
 
 // const TILT_URL = process.env.APP_URL || "http://localhost:3000";
 let TILT_URL = (process.env.NODE_ENV === "production") 
@@ -39,7 +40,6 @@ class Chat extends Component {
     super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
-      isSubHovered: false,
       // Chat info
       // --------------------------------------------------
       chatMsg: "",
@@ -47,11 +47,15 @@ class Chat extends Component {
       chatConvo: [],
       // forum information to be received from chat forums
       forumsList: null,
-      isChatItemDeleted: false,
+      f: false,
       activeForumId: 0,
       activeForumName: "",
       // prevForum
-      prevForumName: ""
+      prevForumName: "",
+      // for chat validation
+      isChatMsgEmpty: false,
+      isChatMsgTooLong: false,
+      isChatMsgTooFast: false
     };
   }
 
@@ -167,21 +171,29 @@ class Chat extends Component {
 
   deleteChatItem = (delObj) => {
     // delete with API
-    this.safeUpdate({isChatItemDeleted: true, chatConvo: [], chatText: []});
+    this.safeUpdate({f: true, chatConvo: [], chatText: []});
     API.deleteChat(delObj.chatId);
   }
 
   handleOnSubmit = event => {
     event.preventDefault();
+    let isChatMsgValid = true;
 
+    // isChatMsgEmpty: false,
+    // isChatMsgTooLong: false,
+    // isChatMsgTooFast: false
     // validate message
     if (!this.state.chatMsg) {
-      alert("Message cannot be empty.");
-    } else if (this.state.chatMsg.length > MAX_CHAT_LENGTH) {
-      alert(
-        `Message must be shorter than ${MAX_CHAT_LENGTH} characters.`
-      );
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgEmpty: true});
     }
+    
+    if (this.state.chatMsg.length > VConst.MaxChatMsgLength) {
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgTooLong: true});
+    }
+
+    if (!isChatMsgValid) return;
 
     if (this.props.isLoggedIn && this.state.chatMsg !== "" && this.props.username !== "") {
       // send chat message to io.socket server
@@ -191,10 +203,15 @@ class Chat extends Component {
         msg: this.state.chatMsg,
         post: !this._hasPosted
       });
-      if (this.state.isChatItemDeleted) 
-        this.safeUpdate({isChatItemDeleted: false});
+      if (this.state.f) 
+        this.safeUpdate({f: false});
     }
-    this.safeUpdate({chatMsg: ""});
+    this.safeUpdate({
+      chatMsg: "",
+      isChatMsgEmpty: false,
+      isChatMsgTooLong: false,
+      isChatMsgTooFast: false
+    });
   }
 
 
@@ -240,11 +257,23 @@ class Chat extends Component {
             
                 {chatSubmitButton}
               </form>
-            
-          
+         
         </div>
 
+
         <div className="container-fluid blue-background">
+
+          <div>
+            {/* chat message error validation messages */}
+            { this.state.isChatMsgEmpty ? <ErrorChatEmpty ChatEmpty={this.state.isChatMsgEmpty} /> : null}
+            { this.state.isChatMsgTooLong 
+                ? <ErrorChatLong 
+                    ChatLong={this.state.isChatMsgTooLong} 
+                    MaxChatLength={VConst.MaxChatMsgLength}
+                  /> 
+                : null
+            }
+          </div>
                  
           <div className="row justify-content-center">
               <h2 className="col-12 text-center mt-5 mb-2">{this.state.activeForumName} Chat</h2>
@@ -256,7 +285,7 @@ class Chat extends Component {
                   getDeleteChatItem = {this.deleteChatItem}
                   forumName = {this.state.activeForumName}
                   forumId = {this.state.activeForumId}
-                  isChatItemDeleted = {this.state.isChatItemDeleted}
+                  f = {this.state.f}
                 />
               </div>    
           </div>

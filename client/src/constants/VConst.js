@@ -12,3 +12,6 @@ export const UnameMaxLength = 10;
 
 // Minimum password length
 export const MinPasswordLength = 2;
+
+// Maximum Chat message length
+export const MaxChatMsgLength = 300;
