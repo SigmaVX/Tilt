@@ -83,27 +83,18 @@ class ChatForums extends Component {
   render() {
  
     return (
-        <div>
-          <h6 className="text-center">Join Chatroom (requires login)</h6>
-          {/* Select dropdown menu */}
-          <div>
-            <form>
-              <label>
-              Select Chat Forum&nbsp;
-                <select value={this.state.value} 
-                onChange={this.handleForumChange}>
-                <option value="none">--Select game forum--</option>
-                {this.state.forumsList.map(forum =>
-                  (
-                    <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
-                  )
-                )}
-                </select>
-              </label>
-            </form>
-          </div>
 
-        </div>
+            <form className="col-12 col-md-8 my-1"> 
+                <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleForumChange}>
+                  <option value="none">Select Chat Forum</option>
+                    {this.state.forumsList.map(forum =>
+                      (
+                        <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
+                      )
+                    )}
+                </select>
+            </form>
+
     );
   }
 }

@@ -186,74 +186,65 @@ class Chat extends Component {
 
     if (isLoggedIn) {
       chatSubmitButton = 
-      <button className="col-1 btn btn-primary my-2 my-sm-0 mr-2" type="submit" onClick={this.handleOnSubmit}>
+      <button className="btn btn-block my-1" type="submit" onClick={this.handleOnSubmit}>
       Send</button>;
     } else {
       chatSubmitButton = 
-      <button className="col-1 btn btn-primary my-2 my-sm-0 mr-2 disabled" disabled>
+      <button className="btn btn-block my-1  disabled" disabled>
       Send</button>;
     }
 
     return (
 
-      <div>
-        <div className="row no-gutters jumbotron text-center">
-            <h1 className="col-12 animated pulse" >Chat</h1>
-            <h2 className="col-12">Add Some Text</h2>
-            <h3 className="col-12">Add More Text</h3>
+    <div>
+
+        <div className="row no-gutters jumbotron text-center justify-content-center chat-jumbo mb-0">
+            <h1 className="col-12 animated" >Chat</h1>
+            <h2 className="col-12">
+                {
+                  this.props.isLoggedIn 
+                  ? `Welcome To Chat: ${this.props.username}` 
+                  : "Sign In To Post To Chat"
+                }
+            </h2>
+
+            <ChatForums getForumInfo = {this.forumInfo} isLoggedIn = {this.props.isLoggedIn}/>
+         
+              <form className="form-group col-12 col-md-8">
+                <input 
+                  className="form-control col-12 my-1 center-placeholder" 
+                  type="text" 
+                  name="chatMsg" 
+                  value={this.state.chatMsg}
+                  placeholder="Post Your Chat Comments Here"
+                  onChange={this.handleOnChange} 
+                />
+            
+                {chatSubmitButton}
+              </form>
+            
+          
         </div>
 
-        <div className="row">
-          <span className = "d-flex col-4 col-xs-12 justify-content-center text-center">
-            <strong>
-              {
-                this.props.isLoggedIn 
-                ? `Welcome to chat, ${this.props.username}` 
-                : "You must be signed in in order to join chat."
-              }
-              </strong>
-            </span>
-        </div>
-
-        <div className="d-flex flex-row justify-content-center">
-          <section className="col-6">
-            <div className="card">
-              <h5 className="text-center">{this.state.activeForumName} Chatroom</h5>
-              <hr />
-              <ChatWindow
-                convoArray = {this.state.chatConvo}
-                userName = {this.props.username}
-                isAdmin = {this.props.isAdmin}
-                getDeleteChatItem = {this.deleteChatItem}
-                forumName = {this.state.activeForumName}
-                forumId = {this.state.activeForumId}
-                isChatItemDeleted = {this.state.isChatItemDeleted}
-              />
-            </div>
-          </section>
-          <section className="col-3">
-            <ChatForums
-              getForumInfo = {this.forumInfo}
-              isLoggedIn = {this.props.isLoggedIn}
-            />
-          </section>
-        </div>
-    
-        <div>
-          <form className="row form-inline">
-            <input 
-              className="form-control offset-2 col-3 my-2 my-sm-1 mr-sm-1" 
-              type="text" 
-              name="chatMsg" 
-              value={this.state.chatMsg}
-              placeholder="Enter message here"
-              onChange={this.handleOnChange} 
-            />
-            {chatSubmitButton}
-          </form>
-        </div>
-
+        <div className="container-fluid blue-background">
+                 
+          <div className="row justify-content-center">
+              <h2 className="col-12 text-center mt-5 mb-2">{this.state.activeForumName} Chat</h2>
+              <div className="card col-12 col-md-10 mb-4">
+                <ChatWindow
+                  convoArray = {this.state.chatConvo}
+                  userName = {this.props.username}
+                  isAdmin = {this.props.isAdmin}
+                  getDeleteChatItem = {this.deleteChatItem}
+                  forumName = {this.state.activeForumName}
+                  forumId = {this.state.activeForumId}
+                  isChatItemDeleted = {this.state.isChatItemDeleted}
+                />
+              </div>    
+          </div>
+      
       </div>
+    </div>
     )
   }
 } 

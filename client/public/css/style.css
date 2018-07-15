@@ -20,12 +20,14 @@ html {
 }
 
 h1{
-  font-size: 60px;
-  /* font-weight: 700; */
+  font-size: 80px;
+  font-weight: 700;
+  font-family: 'Trirong', serif;
 }
 
 h2{
-  font-size: 35px;
+  font-size: 40px;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 label{
@@ -35,7 +37,7 @@ label{
 
 p{
   font-size: 14px;
-  font-family: 'Maven Pro', sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 select { 
@@ -71,7 +73,6 @@ select {
   color: #fff;
 }
 
-
 .btn{
   background-color: #fa5900;
   color: #242146;
@@ -97,6 +98,24 @@ select {
 .card-body{
   color: #272a2e;
   background-color: #eee;
+}
+
+.chat-list{
+  /* listStyleType: none; */
+}
+
+.chat-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #000;
+  background-image: url("/images/chatwp.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.chat-window{
+  min-height: 200px; 
+  overflow: auto;
 }
 
 .comment-text{
@@ -276,7 +295,6 @@ select {
   border-radius: 0px;
   font-size: 60px;
   color: #fff;
-  font-family: 'Eagle Lake', cursive;
   background-color: #000000;
   border-bottom: 3px solid #fa5900;
   margin-bottom: 0px;
@@ -337,6 +355,11 @@ select {
 .yt-title{
   /* color: #fa5900; */
   background-color: #fff;
+}
+
+#entry-toptext{
+  font-size: 60px;
+  font-weight: 600;
 }
 
 #splash-video{
