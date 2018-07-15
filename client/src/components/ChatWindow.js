@@ -22,7 +22,7 @@ class ChatWindow extends Component {
     this._isMounted = true;
     this._notAlreadyDeleted = true;
     this.prevForumId = this.props.forumId;
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   componentWillUnmount() {
@@ -37,13 +37,14 @@ class ChatWindow extends Component {
     }
     this.prevForumId = this.props.forumId;
     this._notAlreadyDeleted = false;
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
+  // Disabled For Now - Causing Scroll Issues On Load
   // Source: https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
-  scrollToBottom = () => {
-    this.chatsEnd.scrollIntoView({ behavior: "smooth" });
-  }
+  // scrollToBottom = () => {
+  //   this.chatsEnd.scrollIntoView({ behavior: "smooth" });
+  // }
 
   safeUpdate(updateObj) {
     if (this._isMounted)
@@ -107,7 +108,7 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div style={{background: "#FBDAE7", height: "200px", overflow: "auto"}}>
+      <div className="chat-window">
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
@@ -125,17 +126,15 @@ class ChatWindow extends Component {
                       {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
                       </h6>
                     </li>
-                  : <li key={index} style={{listStyleType: "none"}}>
+                  : <li key={index} className="chat-list">
                       <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                      <em>{chatMsg.msg}</em>
+                        <em>{chatMsg.msg}</em>
                       </h6>
                     </li>
               ) 
             )}
           </ul>
-          <div 
-            style={{ float:"left", clear: "both" }}
-            ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
+          <div ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
           </div>
       </div>
     );
