@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import AUTH from "../utilities/AUTH";
+import {ErrorUserName, ErrorPassword} from "../components/ErrorComponents";
+import * as VConst from "../constants/VConst";
 
 class Login extends Component {
 
@@ -14,7 +16,9 @@ class Login extends Component {
       userId: "",
       password: "",
       returnStatus: 0,
-      errorMsg: ""
+      errorMsg: "",
+      isValidUserName: true,
+      isValidPassword: true
     }
   }
 
@@ -51,8 +55,21 @@ class Login extends Component {
 
 
   // Method to handle user login, should redirect to main page when done
+  // validates entries first
   login = (event) => {
     event.preventDefault();
+
+    // validate username
+    if (this.state.username.length < VConst.UnameMinLength || 
+        this.state.username.length > VConst.UnameMaxLength) {
+      this.safeUpdate({isValidUserName: false});
+    }
+
+    if (this.state.password.length < VConst.MinPasswordLength) {
+      this.safeUpdate({isValidPassword: false});
+      return;
+    }
+    
     AUTH
       .login({username: this.state.username, password: this.state.password})
       .then(res => {
@@ -68,7 +85,11 @@ class Login extends Component {
         AUTH
         .adminCheck()
         .then(res => {
-          this.safeUpdate({isAdmin: res.data.isAdmin});
+          // this.safeUpdate({isAdmin: res.data.isAdmin});
+          this.safeUpdate({ 
+            redirectToReferrer: true,
+            isAdmin: res.data.isAdmin,
+          });
           // ------------------------------
           // callback function to parent
           // ------------------------------
@@ -79,7 +100,6 @@ class Login extends Component {
             username: this.state.username,
             email: this.state.email
           }, this.nextPathNav);
-          this.safeUpdate({ redirectToReferrer: true });
         })
         .catch(err => {
           console.log(err);
@@ -97,6 +117,11 @@ class Login extends Component {
         };
         this.safeUpdate(tempObj);
       });
+    
+    this.safeUpdate({            
+      isValidUserName: true,
+      isValidPassword: true
+    });
   }
 
   render() {
@@ -132,6 +157,14 @@ class Login extends Component {
                 className="form-control center-placeholder"
                 placeholder="Enter Username"/>
             </div>
+            { !this.state.isValidUsername 
+              ? <ErrorUserName 
+                  ErrorInUserName={!this.state.isValidUserName} 
+                  UnameMinLength={VConst.UnameMinLength}
+                  UnameMaxLength={VConst.UnameMaxLength}
+                />
+              : null
+            }
 
             <div className="form-group">
               <label htmlFor="password"></label>
@@ -144,6 +177,10 @@ class Login extends Component {
                 placeholder="Enter Password"
               />
             </div>
+            { !this.state.isValidPassword 
+              ? <ErrorPassword ErrorInPassword={!this.state.isValidPassword} />
+              : null
+            }
 
             {
               this.state.returnStatus !== 0 
