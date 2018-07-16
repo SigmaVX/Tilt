@@ -33,11 +33,16 @@ export const ErrorEmail = (props) =>
   </div>
 
 export const ErrorChatEmpty = (props) =>
-  <div className="bg-danger text-light">
+  <div className="bg-danger text-light wrong animated jello">
     { (props.ChatEmpty) ?  <p>Message cannot be empty.</p> : null}
   </div>
 
 export const ErrorChatLong = (props) =>
-  <div className="bg-danger text-light">
-    { (props.ChatLong) ? <p>Message must be shorter than {props.MaxChatMsgLength} characters.</p> : null}
+  <div className="bg-danger text-light wrong animated jello">
+    { (props.ChatLong) ? <p>Message must be shorter than {props.MaxChatLength} characters.</p> : null}
+  </div>
+
+export const ErrorChatFast = (props) =>
+  <div className="bg-danger text-light wrong animated jello">
+    { (props.ChatFast) ? <p>Chat Intervals too fast. Slow down a little. :)</p> : null}
   </div>

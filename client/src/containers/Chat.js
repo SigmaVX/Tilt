@@ -10,8 +10,9 @@ import React, { Component } from "react";
 import ChatWindow from "../components/ChatWindow";
 import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
-import {ErrorChatEmpty, ErrorChatLong} from "../components/ErrorComponents";
+import {ErrorChatEmpty, ErrorChatLong, ErrorChatFast} from "../components/ErrorComponents";
 import * as VConst from "../constants/VConst";
+import { now } from "../../../node_modules/moment";
 
 const io = require("socket.io-client");
 
@@ -47,7 +48,7 @@ class Chat extends Component {
       chatConvo: [],
       // forum information to be received from chat forums
       forumsList: null,
-      f: false,
+      isChatItemDeleted: false,
       activeForumId: 0,
       activeForumName: "",
       // prevForum
@@ -64,6 +65,8 @@ class Chat extends Component {
     this._isMounted = true;
     this._hasJoined= false;
     this._hasPosted = false;
+    this._prevChatTime = new Date();
+
     const thisChat = this;
     let msgId; // keeps track of chat entry id in chats table
 
@@ -164,34 +167,46 @@ class Chat extends Component {
     if ([name] === "chatMsg") {
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
     }
-    this.safeUpdate({
-      [name]: value
-    });
+    this.safeUpdate({[name]: value});
   }
 
   deleteChatItem = (delObj) => {
     // delete with API
-    this.safeUpdate({f: true, chatConvo: [], chatText: []});
+    this.safeUpdate({isChatItemDeleted: true, chatConvo: [], chatText: []});
     API.deleteChat(delObj.chatId);
   }
 
   handleOnSubmit = event => {
     event.preventDefault();
     let isChatMsgValid = true;
+    const currentChatTime = new Date();
 
-    // isChatMsgEmpty: false,
-    // isChatMsgTooLong: false,
-    // isChatMsgTooFast: false
     // validate message
     if (!this.state.chatMsg) {
       isChatMsgValid = false;
       this.safeUpdate({isChatMsgEmpty: true});
     }
     
+    // validate chat message length
     if (this.state.chatMsg.length > VConst.MaxChatMsgLength) {
       isChatMsgValid = false;
       this.safeUpdate({isChatMsgTooLong: true});
     }
+
+    // validate chat interval
+    // convert respective dates to milliseconds
+    const currTime_ms = currentChatTime.getTime();
+    const prevTime_ms = this._prevChatTime.getTime();
+
+    let ms_interval = currTime_ms - prevTime_ms;
+
+    if (ms_interval < VConst.MinChatInterval) {
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgTooFast: true});
+    }
+
+    // capture time in order to calculate next interval
+    this._prevChatTime = new Date();
 
     if (!isChatMsgValid) return;
 
@@ -203,8 +218,8 @@ class Chat extends Component {
         msg: this.state.chatMsg,
         post: !this._hasPosted
       });
-      if (this.state.f) 
-        this.safeUpdate({f: false});
+      if (this.state.isChatItemDeleted) 
+        this.safeUpdate({isChatItemDeleted: false});
     }
     this.safeUpdate({
       chatMsg: "",
@@ -264,15 +279,27 @@ class Chat extends Component {
         <div className="container-fluid blue-background">
 
           <div>
-            {/* chat message error validation messages */}
-            { this.state.isChatMsgEmpty ? <ErrorChatEmpty ChatEmpty={this.state.isChatMsgEmpty} /> : null}
-            { this.state.isChatMsgTooLong 
-                ? <ErrorChatLong 
-                    ChatLong={this.state.isChatMsgTooLong} 
-                    MaxChatLength={VConst.MaxChatMsgLength}
-                  /> 
-                : null
-            }
+          {/* chat message error validation messages */}
+          {/* chat interval too fast*/}
+          { this.state.isChatMsgTooFast ? <ErrorChatFast ChatFast={this.state.isChatMsgTooFast}/> : null}
+
+          {/* chat text is too long*/}
+          { this.state.isChatMsgTooLong 
+              ? <ErrorChatLong 
+                  ChatLong={this.state.isChatMsgTooLong} 
+                  MaxChatLength={VConst.MaxChatMsgLength}
+                /> 
+              : null
+          }
+
+          {/* chat text is empty */}
+          { this.state.isChatMsgEmpty 
+            ? <ErrorChatEmpty 
+                ChatEmpty={this.state.isChatMsgEmpty}
+                ChatInterval={VConst.MinChatInterval}
+              /> 
+            : null
+          }
           </div>
                  
           <div className="row justify-content-center">

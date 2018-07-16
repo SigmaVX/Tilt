@@ -15,3 +15,6 @@ export const MinPasswordLength = 2;
 
 // Maximum Chat message length
 export const MaxChatMsgLength = 300;
+
+// Minimum number of milliseconds allowed between chat messages
+export const MinChatInterval = 1500;

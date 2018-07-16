@@ -182,7 +182,10 @@ class Login extends Component {
               />
             </div>
             { !this.state.isValidPassword 
-              ? <ErrorPassword ErrorInPassword={!this.state.isValidPassword} />
+              ? <ErrorPassword 
+                  ErrorInPassword={!this.state.isValidPassword} 
+                  MinPasswordLength={VConst.MinPasswordLength}
+                />
               : null
             }
 
