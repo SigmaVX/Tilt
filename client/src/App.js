@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import EntryMessage from "./components/EntryMessage";
 import Home from "./containers/Home";
+import About from "./containers/About";
 import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
 import Glossary from "./containers/Glossary";
@@ -213,6 +214,8 @@ class App extends Component {
               isAdmin = {this.state.isAdmin}              
               {...props}/>} 
             />
+
+          <Route exact path="/about" component={About}/>
 
           <this.AdminRoute exact path="/admin" component={Admin}/>
 

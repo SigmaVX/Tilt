@@ -236,7 +236,7 @@ class Post extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>"What Game Was The Cheater Playing?</label>
+                        <label>What Game Was The Cheater Playing?</label>
                         <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select Game" onChange={this.handleOnChange}>
                             <option value="">Select System</option>
                             {this.state.games.map(game=>{

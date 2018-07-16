@@ -35,7 +35,7 @@ function AuthMenu(props) {
         <Link className="nav-link" to="/login">Login</Link>
       </li>
       <li className={window.location.pathname === "/signup" ? "nav-item active nav-active" : "nav-item"}>
-        <Link className="nav-link" to="/signup">Signup</Link>
+        <Link className="nav-link" to="/signup">Sign Up</Link>
       </li>
     </div>
   );
@@ -71,6 +71,9 @@ class Navbar extends Component {
             </li>
             <li className={window.location.pathname === "/chat" ? "nav-item active nav-active" : "nav-item"}>
                 <Link className="nav-link" to="/chat">Cheat Chat</Link>
+            </li>
+            <li className={window.location.pathname === "/about" ? "nav-item active nav-active" : "nav-item"}>
+                <Link className="nav-link" to="/about">About</Link>
             </li>
             <AdminBar isAdmin = {this.props.isAdmin} />
             <AuthMenu 
