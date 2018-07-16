@@ -20,9 +20,6 @@ export default {
     getRecapCounts: function() {
         return axios.get("/api/counts/recap")
     },
-    // *********************************************************
-    // TEMPORARY FOR USERS CHAT
-    // *********************************************************
     // get forum list based (list of chatrooms)
     getForumList: function() {
       return axios.get(`/api/forum`);
@@ -54,9 +51,6 @@ export default {
     deleteUsers: function(id) {
       return axios.delete(`/api/users/${id}`)
     },
-    // ************************************************************
-    // END USERS TEMPORARY 
-    // ************************************************************
 
     // Get All Reports
     getReports: function() {
