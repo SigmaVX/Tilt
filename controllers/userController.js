@@ -2,6 +2,15 @@
 // const bcrypt = require("bcrypt");
 const Users = require("../models/Users");
 
+// Minimum username length
+const UnameMinLength = 2;
+
+// Maximum username length
+const UnameMaxLength = 10;
+
+// Minimum password length
+const MinPasswordLength = 6;
+
 // Defining database methods for the Tilt's User table
 module.exports = {
   findAll: function (req, res) {
@@ -13,8 +22,47 @@ module.exports = {
   },
 
   create: function (req, res) {
-    if (req.body.email && req.body.username && req.body.password && req.body.pswrdConfirmation &&
-        (req.body.password === req.body.pswrdConfirmation)) {
+    let isValidEntry = true;
+    let errorText = "";
+
+    // -----------------------------------------------------------------------
+    // validateEmail() checks if an email is valid
+    // source code for regular expression:
+    // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript/1373724#1373724
+    //
+    function validateEmail(email) {
+      var re = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
+
+      return re.test(email);
+    }
+
+    // backend validation
+    // validate username
+    if (req.body.username.length < UnameMinLength || 
+      req.body.username.length > UnameMaxLength) {
+      isValidEntry = false;
+      errorText += `Username must be between ${UnameMinLength} and ${UnameMaxLength} characters.\n`;
+    }
+
+    // validate email
+    if (!validateEmail(req.body.email)) {
+      isValidEntry = false;
+      errorText += `Invalid email.\n`;
+    }
+
+    // validate password
+    if (req.body.password.length < MinPasswordLength) {
+      isValidEntry = false;
+      errorText += `Password must be at least ${MinPasswordLength} characters long.\n`;
+    }
+
+    // validate password match
+    if (req.body.password !== req.body.pswrdConfirmation) {
+      isValidEntry = false;
+      errorText += `Password and confirmation do not match.\n`;
+    }
+
+    if (isValidEntry) {
       let userData = {
         email: req.body.email,
         username: req.body.username,
@@ -39,7 +87,7 @@ module.exports = {
         });
     }
     else {
-      res.status(404).send("Signup not successful.");
+      res.status(404).send(errorText);
     }
   },
 
@@ -73,14 +121,14 @@ module.exports = {
   },
 
   findById: function (req, res) {
-    console.log(`req.session.userId: ${req.session.userId}`);
+    // console.log(`req.session.userId: ${req.session.userId}`);
     // console.log("req.session: ", JSON.stringify(req.session));
     Users
       .findById(req.session.userId)
       .then(dbModel => {
         // if user was not found send back false
         if (!dbModel) return res.status(404).json({isLoggedIn: false});
-        console.log("dbModel in findById: " + dbModel);
+        // console.log("dbModel in findById: " + dbModel);
 
         // means user is signed in already send back true
         // session: req.session

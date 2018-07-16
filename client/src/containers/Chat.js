@@ -10,13 +10,15 @@ import React, { Component } from "react";
 import ChatWindow from "../components/ChatWindow";
 import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
+import {ErrorChatEmpty, ErrorChatLong, ErrorChatFast} from "../components/ErrorComponents";
+import * as VConst from "../constants/VConst";
+import { now } from "../../../node_modules/moment";
 
 const io = require("socket.io-client");
-// const GENERAL_FORUM_ID = "5b47c8472fe2ce8208c9f482";
 
 // const TILT_URL = process.env.APP_URL || "http://localhost:3000";
 let TILT_URL = (process.env.NODE_ENV === "production") 
-    ? "https://polar-shore-76735.herokuapp.com" 
+    ? "https://infinite-fjord-30472.herokuapp.com" 
     : "http://localhost:3000"; 
 let chatListener  = io.connect(TILT_URL);
 
@@ -39,7 +41,6 @@ class Chat extends Component {
     super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
-      isSubHovered: false,
       // Chat info
       // --------------------------------------------------
       chatMsg: "",
@@ -51,7 +52,11 @@ class Chat extends Component {
       activeForumId: 0,
       activeForumName: "",
       // prevForum
-      prevForumName: ""
+      prevForumName: "",
+      // for chat validation
+      isChatMsgEmpty: false,
+      isChatMsgTooLong: false,
+      isChatMsgTooFast: false
     };
   }
 
@@ -60,17 +65,18 @@ class Chat extends Component {
     this._isMounted = true;
     this._hasJoined= false;
     this._hasPosted = false;
+    this._prevChatTime = new Date();
+
     const thisChat = this;
+    let msgId; // keeps track of chat entry id in chats table
 
     function chatPostRoutine(obj, chatConvo) {
-      let msgId;
       const uname = obj.uname,
             msg = obj.msg,
             shouldPost = obj.post;
 
       
       if (thisChat.state.activeForumId !== 0) {
-      // if (thisChat.state.activeForumId !== 0 && !thisChat._hasPosted)  {
         if (shouldPost && !thisChat._hasPosted) {
           // post chat to forum
           API.postChat(thisChat.state.activeForumId, {chat: msg, postedBy: uname})
@@ -89,16 +95,28 @@ class Chat extends Component {
       }
     }
 
+    function addToConvo(chatObj, chatConvo) {
+      chatConvo.push({uname: chatObj.uname, msg: chatObj.msg, msgId: chatObj.msgId, post: true});
+      thisChat.safeUpdate({chatConvo: chatConvo, chatMsg: ""});
+    }
+
+
     chatListener.on("info msg", function (uname, info) {
       let obj = {uname: uname, msg: info, post: false};
       chatPostRoutine(obj, thisChat.state.chatConvo);
     });
 
     chatListener.on("chat msg", function (obj) {
-      // if (!thisChat._hasPosted) {
+      if (!thisChat._hasPosted) {
         chatPostRoutine(obj, thisChat.state.chatConvo);
-        thisChat._hasPosted = true;
-      // }
+      } else {
+        // regular emit add to chatConvo but do not store
+        // name routine something else
+        addToConvo({
+        uname: obj.uname,
+        msg: obj.msg,
+        post: true}, thisChat.state.chatConvo);
+      }
     });
 
   }
@@ -147,13 +165,9 @@ class Chat extends Component {
     const {name, value} = event.target;
 
     if ([name] === "chatMsg") {
-      // console.log("user is typing");
       console.log("Chat.js handleOnChange -- value.length: ", name.length);
-      this.renderChatUserState();
     }
-    this.safeUpdate({
-      [name]: value
-    });
+    this.safeUpdate({[name]: value});
   }
 
   deleteChatItem = (delObj) => {
@@ -164,19 +178,55 @@ class Chat extends Component {
 
   handleOnSubmit = event => {
     event.preventDefault();
+    let isChatMsgValid = true;
+    const currentChatTime = new Date();
+
+    // validate message
+    if (!this.state.chatMsg) {
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgEmpty: true});
+    }
+    
+    // validate chat message length
+    if (this.state.chatMsg.length > VConst.MaxChatMsgLength) {
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgTooLong: true});
+    }
+
+    // validate chat interval
+    // convert respective dates to milliseconds
+    const currTime_ms = currentChatTime.getTime();
+    const prevTime_ms = this._prevChatTime.getTime();
+
+    let ms_interval = currTime_ms - prevTime_ms;
+
+    if (ms_interval < VConst.MinChatInterval) {
+      isChatMsgValid = false;
+      this.safeUpdate({isChatMsgTooFast: true});
+    }
+
+    // capture time in order to calculate next interval
+    this._prevChatTime = new Date();
+
+    if (!isChatMsgValid) return;
 
     if (this.props.isLoggedIn && this.state.chatMsg !== "" && this.props.username !== "") {
       // send chat message to io.socket server
+      this._hasPosted = false;
       chatListener.emit("send chat", {
         uname: this.props.username,
         msg: this.state.chatMsg,
         post: !this._hasPosted
       });
-      this._hasPosted = true;
       if (this.state.isChatItemDeleted) 
         this.safeUpdate({isChatItemDeleted: false});
     }
-    this.safeUpdate({chatMsg: ""});
+    this.safeUpdate({
+      chatMsg: "",
+      isChatMsgEmpty: false,
+      isChatMsgTooLong: false,
+      isChatMsgTooFast: false
+    });
   }
 
 
@@ -222,11 +272,35 @@ class Chat extends Component {
             
                 {chatSubmitButton}
               </form>
-            
-          
+         
         </div>
 
+
         <div className="container-fluid blue-background">
+
+          <div>
+          {/* chat message error validation messages */}
+          {/* chat interval too fast*/}
+          { this.state.isChatMsgTooFast ? <ErrorChatFast ChatFast={this.state.isChatMsgTooFast}/> : null}
+
+          {/* chat text is too long*/}
+          { this.state.isChatMsgTooLong 
+              ? <ErrorChatLong 
+                  ChatLong={this.state.isChatMsgTooLong} 
+                  MaxChatLength={VConst.MaxChatMsgLength}
+                /> 
+              : null
+          }
+
+          {/* chat text is empty */}
+          { this.state.isChatMsgEmpty 
+            ? <ErrorChatEmpty 
+                ChatEmpty={this.state.isChatMsgEmpty}
+                ChatInterval={VConst.MinChatInterval}
+              /> 
+            : null
+          }
+          </div>
                  
           <div className="row justify-content-center">
               <h2 className="col-12 text-center mt-5 mb-2">{this.state.activeForumName} Chat</h2>
@@ -238,7 +312,7 @@ class Chat extends Component {
                   getDeleteChatItem = {this.deleteChatItem}
                   forumName = {this.state.activeForumName}
                   forumId = {this.state.activeForumId}
-                  isChatItemDeleted = {this.state.isChatItemDeleted}
+                  f = {this.state.f}
                 />
               </div>    
           </div>
