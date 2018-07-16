@@ -26,17 +26,27 @@ For online players unfamiliar with popular game cheating terms, there is also a 
 
 Importantly, Tilt also provides special features for a user with administrator privileges. Upon entering the site as an administrator, an `Admin` section appears. The admin can add and update categories. For instance, an admin can add systems, games and cheat types to be tracked. These items later appear on the dropdowns in the `Post` section. Also, in the section chat forums can be added.
 
-As part of the admin panel, tracked systems can be followed or updated. This is also true for monitored cheat types and video games. Another Tilt admin feature includes the search for cheaters by IGN.
+![alt text](./README_images/admin_1.gif "Admin")
 
-![alt text](https://via.placeholder.com/900x500 "Admin")
+As part of the admin panel, tracked systems can be followed or updated. This is also true for monitored cheat types and video games. Another Tilt admin feature includes the search for cheaters by IGN. Additionally, the admin can update chat forum names or delete a forum.
 
-The videos section gives the user the capability of searching for youtube clips about online game cheats. The user can select the types of gamecheat content to view. Subsequently, the topic videos are displayed in a quilt-like layout.
+![alt text](./README_images/admin_2.gif "Admin")
 
-![alt text](https://via.placeholder.com/900x500 "Videos")
+The videos section gives the user the capability of searching for youtube clips about online game cheats. The user can select the types of gamecheat content to view. Subsequently, the topic videos are displayed in a quilt-like layout. On clicking the youtube card, the visual and audio are rendered.
 
-![alt text](https://via.placeholder.com/900x500 "Signup, Login")
+![alt text](./README_images/video.gif "Videos")
 
-![alt text](https://via.placeholder.com/900x500 "Chat")
+Tilt also has authentication features such as signup and login. In order to post, a user must register with the site. If a non registered visitor attempts to access the post report screen or admin route, the user is redirected to the signup or login page.
+
+Both procedures include validation checks on front end and back end.
+
+![alt text](./README_images/signup_login.gif "Signup, Login")
+
+There is a multi room chat available designed to exchange information about video games and possible cheats. Each chat forum is dedicated to a specific game. An administrator has the ability to delete chat content in case there are innappropriate conversations. The default chat room is the Tilt chatroom.
+
+However, the user has the option of switching to other chat forums by selecting from the dropdown menu. Pertinent messages appear in the chat window as to a user has joined or left a chat forum.
+
+![alt text](./README_images/chat.gif "Chat")
 
 ## Main Technologies Used
 

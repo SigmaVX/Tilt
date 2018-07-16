@@ -8,6 +8,7 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
+import {DefaultChatForum} from "../constants/VConst";
 
 class ChatForums extends Component {
   constructor(props) {
@@ -16,16 +17,16 @@ class ChatForums extends Component {
       // forum information
       // ----------------------------------------------------
       forumsList: [],
-      // default forum is "General" Forum
+      // default forum is "Tilt" Forum
       activeForumId: "",
-      activeForumName: "General",
+      activeForumName: DefaultChatForum,
       // --
       // select menu option default
       // ---------------------------
       value: "none"
     };
     this.handleForumChange = this.handleForumChange.bind(this);
-    this._defaultForumName = "General";
+    this._defaultForumName = DefaultChatForum;
   }
 
   componentDidMount() {

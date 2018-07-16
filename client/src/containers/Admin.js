@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import API from "../utilities/API";
 import Card from "../components/Card";
+import ForumCard from "../components/ForumCard";
 import Search from "../components/Search";
 import Moment from "moment";
 import Modal from 'react-modal';
+import {DefaultChatForum} from "../constants/VConst.js";
 // import ReactDOM from 'react-dom';
 
 class Admin extends Component {
@@ -17,8 +19,9 @@ class Admin extends Component {
         games: [],
         systems: [],
         cheats: [],
-        forum: [],
+        forums: [],
         videos: [],
+        forumChatRoom: "",
         editCheatComments: "",
         editCheatVideo: "",
         editCheaterIGN: "",
@@ -78,11 +81,20 @@ class Admin extends Component {
         .catch(err => console.log(err))
     }
 
+    // Load Forums
+    loadForums = () => {
+      API
+        .getForum()
+        .then(res => this.setState({forums: res.data}))
+        .catch(err => console.log(err))
+    }
+
     // Load State From Mongo
     pageLoad = () =>{
         this.loadGames();
         this.loadSystems();
         this.loadCheats();
+        this.loadForums();
     }
 
     // Search For Reports By IGN
@@ -151,10 +163,22 @@ class Admin extends Component {
       API.postForum({
           forumChatRoom: this.state.forumChatRoom
       }).then(() => {
-          this.setState({
-            forumChatRoom: ""
-          })    
+          this.setState({forumChatRoom: ""});
+          this.loadForums();    
       }).catch(err => console.log(err))
+    }
+
+    // Update Forum
+    updateForum = (id, updatedChatRoom) => {
+
+      API.putForum(id, {
+        forumChatRoom: updatedChatRoom
+      })
+      .then(() => {
+        this.setState({forumChatRoom: ""});
+        this.loadForums();
+      })
+      .catch(err => console.log(err));
     }
    
    // Update Cheat
@@ -236,6 +260,14 @@ class Admin extends Component {
                 systemImage: ""
             }) 
         }).catch(err => console.log(err))
+    }
+
+    // deleteForum
+    deleteForum = (id) => {
+      API
+        .deleteForum(id)
+        .then(() => this.loadForums())
+        .catch(err => console.log(err));
     }
 
     // Delete Report
@@ -339,7 +371,7 @@ class Admin extends Component {
                         <div className="form-group">
                             <input type="text" className="form-control my-2 center-placeholder" name="forumChatRoom" value={this.state.forumChatRoom}  placeholder="Enter Chatforum Name" onChange={this.handleOnChange}/>
                             <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Instructions: Enter names of different chat forums.</span>
-                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Also enter "General" as default chatroom.</span>
+                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Also enter "{DefaultChatForum}" as default chatroom.</span>
                             <button type="submit" className="btn btn-block my-2" onClick={this.postForum}>Add Forum</button>
                         </div>
 
@@ -397,6 +429,22 @@ class Admin extends Component {
                             updateCheat={this.updateCheat}
                         />
                     )})}
+            </div>
+
+            <div className="row justify-content-center text-center pb-2">
+              <h2 className="col-12">Chat Forums</h2>
+              { 
+                this.state.forums.map((forum) => {
+                  return (
+                    <ForumCard
+                      key={forum._id}
+                      forumId={forum._id}
+                      forumChatRoom={forum.forumChatRoom}
+                      updateForum={this.updateForum}
+                      deleteForum={this.deleteForum}
+                    />
+                )}
+              )}
             </div>
 
 
@@ -481,3 +529,20 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+/*
+
+this.setState({updatedChatRoom[index]: forum.forumChatRoom});
+
+              { 
+                this.state.forums.map((forum, index) => {
+                  return (
+                    <div className="card col-12 col-md-3 mb-1 mx-1 no-gutters" key={forum._id}>
+                      <div class="card-body">
+                        <h5 class="card-title">{forum.forumChatRoom}</h5>
+                      </div>
+                    </div>
+                )}
+              )}
+
+ */

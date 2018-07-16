@@ -13,7 +13,6 @@ class ChatWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testVar: "test variable",
       chatHistory: []
     };
   }

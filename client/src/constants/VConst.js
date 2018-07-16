@@ -18,3 +18,6 @@ export const MaxChatMsgLength = 300;
 
 // Minimum number of milliseconds allowed between chat messages
 export const MinChatInterval = 1500;
+
+// Default Chat Forum
+export const DefaultChatForum = "Tilt";
