@@ -24,17 +24,19 @@ For online players unfamiliar with popular game cheating terms, there is also a 
 
 ![alt text](./README_images/glossary.gif "Glossary")
 
-Importantly, Tilt also provides special features for a user with administrator privileges. 
+Importantly, Tilt also provides special features for a user with administrator privileges. Upon entering the site as an administrator, an `Admin` section appears. The admin can add and update categories. For instance, an admin can add systems, games and cheat types to be tracked. These items later appear on the dropdowns in the `Post` section. Also, in the section chat forums can be added.
 
-![alt text](https://via.placeholder.com/200x200 "Admin")
+As part of the admin panel, tracked systems can be followed or updated. This is also true for monitored cheat types and video games. Another Tilt admin feature includes the search for cheaters by IGN.
 
-![alt text](https://via.placeholder.com/200x200 "Post Cheater")
+![alt text](https://via.placeholder.com/900x500 "Admin")
 
-![alt text](https://via.placeholder.com/200x200 "Videos")
+The videos section gives the user the capability of searching for youtube clips about online game cheats. The user can select the types of gamecheat content to view. Subsequently, the topic videos are displayed in a quilt-like layout.
 
-![alt text](https://via.placeholder.com/200x200 "Signup, Login")
+![alt text](https://via.placeholder.com/900x500 "Videos")
 
-![alt text](https://via.placeholder.com/200x200 "Chat")
+![alt text](https://via.placeholder.com/900x500 "Signup, Login")
+
+![alt text](https://via.placeholder.com/900x500 "Chat")
 
 ## Main Technologies Used
 
