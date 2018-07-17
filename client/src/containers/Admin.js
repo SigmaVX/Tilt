@@ -370,8 +370,8 @@ class Admin extends Component {
                     <form>
                         <div className="form-group">
                             <input type="text" className="form-control my-2 center-placeholder" name="forumChatRoom" value={this.state.forumChatRoom}  placeholder="Enter Chatforum Name" onChange={this.handleOnChange}/>
-                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Instructions: Enter names of different chat forums.</span>
-                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Also enter "{DefaultChatForum}" as default chatroom.</span>
+                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Instructions: Enter Forum Name</span>
+                            <span class="input-group-text text-light font-weight-light justify-content-center bg-secondary my-2">Enter "{DefaultChatForum}" As Default Chat</span>
                             <button type="submit" className="btn btn-block my-2" onClick={this.postForum}>Add Forum</button>
                         </div>
 

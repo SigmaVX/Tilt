@@ -64,7 +64,7 @@ class VerticalNav extends Component {
           <Link className="bm-header" to="/">
             <span>
               <img className="nav-icon mr-2" src="./images/pinball-orange.png" alt="Tilt Icon"/>
-              Tilt Home
+              Tilt
             </span>
           </Link>
           

@@ -267,9 +267,9 @@ class Chat extends Component {
 
        
        
-          <div className="row justify-content-center no-gutters">
+          <div className="row-fluid justify-content-center no-gutters mx-0">
               
-              <div className="card col-11 col-md-12 mb-0">
+              <div className="col-12 col-md-12 mb-0">
                 <ChatWindow
                   convoArray = {this.state.chatConvo}
                   userName = {this.props.username}

@@ -79,7 +79,7 @@ class ChatWindow extends Component {
     return (
         this.state.chatHistory.map(chatHist => (
           <li key={chatHist._id}>
-            <h6 className="d-inline-flex card-subtitle">
+            <h6 className="d-inline-flex chat-post">
               {chatHist.chat}
             </h6>
           </li>
@@ -108,28 +108,37 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div className="chat-window mt-0 mb-0">
+      <div className="chat-window mx-0 mt-0 mb-0 py-3 px-3">
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
               <li key={chatHist._id}>
-                <h6 className="d-inline-flex align-items-center card-subtitle">
-                  <span className="posted-by">{chatHist.postedBy}</span> ({Moment(chatHist.date).format('l')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
-                </h6>
+                <div className="d-inline-flex align-items-center chat-item">
+                  <span className="chat-by">
+                    {chatHist.postedBy} 
+                  </span>
+                  ({Moment(chatHist.date).format('l')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                </div>
               </li>
               )
             )}
             {this.props.convoArray.map((chatMsg, index) => (
                 chatMsg.post 
                   ? <li key={chatMsg.msgId}>
-                      <h6 className="d-inline-flex align-items-center card-subtitle">
-                      {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                      </h6>
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                    </div>
                     </li>
                   : <li key={index} className="">
-                      <h6 className="d-inline-flex align-items-center card-subtitle">
-                        <em>{chatMsg.uname}: {chatMsg.msg}</em>
-                      </h6>
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg}
+                      </div>
                     </li>
               ) 
             )}
