@@ -249,7 +249,7 @@ class Home extends Component {
                                                 <a className="video-link my-1" target="_blank" href={report.cheatVideo}>
                                                     <h6>Cheat Video</h6>
                                                     <div className="col-12 video-icon-wrap my-1">
-                                                        <i class="fab fa-youtube"></i>
+                                                        <i className="fab fa-youtube"></i>
                                                     </div> 
                                                 </a>
                                             </div>
@@ -257,7 +257,7 @@ class Home extends Component {
                                         :   (<div className="text-center">
                                                     <h6>No Video</h6>
                                                     <div className="col-12 video-icon-wrap my-1">
-                                                        <i class="fas fa-video-slash"></i>
+                                                        <i className="fas fa-video-slash"></i>
                                                     </div>
                                             </div>
                                             )

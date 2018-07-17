@@ -253,7 +253,7 @@ class Videos extends Component {
                   {/* Select dropdown menu */}
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
-                        <option value="none"><center>Videos By Cheat Type</center></option>
+                        <option value="none">Videos By Cheat Type</option>
                         {this.state.cheatList.map(cheat =>
                           (
                             <option key={cheat._id} value={cheat.cheatName}>{cheat.cheatName}</option>

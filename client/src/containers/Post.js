@@ -133,7 +133,7 @@ class Post extends Component {
                 // Check If Values Are Selected In Manditory Fields
                 if(this.state.cheaterIGN.length > 0 && this.state.cheatSystem.length > 0 && this.state.cheatGame.length > 0 && this.state.cheatType.length > 0){
                     // Check If Button Already Clicked
-                    if(buttonClicked = true){
+                    if(buttonClicked === true){
                         this.validateDuplicate();
                         buttonClicked = false;
                     } else {
@@ -201,9 +201,9 @@ class Post extends Component {
   render() {
 
     // Validate That Form Data Is Present
-    const { cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments} = this.state;
+    const { cheaterIGN, cheatGame, cheatSystem, cheatType} = this.state;
     // console.log(cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments);
-    const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefinded" && typeof cheatType !== "undefined";
+    const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefined" && typeof cheatType !== "undefined";
 
     
 

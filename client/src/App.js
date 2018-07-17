@@ -77,7 +77,7 @@ class App extends Component {
     AUTH
       .loginCheck()
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.isLoggedIn) this.isAuthenticated = true;
         this.safeUpdate({
           isLoggedIn: res.data.isLoggedIn,

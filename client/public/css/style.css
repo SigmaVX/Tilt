@@ -41,6 +41,10 @@ p{
   font-family: 'Rubik', sans-serif;
 }
 
+option{
+  text-align: center;
+}
+
 select { 
   text-align-last:center; 
 }
@@ -244,6 +248,7 @@ select {
   background-color: #272a2e;
   color: #fff;
   border-bottom: 3px solid #fa5900;
+  min-height: 70px;
 }
 
 .nav-icon{
