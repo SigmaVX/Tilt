@@ -3,6 +3,8 @@ import API from "../utilities/API";
 import YouTube from "react-youtube";
 import {DefaultVideoQuery} from "../constants/VConst";
 
+const UserSubmitted = "User Submitted Videos";
+
 class Videos extends Component {
 
   constructor(props) {
@@ -72,18 +74,24 @@ class Videos extends Component {
   handleSelectMenuChange = event => {
     const {value} = event.target;
 
-    this.getYouTubeVids({
-      part: this.state.part,
-      safeSearch: this.state.safeSearch,
-      maxResults: this.state.maxResults,
-      relevanceLanguage: this.state.relevanceLanguage,
-      // add query value to youtube query object
-      q: value     
-    });
-    this.setState({
-      submittedQuery: value,
-      value: value
-    });
+    console.log(`Videos.js handleSelectMenuChange() value ${value}`);
+    if (value === UserSubmitted) {
+      console.log("User submitted");
+      this.userVideoSearch();
+    } else {
+      this.getYouTubeVids({
+        part: this.state.part,
+        safeSearch: this.state.safeSearch,
+        maxResults: this.state.maxResults,
+        relevanceLanguage: this.state.relevanceLanguage,
+        // add query value to youtube query object
+        q: value     
+      });
+      this.setState({
+        submittedQuery: value,
+        value: value
+      });
+    }
 
   }
 
@@ -96,6 +104,7 @@ class Videos extends Component {
       // add query value to youtube query object
       q: this.state.q     
     });
+    this.loadVideosList();
     this.loadCheatsList();
     this.loadGamesList();
   }
@@ -131,6 +140,9 @@ class Videos extends Component {
       comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheat`});
     }
 
+    // add user submitted videos to list
+    comboList.push({itemId: UserSubmitted, nameTerm: UserSubmitted});
+
     this.setState({combinedList: comboList});
   }
 
@@ -143,12 +155,13 @@ class Videos extends Component {
 
         vList = res.data;
         vList.map(item => {
-          console.log(`videoLink: ${item.videoLink}`)
+          // console.log(`videoLink: ${item.videoLink}`)
           linkPos = item.videoLink.lastIndexOf("/");
-          console.log(item.videoLink.slice(linkPos + 1));
+          // console.log(item.videoLink.slice(linkPos + 1));
           videoList.push({
             vId: item._id,
             vLink: item.videoLink.slice(linkPos + 1),
+            // vTitle: item.snippet.title,
             posted: item.createdOn
           });
           return true;
@@ -192,10 +205,10 @@ class Videos extends Component {
   }
   
   userVideoSearch = () => {
-    this.loadVideosList();
+    // this.loadVideosList();
 
     this.setState({
-      submittedQuery: "User Submitted Videos"
+      submittedQuery: UserSubmitted
     });
   }
 
@@ -205,6 +218,8 @@ class Videos extends Component {
   }
 
   displayUserVideos(opts) {
+    opts.playerVars.showinfo = 1;
+    console.log("Videos.js displayUserVideos(): opts: ", JSON.stringify(opts));
     return (
       this.state.videoList.map(uVid => (
 
@@ -218,7 +233,7 @@ class Videos extends Component {
             /> 
 
             <div className="d-flex align-items-center text-center yt-title px-2 py-2">
-              <h5 className="col-12 card-title">{uVid.snippet.title}</h5> 
+              <h5 className="col-12 card-title">{/* uVid.vTitle */}</h5> 
             </div>
 
           </div>
@@ -257,7 +272,9 @@ class Videos extends Component {
     let videoQueryHeader;
     if (this.state.q === DefaultVideoQuery) {
       videoQueryHeader = <span>Top YouTube Cheat Videos</span>
-    } else if (this.state.ytVideos.length || this.state.videoList.length) {
+    } else if (this.state.submittedQuery === UserSubmitted) {
+      videoQueryHeader = <span>User Submitted Videos</span>
+    } else if (this.state.ytVideos.length) {
       videoQueryHeader = <span>{this.state.submittedQuery} Videos</span>
     } else {
       videoQueryHeader = <span>Cheat Videos</span>
@@ -344,7 +361,7 @@ class Videos extends Component {
             
               <div className="row video-result justify-content-center no-gutters mb-0">
                 {
-                  this.state.submittedQuery === "User Submitted Videos"
+                  this.state.submittedQuery === UserSubmitted
                   ? 
                   this.displayUserVideos(opts)
                   :
