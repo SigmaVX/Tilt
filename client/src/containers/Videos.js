@@ -154,6 +154,11 @@ class Videos extends Component {
         let linkPos = 0;
 
         vList = res.data;
+        // for each video make youtube query with id parameter
+        // and get snippets
+
+        // with data that comes back from youtube make assemble
+        // user video list
         vList.map(item => {
           // console.log(`videoLink: ${item.videoLink}`)
           linkPos = item.videoLink.lastIndexOf("/");
@@ -218,7 +223,6 @@ class Videos extends Component {
   }
 
   displayUserVideos(opts) {
-    opts.playerVars.showinfo = 1;
     console.log("Videos.js displayUserVideos(): opts: ", JSON.stringify(opts));
     return (
       this.state.videoList.map(uVid => (
