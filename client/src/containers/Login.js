@@ -135,7 +135,7 @@ class Login extends Component {
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
-      console.log(`Login.js referrer: ${this.nextPathNav}`);
+      // console.log(`Login.js referrer: ${this.nextPathNav}`);
       return (
         <Redirect to={{ pathname: this.nextPathNav }} />
       );

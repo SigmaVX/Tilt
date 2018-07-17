@@ -2,7 +2,7 @@ module.exports = function (io) {
   let numUsers = 0;
 
   // chatforums currently available in chat
-  let chatforums = ["General","League of Legends", "Overwatch", "Fortnite", "Destiny", "Anthem",
+  let chatforums = ["Tilt General","League of Legends", "Overwatch", "Fortnite", "Destiny", "Anthem",
                    "PUBG", "Call of Duty", "World of Warcraft" ];
 
   // usernames 
@@ -16,7 +16,7 @@ module.exports = function (io) {
 
     // when client emits "add user", this function listens and executes
     socket.on("add user", function(data){
-      console.log(`socket2.js in add user == data: ${data}`);
+      // console.log(`socket.js in add user == data: ${data}`);
       const defaultRoom = chatforums[0];
       // store the uname in the socket session for this client
       socket.uname = data;
@@ -37,8 +37,8 @@ module.exports = function (io) {
       // client executes "chat msg" with one parameter that contains an object
       // the following two will emit to all the sockets connected to socket.forum
       io.sockets.in(socket.forum).emit("chat msg", data);
-      console.log(`socket2.js 'send chat' socket.forum: ${socket.forum}
-      data uname: ${data.uname}, msg: ${data.msg}, post: ${data.post}`);
+      // console.log(`socket.js 'send chat' socket.forum: ${socket.forum}
+      // data uname: ${data.uname}, msg: ${data.msg}, post: ${data.post}`);
       // socket.to(socket.forum).emit("chat msg", data);
     });
 

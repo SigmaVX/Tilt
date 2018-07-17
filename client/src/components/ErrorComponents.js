@@ -1,7 +1,11 @@
 import React from "react";
 
 export const ErrorUserName = (props) =>
+<<<<<<< HEAD
   <div className="error-text ">
+=======
+  <div className="error-text">
+>>>>>>> 2aa87748434e222e3d225d023d4de781da238b35
       { (props.ErrorInUserName) 
         ?  <p>Username must be between {props.UnameMinLength} and {props.UnameMaxLength} characters.</p>        
         : null
@@ -9,7 +13,11 @@ export const ErrorUserName = (props) =>
   </div>
 
 export const ErrorPassword = (props) =>
+<<<<<<< HEAD
   <div className="error-text ">
+=======
+  <div className="error-text">
+>>>>>>> 2aa87748434e222e3d225d023d4de781da238b35
       { (props.ErrorInPassword) 
         ?  <p>Password must be at least {props.MinPasswordLength} characters long.</p>        
         : null
@@ -17,7 +25,11 @@ export const ErrorPassword = (props) =>
   </div>
 
 export const ErrorPasswordMatch = (props) =>
+<<<<<<< HEAD
   <div className="error-text ">
+=======
+  <div className="error-text">
+>>>>>>> 2aa87748434e222e3d225d023d4de781da238b35
     { (props.ErrorInPasswordMatch) 
       ?  <p>Password and confirmation do not match. Please try again.</p>        
       : null
@@ -25,7 +37,7 @@ export const ErrorPasswordMatch = (props) =>
   </div>
 
 export const ErrorEmail = (props) =>
-  <div className="error-text ">
+  <div className="error-text">
     { (props.ErrorInEmail) 
       ?  <p>Please enter a valid email address</p>        
       : null
@@ -44,5 +56,5 @@ export const ErrorChatLong = (props) =>
 
 export const ErrorChatFast = (props) =>
   <div className="error-text wrong animated jello">
-    { (props.ChatFast) ? <p>Slow Things Down - You Are Posting Too Fast!</p> : null}
+    { (props.ChatFast) ? <p>Slow Things Down<br>You Are Posting Too Fast!</p> : null}
   </div>

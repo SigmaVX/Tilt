@@ -12,7 +12,7 @@ import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
 import {ErrorChatEmpty, ErrorChatLong, ErrorChatFast} from "../components/ErrorComponents";
 import * as VConst from "../constants/VConst";
-import { now } from "../../../node_modules/moment";
+// import { now } from "../../../node_modules/moment";
 
 const io = require("socket.io-client");
 
@@ -233,7 +233,7 @@ class Chat extends Component {
 
 
   render() {
-    let chatSubmitButton, leaveChatButton;
+    let chatSubmitButton;
     const isLoggedIn = this.props.isLoggedIn;
 
     if (isLoggedIn) {
@@ -262,16 +262,65 @@ class Chat extends Component {
 
             <ChatForums getForumInfo = {this.forumInfo} isLoggedIn = {this.props.isLoggedIn}/>
          
+<<<<<<< HEAD
              
+=======
+              <form className="form-group col-12 col-md-8">
+                <input 
+                  className="form-control col-12 my-1 center-placeholder"
+                  autoComplete="off" 
+                  type="text" 
+                  name="chatMsg" 
+                  value={this.state.chatMsg}
+                  placeholder="Post Your Chat Comments Here"
+                  onChange={this.handleOnChange} 
+                />
+            
+                {chatSubmitButton}
+              </form>
+>>>>>>> 2aa87748434e222e3d225d023d4de781da238b35
          
         </div>
 
 
         <div className="container-fluid blue-background">
+<<<<<<< HEAD
        
           <div className="row justify-content-center no-gutters">
               <h2 className="col-12 text-center mt-5 mb-2">{this.state.activeForumName} Chat</h2>
               <div className="card col-11 col-md-10 mb-0">
+=======
+
+          <div>
+          {/* chat message error validation messages */}
+          {/* chat interval too fast*/}
+          { this.state.isChatMsgTooFast ? <ErrorChatFast ChatFast={this.state.isChatMsgTooFast}/> : null}
+
+          {/* chat text is too long*/}
+          { this.state.isChatMsgTooLong 
+              ? <ErrorChatLong 
+                  ChatLong={this.state.isChatMsgTooLong} 
+                  MaxChatLength={VConst.MaxChatMsgLength}
+                /> 
+              : null
+          }
+
+          {/* chat text is empty */}
+          { this.state.isChatMsgEmpty 
+            ? <ErrorChatEmpty 
+                ChatEmpty={this.state.isChatMsgEmpty}
+                ChatInterval={VConst.MinChatInterval}
+              /> 
+            : null
+          }
+          </div>
+                 
+          <div className="row justify-content-center">
+              <h2 className="col-12 text-center mt-5 mb-2">
+              {this.state.activeForumName || VConst.DefaultChatForum} Chat
+              </h2>
+              <div className="card col-12 col-md-10 mb-4">
+>>>>>>> 2aa87748434e222e3d225d023d4de781da238b35
                 <ChatWindow
                   convoArray = {this.state.chatConvo}
                   userName = {this.props.username}
