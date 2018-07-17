@@ -8,6 +8,7 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
+import Moment from "moment";
 
 class ChatWindow extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class ChatWindow extends Component {
     return (
         this.state.chatHistory.map(chatHist => (
           <li key={chatHist._id}>
-            <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+            <h6 className="d-inline-flex card-subtitle">
               {chatHist.chat}
             </h6>
           </li>
@@ -91,13 +92,12 @@ class ChatWindow extends Component {
     if (this.props.isAdmin) {
       return (
         <section>
-          <span>&nbsp;</span>
           <button 
-            className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
+            className="btn-delelte text-center" 
             type="submit"
             onClick={() => this.deleteItemHandler(chatId)}   
           >
-          &times;
+            
           </button>
         </section>
       )
@@ -113,8 +113,8 @@ class ChatWindow extends Component {
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
               <li key={chatHist._id}>
-                <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                  {chatHist.postedBy}: {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                <h6 className="d-inline-flex align-items-center card-subtitle">
+                  <span className="posted-by">{chatHist.postedBy}</span> ({Moment(chatHist.date).format('l')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
                 </h6>
               </li>
               )
@@ -122,12 +122,12 @@ class ChatWindow extends Component {
             {this.props.convoArray.map((chatMsg, index) => (
                 chatMsg.post 
                   ? <li key={chatMsg.msgId}>
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                      <h6 className="d-inline-flex align-items-center card-subtitle">
                       {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
                       </h6>
                     </li>
-                  : <li key={index} className="chat-list">
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+                  : <li key={index} className="">
+                      <h6 className="d-inline-flex align-items-center card-subtitle">
                         <em>{chatMsg.uname}: {chatMsg.msg}</em>
                       </h6>
                     </li>

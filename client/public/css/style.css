@@ -132,6 +132,18 @@ margin: 15px auto;
   line-height: 25px;
 }
 
+.btn-delelte{
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  color: #fff;
+  background-color: darkred;
+  margin-left: 10px;
+  margin-top: 0px;
+  border: 1px solid #333333;
+  cursor: pointer;
+}
+
 .btn:hover{
   color: #fff;
   background-color: #f91a51;
@@ -149,8 +161,9 @@ margin: 15px auto;
   background-color: #eee;
 }
 
-.chat-list{
-  /* listStyleType: none; */
+.card-subtitle{
+  color: #272a2e;
+  padding: 1rem;
 }
 
 .chat-jumbo{ 
@@ -166,6 +179,11 @@ margin: 15px auto;
 .chat-window{
   min-height: 200px; 
   overflow: auto;
+
+}
+
+.chat-window ul{
+  padding-left: 5px;
 }
 
 .comment-text{
@@ -306,6 +324,10 @@ margin: 15px auto;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.posted-by{
+  color: #242146;
 }
 
 .pulse{
