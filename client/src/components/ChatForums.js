@@ -90,7 +90,7 @@ class ChatForums extends Component {
  
     return (
 
-            <form className="col-12 col-md-8 my-1"> 
+            <form className="col-11 col-md-4 my-1"> 
                 <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleForumChange}>
                   <option value="none" disabled>Select Chat Forum</option>
                     {this.state.forumsList.map(forum =>

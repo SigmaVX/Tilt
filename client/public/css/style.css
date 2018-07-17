@@ -49,6 +49,10 @@ select {
   text-align-last:center; 
 }
 
+ul{
+  list-style: none;
+}
+
 .about-jumbo{
   border-bottom: 3px solid #fa5900;
   /* background-color: #f91a51; */
@@ -65,7 +69,6 @@ select {
   font-size: 2em;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
-
 }
 
 .adamin-text{
@@ -119,7 +122,9 @@ select {
 }
 
 .bm-header{
-margin: 15px auto;
+  margin: 15px auto;
+  font-size: 40px;
+  font-family: 'Trirong', serif;
 }
 
 .btn{
@@ -130,6 +135,18 @@ margin: 15px auto;
   font-size: 20px;
   text-transform: capitalize;
   line-height: 25px;
+}
+
+.btn-delelte{
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  color: #fff;
+  background-color: #fa5900;
+  margin-left: 10px;
+  margin-top: 0px;
+  border: 1px solid #333333;
+  cursor: pointer;
 }
 
 .btn:hover{
@@ -149,8 +166,16 @@ margin: 15px auto;
   background-color: #eee;
 }
 
-.chat-list{
-  /* listStyleType: none; */
+.chat-item{
+  display: inline;
+  padding: 0.5rem;
+  color: #fff;
+  font-size: 14px;
+}
+
+.chat-by{
+  color: #fa5900;
+  font-weight: 600;
 }
 
 .chat-jumbo{ 
@@ -163,9 +188,23 @@ margin: 15px auto;
   background-position: center;
 }
 
+.chat-post{
+  height: 60px;
+  border-radius: 0px;
+  border: 0px !important;
+  background-color: #979797;
+  color: #fff;
+}
+
 .chat-window{
-  min-height: 200px; 
+  min-height: 400px; 
   overflow: auto;
+  border-radius: 0px;
+  background-color: #242146;
+}
+
+.chat-window ul{
+  padding-left: 15px;
 }
 
 .comment-text{
@@ -180,7 +219,7 @@ margin: 15px auto;
 
 .center-placeholder{
     text-align:center;
-  }
+}
 
 .crop {
     height: 100px;
@@ -235,7 +274,7 @@ margin: 15px auto;
   background-color: #272a2e;
   color: #fff;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
-  background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
+  background-image: -webkit-linear-gradient(top, #242146 66%, #272a2e 33%,  #242146 0%);
   background-image: linear-gradient(to bottom,#242146 0%, #272a2e 33%,  #242146 66%);
 }
 
@@ -268,6 +307,10 @@ margin: 15px auto;
 
 .jumbo-text{
   background-color: rgba(20,20,20,.5);
+}
+
+.jumbotron{
+  border-radius: 0px;
 }
 
 .nav-active{

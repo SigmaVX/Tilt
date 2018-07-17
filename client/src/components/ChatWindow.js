@@ -8,6 +8,7 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
+import Moment from "moment";
 
 class ChatWindow extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class ChatWindow extends Component {
     return (
         this.state.chatHistory.map(chatHist => (
           <li key={chatHist._id}>
-            <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+            <h6 className="d-inline-flex chat-post">
               {chatHist.chat}
             </h6>
           </li>
@@ -91,13 +92,12 @@ class ChatWindow extends Component {
     if (this.props.isAdmin) {
       return (
         <section>
-          <span>&nbsp;</span>
           <button 
-            className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
+            className="btn-delelte text-center" 
             type="submit"
             onClick={() => this.deleteItemHandler(chatId)}   
           >
-          &times;
+            
           </button>
         </section>
       )
@@ -108,28 +108,37 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div className="chat-window">
+      <div className="chat-window mx-0 mt-0 mb-0 py-3 px-3">
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
               <li key={chatHist._id}>
-                <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                  {chatHist.postedBy}: {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
-                </h6>
+                <div className="d-inline-flex align-items-center chat-item">
+                  <span className="chat-by">
+                    {chatHist.postedBy} 
+                  </span>
+                  ({Moment(chatHist.date).format('l')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                </div>
               </li>
               )
             )}
             {this.props.convoArray.map((chatMsg, index) => (
                 chatMsg.post 
                   ? <li key={chatMsg.msgId}>
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                      {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                      </h6>
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                    </div>
                     </li>
-                  : <li key={index} className="chat-list">
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                        <em>{chatMsg.uname}: {chatMsg.msg}</em>
-                      </h6>
+                  : <li key={index} className="">
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg}
+                      </div>
                     </li>
               ) 
             )}

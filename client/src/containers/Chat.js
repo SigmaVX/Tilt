@@ -238,11 +238,11 @@ class Chat extends Component {
 
     if (isLoggedIn) {
       chatSubmitButton = 
-      <button className="btn btn-block my-1" type="submit" onClick={this.handleOnSubmit}>
+      <button className="btn btn-block" type="submit" onClick={this.handleOnSubmit}>
       Send</button>;
     } else {
       chatSubmitButton = 
-      <button className="btn btn-block my-1  disabled" disabled>
+      <button className="btn btn-block disabled" disabled>
       Send</button>;
     }
 
@@ -260,56 +260,16 @@ class Chat extends Component {
                 }
             </h2>
 
-            <ChatForums getForumInfo = {this.forumInfo} isLoggedIn = {this.props.isLoggedIn}/>
-         
-              <form className="form-group col-12 col-md-8">
-                <input 
-                  className="form-control col-12 my-1 center-placeholder"
-                  autoComplete="off" 
-                  type="text" 
-                  name="chatMsg" 
-                  value={this.state.chatMsg}
-                  placeholder="Post Your Chat Comments Here"
-                  onChange={this.handleOnChange} 
-                />
+            <ChatForums getForumInfo = {this.forumInfo} isLoggedIn = {this.props.isLoggedIn}/>    
             
-                {chatSubmitButton}
-              </form>
-         
         </div>
 
 
-        <div className="container-fluid blue-background">
-
-          <div>
-          {/* chat message error validation messages */}
-          {/* chat interval too fast*/}
-          { this.state.isChatMsgTooFast ? <ErrorChatFast ChatFast={this.state.isChatMsgTooFast}/> : null}
-
-          {/* chat text is too long*/}
-          { this.state.isChatMsgTooLong 
-              ? <ErrorChatLong 
-                  ChatLong={this.state.isChatMsgTooLong} 
-                  MaxChatLength={VConst.MaxChatMsgLength}
-                /> 
-              : null
-          }
-
-          {/* chat text is empty */}
-          { this.state.isChatMsgEmpty 
-            ? <ErrorChatEmpty 
-                ChatEmpty={this.state.isChatMsgEmpty}
-                ChatInterval={VConst.MinChatInterval}
-              /> 
-            : null
-          }
-          </div>
-                 
-          <div className="row justify-content-center">
-              <h2 className="col-12 text-center mt-5 mb-2">
-              {this.state.activeForumName || VConst.DefaultChatForum} Chat
-              </h2>
-              <div className="card col-12 col-md-10 mb-4">
+       
+       
+          <div className="row-fluid justify-content-center no-gutters mx-0">
+              
+              <div className="col-12 col-md-12 mb-0">
                 <ChatWindow
                   convoArray = {this.state.chatConvo}
                   userName = {this.props.username}
@@ -319,13 +279,78 @@ class Chat extends Component {
                   forumId = {this.state.activeForumId}
                   isChatItemDeleted = {this.state.isChatItemDeleted}
                 />
-              </div>    
-          </div>
-      
-      </div>
+              </div>  
+              <div className="col-11 col-md-12 mb-0">
+                <input 
+                  className="col-12 center-placeholder chat-post" 
+                  type="text" 
+                  name="chatMsg" 
+                  value={this.state.chatMsg}
+                  placeholder="Post Your Chat Comments Here (Up To 300 Characters)"
+                  onChange={this.handleOnChange} 
+                />
+
+                <div className="col-12" >
+                  {/* chat message error validation messages */}
+                  {/* chat interval too fast*/}
+                  { this.state.isChatMsgTooFast ? <ErrorChatFast ChatFast={this.state.isChatMsgTooFast}/> : null}
+        
+                  {/* chat text is too long*/}
+                  { this.state.isChatMsgTooLong 
+                      ? <ErrorChatLong 
+                          ChatLong={this.state.isChatMsgTooLong} 
+                          MaxChatLength={VConst.MaxChatMsgLength}
+                        /> 
+                      : null
+                  }
+        
+                  {/* chat text is empty */}
+                  { this.state.isChatMsgEmpty 
+                    ? <ErrorChatEmpty 
+                        ChatEmpty={this.state.isChatMsgEmpty}
+                        ChatInterval={VConst.MinChatInterval}
+                      /> 
+                    : null
+                  }
+                </div>
+
+                {chatSubmitButton}
+
+              </div>
+
+          </div>        
+     
     </div>
     )
   }
 } 
 
 export default Chat;
+
+
+// <div className="row no-gutters jumbotron text-center justify-content-center chat-jumbo mb-0">
+// <h1 className="col-12 animated" >Chat</h1>
+// <h2 className="col-12">
+//     {
+//       this.props.isLoggedIn 
+//       ? `Welcome To Chat: ${this.props.username}` 
+//       : "Sign In To Post To Chat"
+//     }
+// </h2>
+
+// <ChatForums getForumInfo = {this.forumInfo} isLoggedIn = {this.props.isLoggedIn}/>
+
+//   <form className="form-group col-12 col-md-8">
+//     <input 
+//       className="form-control col-12 my-1 center-placeholder" 
+//       type="text" 
+//       name="chatMsg" 
+//       value={this.state.chatMsg}
+//       placeholder="Post Your Chat Comments Here"
+//       onChange={this.handleOnChange} 
+//     />
+
+//     {chatSubmitButton}
+//   </form>
+
+// </div>
