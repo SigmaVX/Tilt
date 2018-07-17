@@ -28,12 +28,12 @@ const About = (props) => {
 
 
             <div className="row justify-content-center text-center text-center">  
-                <div className="col-12 col-md-6 float-left animated slideInRight d-flex align-items-center">
+                <div className="col-12 col-md-6 order-2 order-md-1 float-left animated slideInRight d-flex align-items-center">
                     <p className="about-text">
                         Lookup Cheaters By Their In Game Name To See Who Your Up Against
                     </p>
                 </div>
-                <div className="col-12 col-md-6 float-left animated slideInRight">
+                <div className="col-12 col-md-6 order-1 order-md-2 float-left animated slideInRight">
                     <img className="img-fluid round-img" src="/images/pubg.jpeg" alt="PUBG"/>      
                 </div>
             </div>
@@ -53,12 +53,12 @@ const About = (props) => {
 
 
             <div className="row justify-content-center text-center text-center mb-5">  
-                <div className="col-12 col-md-6 float-left animated slideInRight d-flex align-items-center">
+                <div className="col-12 col-md-6  order-2 order-md-1 float-left animated slideInRight d-flex align-items-center">
                     <p className="about-text">
                     Stay On Top Of The Latest Cheat Trends Across All Games    
                     </p>
                 </div>
-                <div className="col-12 col-md-6 float-left animated slideInRight">
+                <div className="col-12 col-md-6  order-1 order-md-2 float-left animated slideInRight">
                     <img className="img-fluid round-img" src="/images/wow.jpg" alt="World of Warcraft"/>      
                 </div>
             </div>

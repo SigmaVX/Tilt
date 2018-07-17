@@ -25,9 +25,9 @@ export const ErrorPasswordMatch = (props) =>
   </div>
 
 export const ErrorEmail = (props) =>
-  <div className="error-text">
+  <div className="error-text ">
     { (props.ErrorInEmail) 
-      ?  <p>Please enter a valid password in the form of 'username@example.com'</p>        
+      ?  <p>Please enter a valid email address</p>        
       : null
     }
   </div>
@@ -44,5 +44,5 @@ export const ErrorChatLong = (props) =>
 
 export const ErrorChatFast = (props) =>
   <div className="error-text wrong animated jello">
-    { (props.ChatFast) ? <p>Chat Intervals too fast. Slow down a little. :)</p> : null}
+    { (props.ChatFast) ? <p>Slow Things Down - You Are Posting Too Fast!</p> : null}
   </div>

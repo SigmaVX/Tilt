@@ -145,14 +145,17 @@ class Login extends Component {
       <div className="container-fluid no-guters py-5 px-0 blue-background">
         
         <div className="row justify-content-center login-alert">
+          
+        
           <h1 className="col-12 text-center">Login</h1>
           <div className="col-12 key-icon-wrap my-1">
             <i className="fab fa-keycdn"></i>
           </div> 
+
           <form className="col-12 col-md-6 my-1">
             
             <div className="form-group">
-              <label htmlFor="username"></label>
+              
               <input
                 type="text"
                 name="username"
@@ -171,7 +174,7 @@ class Login extends Component {
             }
 
             <div className="form-group">
-              <label htmlFor="password"></label>
+              
               <input
                 type="password"
                 name="password"

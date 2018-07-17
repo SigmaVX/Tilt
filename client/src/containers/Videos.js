@@ -252,7 +252,7 @@ class Videos extends Component {
     return (
       this.state.ytVideos.map(video => (
 
-            <div className="card video-card col-4" key={video.id.videoId}>
+            <div className="card video-card col-12 col-md-4" key={video.id.videoId}>
 
               <YouTube
                 videoId={video.id.videoId}
@@ -311,7 +311,7 @@ class Videos extends Component {
                   {/* Select dropdown menu */}
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
-                        <option value="none"><center>Videos By Cheat Type</center></option>
+                        <option value="none">Videos By Cheat Type</option>
                         {this.state.combinedList.map(cheat =>
                           (
                             <option key={cheat.itemId} value={cheat.nameTerm}>{cheat.nameTerm}</option>
