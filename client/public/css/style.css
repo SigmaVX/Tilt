@@ -54,6 +54,7 @@ select {
   /* background-color: #f91a51; */
   color: #fff;
   background-image: url("/images/genji.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -81,6 +82,7 @@ select {
   /* background-color: #f91a51; */
   color: #fff;
   background-image: url("/images/genji.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -93,6 +95,31 @@ select {
 .blue-background{
   background-color: #242146;
   color: #fff;
+}
+
+.bm-burger-button{
+  width: 75px;
+  position: fixed;
+}
+ 
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 25px;
+  width: 25px;
+}
+ 
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-item{
+  min-height: 100%;
+  padding: 30px 0px 0px 0px;
+}
+
+.bm-header{
+margin: 15px auto;
 }
 
 .btn{
@@ -131,6 +158,7 @@ select {
   background-color: #000;
   color: #000;
   background-image: url("/images/chatwp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -163,6 +191,8 @@ select {
 .error-text{
   text-align: center;
   font-size: 30px;
+  text-transform: capitalize;
+  color: red;
 }
 
 .fadeIn{
@@ -190,6 +220,7 @@ select {
   background-color: #000;
   color: #fff;
   background-image: url("/images/wowwp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -203,7 +234,6 @@ select {
 .home-results{
   background-color: #272a2e;
   color: #fff;
-
   background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
   background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
   background-image: linear-gradient(to bottom,#242146 0%, #272a2e 33%,  #242146 66%);
@@ -248,11 +278,19 @@ select {
   background-color: #272a2e;
   color: #fff;
   border-bottom: 3px solid #fa5900;
-  min-height: 70px;
+  border-top: 3px solid #fa5900;
 }
 
 .nav-icon{
   width: 40px;
+}
+
+.navbar ul{
+  padding: 5px;
+}
+
+.nav-link{
+  padding: 5px;
 }
 
 .post-content{
@@ -265,6 +303,7 @@ select {
   background-color: #000;
   color: #fff;
   background-image: url("/images/fortnite-wall.png");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -332,9 +371,11 @@ select {
 }
 
 .username{
-  position: absolute;
-  font-size: 25px;
-  right: 2%;
+  font-size: 1rem;
+  padding-left: 5px;
+  padding-top: 5px;
+  display: block;
+  color: #fa5900;
 }
 
 .video-card{
@@ -357,6 +398,7 @@ select {
   background-color: #000;
   color: #272a2e;
   background-image: url("/images/destinywp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 0px;
@@ -383,6 +425,7 @@ select {
   /* color: #fa5900; */
   background-color: #fff;
 }
+
 
 #entry-toptext{
   font-size: 60px;
@@ -469,5 +512,16 @@ select {
     width: 300%;
     left: -100%;
   }
+}
+
+@media only screen and (max-device-width: 768px) {
+  .admin-jumbo, .post-jumbo, .glossary-jumbo, .about-jumbo, .splash {
+      background-attachment: scroll;
+  }
+
+  .report-text, .comment-text{
+      text-align: center;
+  }
+
 }
 

@@ -205,7 +205,7 @@ class Videos extends Component {
     return (
       this.state.ytVideos.map(video => (
 
-            <div className="card video-card col-4" key={video.id.videoId}>
+            <div className="card video-card col-12 col-md-4" key={video.id.videoId}>
 
               <YouTube
                 videoId={video.id.videoId}

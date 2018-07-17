@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
+import VerticalNav from "./components/VerticalNav";
 import Footer from "./components/Footer";
 import EntryMessage from "./components/EntryMessage";
 import Home from "./containers/Home";
@@ -184,7 +185,7 @@ class App extends Component {
     <Router>
       <div>
         
-        <Navbar 
+        <VerticalNav 
           isLoggedIn = {this.state.isLoggedIn}
           isAdmin = {this.state.isAdmin}
           userId = {this.state.userId}

@@ -227,10 +227,10 @@ class Home extends Component {
                         {this.state.reports.map(report=>{
                             return (
                             <tr className="row reports-row py-2" key={report._id}>
-                                <td className="col-10 col-md-2 text-center">
+                                <td className="col-12 col-md-2 text-center">
                                     <img className="img-fluid rounded my-1" src={report.cheatGame.gameImage} alt={report.cheatGame.gameName}/>            
                                 </td>
-                                <td className="col-12 col-md-8">
+                                <td className="col-12 col-md-8 report-text">
                                     <h6 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h6>
                                     <p className="game-title my-1"><strong>Cheat Game:</strong> {report.cheatGame.gameName}</p>
                                     <p className="cheat-type my-1"><strong>Cheat Type: </strong> {report.cheatType.cheatName}</p>
