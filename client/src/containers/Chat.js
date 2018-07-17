@@ -233,7 +233,7 @@ class Chat extends Component {
 
 
   render() {
-    let chatSubmitButton, leaveChatButton;
+    let chatSubmitButton;
     const isLoggedIn = this.props.isLoggedIn;
 
     if (isLoggedIn) {
