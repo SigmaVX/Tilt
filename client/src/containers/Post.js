@@ -221,7 +221,7 @@ class Post extends Component {
             <div className="row justify-content-center text-center py-4">
                 <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
+                        <label>Enter Cheater's IGN (In Game Name):</label>
                         <input type="text" className="form-control center-placeholder" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
                     </div>
                     <div className="form-group">
