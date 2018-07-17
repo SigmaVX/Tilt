@@ -74,11 +74,7 @@ class Videos extends Component {
   handleSelectMenuChange = event => {
     const {value} = event.target;
 
-    console.log(`Videos.js handleSelectMenuChange() value ${value}`);
-    if (value === UserSubmitted) {
-      console.log("User submitted");
-      this.userVideoSearch();
-    } else {
+    if (value !== UserSubmitted) {
       this.getYouTubeVids({
         part: this.state.part,
         safeSearch: this.state.safeSearch,
@@ -87,12 +83,12 @@ class Videos extends Component {
         // add query value to youtube query object
         q: value     
       });
-      this.setState({
-        submittedQuery: value,
-        value: value
-      });
     }
 
+    this.setState({
+      submittedQuery: value,
+      value: value
+    });
   }
 
   componentDidMount() {
@@ -118,7 +114,6 @@ class Videos extends Component {
   loadGamesList() {
     API.getGames()
       .then(res => {
-        console.log("Video.js in loadGamesList(): ", res.data);
         this.setState({gameList: res.data});
         // at this point combine cheats and games list
         this.combineLists();
@@ -147,36 +142,56 @@ class Videos extends Component {
   }
 
   loadVideosList() {
-
+    let vList = [], ytResults=[], videoList = [];
+    let thisVideos = this;
     API.getVideos()
       .then(res => {
-        let vList = [], videoList = [];
-        let linkPos = 0;
-
+        let linkPos = 0, uVideoId, userVidCtr = 0;
+        
         vList = res.data;
-        // for each video make youtube query with id parameter
-        // and get snippets
 
-        // with data that comes back from youtube make assemble
-        // user video list
-        vList.map(item => {
-          // console.log(`videoLink: ${item.videoLink}`)
-          linkPos = item.videoLink.lastIndexOf("/");
-          // console.log(item.videoLink.slice(linkPos + 1));
-          videoList.push({
-            vId: item._id,
-            vLink: item.videoLink.slice(linkPos + 1),
-            // vTitle: item.snippet.title,
-            posted: item.createdOn
-          });
-          return true;
-        });
-        this.setState({
+        // recursive function to get info on each youtube query with id parameter
+        // taking in user submitted youtube link
+        getYtInfo();
+
+        function getYtInfo() {
+          if (userVidCtr < vList.length) {
+            linkPos = vList[userVidCtr].videoLink.lastIndexOf("/");
+            uVideoId = vList[userVidCtr].videoLink.slice(linkPos + 1);
+            
+            // create query object
+            let ytQuery = {
+              part: "snippet",
+              q: uVideoId,
+              maxResults: 1
+            };
+            // get snippet title for each user submitted video
+            API.youtubeSearch(ytQuery)
+            .then(ytRes => {
+              // add result to array
+              let arr = ytRes.data.items;
+              videoList.push({
+                vId: uVideoId,
+                vLink: uVideoId,
+                vTitle: arr[0].snippet.title,
+                posted: arr[0].createdOn
+              });
+
+              userVidCtr++;
+              getYtInfo();
+            })
+            .catch(err => console.log(err));
+          } 
+        }
+
+        thisVideos.setState({
           videoList: videoList
         });
+
       })
       .catch(err => console.log(err));
   }
+
 
   getYouTubeVids(query) {
     API.youtubeSearch(query)
@@ -209,21 +224,12 @@ class Videos extends Component {
     this.getYouTubeVids(ytQuery);
   }
   
-  userVideoSearch = () => {
-    // this.loadVideosList();
-
-    this.setState({
-      submittedQuery: UserSubmitted
-    });
-  }
-
   _onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
 
   displayUserVideos(opts) {
-    console.log("Videos.js displayUserVideos(): opts: ", JSON.stringify(opts));
     return (
       this.state.videoList.map(uVid => (
 
@@ -237,7 +243,7 @@ class Videos extends Component {
             /> 
 
             <div className="d-flex align-items-center text-center yt-title px-2 py-2">
-              <h5 className="col-12 card-title">{/* uVid.vTitle */}</h5> 
+              <h5 className="col-12 card-title">{ uVid.vTitle }</h5> 
             </div>
 
           </div>
