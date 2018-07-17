@@ -39,21 +39,25 @@ class ChatForums extends Component {
     const {value} = event.target;
     let forum = this.state.forumsList.find(forum => forum._id === value);
 
-    this.setState({
-      activeForumId: forum._id,
-      activeForumName: forum.forumChatRoom,
-      value: value
-    });
-    if (value !== "none"){
-      this.props.getForumInfo({
-        chatRoomSelected: true,
+    if (forum) {
+      this.setState({
         activeForumId: forum._id,
-        activeForumName: forum.forumChatRoom
+        activeForumName: forum.forumChatRoom,
+        value: value
       });
+      if (value !== "none"){
+        this.props.getForumInfo({
+          chatRoomSelected: true,
+          activeForumId: forum._id,
+          activeForumName: forum.forumChatRoom
+        });
+      }
+    } else {
+      return;
     }
   }
   
-  // Load Games List To State, set default Chatroom to General
+  // Load Games List To State, set default Chatroom to Tilt General
   loadForumList = () => {
     const thisForum = this;
     let defaultForum;
@@ -88,7 +92,7 @@ class ChatForums extends Component {
 
             <form className="col-12 col-md-8 my-1"> 
                 <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleForumChange}>
-                  <option value="none">Select Chat Forum</option>
+                  <option value="none" disabled>Select Chat Forum</option>
                     {this.state.forumsList.map(forum =>
                       (
                         <option key={forum._id} value={forum._id}>{forum.forumChatRoom}</option>
