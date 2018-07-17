@@ -128,7 +128,7 @@ class Videos extends Component {
     }
 
     for (let elem2 of list2) {
-      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheats`});
+      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheat`});
     }
 
     this.setState({combinedList: comboList});
