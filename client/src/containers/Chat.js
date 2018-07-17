@@ -287,6 +287,7 @@ class Chat extends Component {
                   name="chatMsg" 
                   value={this.state.chatMsg}
                   placeholder="Post Your Chat Comments Here (Up To 300 Characters)"
+                  autoComplete="off"
                   onChange={this.handleOnChange} 
                 />
 

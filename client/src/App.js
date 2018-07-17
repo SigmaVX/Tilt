@@ -15,6 +15,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Logout from "./containers/Logout";
 import AUTH from "./utilities/AUTH";
+import ScrollToTop from "./components/ScrollToTop";
 import './App.css';
 
 
@@ -185,66 +186,69 @@ class App extends Component {
   render () { 
     return (
     <Router>
-      <div>
-        
-        <VerticalNav 
-          isLoggedIn = {this.state.isLoggedIn}
-          isAdmin = {this.state.isAdmin}
-          userId = {this.state.userId}
-          username = {this.state.username}
-          email = {this.state.email}
-        />
-
-        <Switch>
-          <Route exact path="/" render={() => 
-            <Home username = {this.state.username} 
-                   userId = {this.state.userId}
-                   email = {this.state.email} />} 
-            />
-
-          <this.AuthRoute exact path="/post" component={Post}/>
-
-          <Route exact path="/glossary" component={Glossary}/>
-
-          <Route exact path="/videos" component={Videos}/>
-
-          <Route exact path="/chat" render={(props) => 
-            <Chat 
-              username = {this.state.username} 
-              userId = {this.state.userId}
-              email = {this.state.email}
-              isLoggedIn = {this.state.isLoggedIn} 
-              isAdmin = {this.state.isAdmin}              
-              {...props}/>} 
-            />
-
-          <Route exact path="/about" component={About}/>
-
-          <this.AdminRoute exact path="/admin" component={Admin}/>
-
-          <Route exact path="/login" 
-                 render={(props) => 
-                  <Login 
-                    {...props}
-                    getLoginResult = {this.LoginResult} 
-                  />} 
-          /> 
-
-          <Route exact path="/signup" 
-                render={(props) => 
-                  <Signup
-                  {...props}
-                  getSignupResult = {this.SignupResult}
-                  />} 
+      <ScrollToTop>
+        <div>
+          
+          <VerticalNav 
+            isLoggedIn = {this.state.isLoggedIn}
+            isAdmin = {this.state.isAdmin}
+            userId = {this.state.userId}
+            username = {this.state.username}
+            email = {this.state.email}
           />
 
-          <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
+          <Switch>
+            <Route exact path="/" render={() => 
+              <Home username = {this.state.username} 
+                    userId = {this.state.userId}
+                    email = {this.state.email} />} 
+              />
 
-          <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
+            <this.AuthRoute exact path="/post" component={Post}/>
 
-        </Switch>
-        <Footer/>
-      </div>
+            <Route exact path="/glossary" component={Glossary}/>
+
+            <Route exact path="/videos" component={Videos}/>
+
+            <Route exact path="/chat" render={(props) => 
+              <Chat 
+                username = {this.state.username} 
+                userId = {this.state.userId}
+                email = {this.state.email}
+                isLoggedIn = {this.state.isLoggedIn} 
+                isAdmin = {this.state.isAdmin}              
+                {...props}/>} 
+              />
+
+            <Route exact path="/about" component={About}/>
+
+            <this.AdminRoute exact path="/admin" component={Admin}/>
+
+            <Route exact path="/login" 
+                  render={(props) => 
+                    <Login 
+                      {...props}
+                      getLoginResult = {this.LoginResult} 
+                    />} 
+            /> 
+
+            <Route exact path="/signup" 
+                  render={(props) => 
+                    <Signup
+                    {...props}
+                    getSignupResult = {this.SignupResult}
+                    />} 
+            />
+
+            <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
+
+            <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
+
+          </Switch>
+
+          <Footer/>
+        </div>
+      </ScrollToTop>
     </Router>
     );
   }
