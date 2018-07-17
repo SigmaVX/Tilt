@@ -312,7 +312,7 @@ class Videos extends Component {
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
                         <option value="none">Videos By Cheat Type</option>
-                        {this.state.cheatList.map(cheat =>
+                        {this.state.combinedList.map(cheat =>
                           (
                             <option key={cheat.itemId} value={cheat.nameTerm}>{cheat.nameTerm}</option>
                           )
