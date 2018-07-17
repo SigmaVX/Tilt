@@ -57,11 +57,12 @@ class ChatForums extends Component {
   loadForumList = () => {
     const thisForum = this;
     let defaultForum;
+
     API.getForumList()
       .then(res => {
           const forums = res.data;
 
-          // search for General chatroom's id
+          // search for default chatroom's id
           defaultForum = forums.find(forum => this._defaultForumName === forum.forumChatRoom);
           this.setState({
             forumsList: forums,
