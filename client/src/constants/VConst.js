@@ -21,3 +21,6 @@ export const MinChatInterval = 1500;
 
 // Default Chat Forum
 export const DefaultChatForum = "Tilt General";
+
+// Default Search Query
+export const DefaultVideoQuery = "Online game cheat";

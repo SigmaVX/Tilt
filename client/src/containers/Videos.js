@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../utilities/API";
 import YouTube from "react-youtube";
+import {DefaultVideoQuery} from "../constants/VConst";
 
 class Videos extends Component {
 
@@ -18,6 +19,8 @@ class Videos extends Component {
       // ---------------------------
       cheatList: [],
       videoList: [],
+      gameList: [],
+      combinedList: [],
       // --
       // youtube api state variables
       // ---------------------------
@@ -25,8 +28,8 @@ class Videos extends Component {
       // --
       // youtube query values, default value sent first
       // ----------------------------------------------
-      q: "Online game cheat",
-      submittedQuery: "Online game cheat",
+      q: DefaultVideoQuery,
+      submittedQuery: DefaultVideoQuery,
       // --
       // default query values for video section
       // part = "snippet is required for youtube" 
@@ -94,16 +97,41 @@ class Videos extends Component {
       q: this.state.q     
     });
     this.loadCheatsList();
+    this.loadGamesList();
   }
 
   loadCheatsList() {
     API.getCheats()
+      .then(res => this.setState({cheatList: res.data}))
+      .catch(err => console.log(err));
+  }
+
+  loadGamesList() {
+    API.getGames()
       .then(res => {
-        this.setState({
-          cheatList: res.data,
-        });
+        console.log("Video.js in loadGamesList(): ", res.data);
+        this.setState({gameList: res.data});
+        // at this point combine cheats and games list
+        this.combineLists();
       })
       .catch(err => console.log(err));
+  }
+
+  combineLists() {
+    let comboList = [];
+
+    const list1 = this.state.cheatList;
+    const list2 = this.state.gameList;
+
+    for (let elem1 of list1) {
+      comboList.push({itemId: elem1._id, nameTerm: elem1.cheatName});
+    }
+
+    for (let elem2 of list2) {
+      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheats`});
+    }
+
+    this.setState({combinedList: comboList});
   }
 
   loadVideosList() {
@@ -226,6 +254,15 @@ class Videos extends Component {
 
 
   render() { 
+    let videoQueryHeader;
+    if (this.state.q === DefaultVideoQuery) {
+      videoQueryHeader = <span>Top YouTube Cheat Videos</span>
+    } else if (this.state.ytVideos.length || this.state.videoList.length) {
+      videoQueryHeader = <span>{this.state.submittedQuery} Videos</span>
+    } else {
+      videoQueryHeader = <span>Cheat Videos</span>
+    }
+
     // options for youtube video card rendering
     const opts = {
       height: "205",
@@ -254,9 +291,9 @@ class Videos extends Component {
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
                         <option value="none"><center>Videos By Cheat Type</center></option>
-                        {this.state.cheatList.map(cheat =>
+                        {this.state.combinedList.map(cheat =>
                           (
-                            <option key={cheat._id} value={cheat.cheatName}>{cheat.cheatName}</option>
+                            <option key={cheat.itemId} value={cheat.nameTerm}>{cheat.nameTerm}</option>
                           )
                         )}
                       </select>
@@ -289,9 +326,8 @@ class Videos extends Component {
                   </div>
 
                   <div className="row text-center justify-content-center">
-                    <h3 className="text-center splash-subtitle">{this.state.ytVideos.length || this.state.videoList.length
-                      ? `${this.state.submittedQuery} Videos` 
-                      : "Top YouTube Cheat Videos"}
+                    <h3 className="text-center splash-subtitle">
+                    {videoQueryHeader}
                     </h3>
                   </div>
 
