@@ -77,7 +77,7 @@ class App extends Component {
     AUTH
       .loginCheck()
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.isLoggedIn) this.isAuthenticated = true;
         this.safeUpdate({
           isLoggedIn: res.data.isLoggedIn,
@@ -91,12 +91,14 @@ class App extends Component {
         .adminCheck()
         .then(res => {this.setState({isAdmin: res.data.isAdmin}); return ({checkLogin: this.state.isLoggedIn, checkAdmin: this.state.isAdmin});} )
         .catch(err => {
-          console.log(err);
+          // unsuccessful admin check
+          // console.log(err);
           this.safeUpdate({isAdmin: false});  
         })
       })
       .catch(err => {
-        console.log(err);
+        // unsuccessful login check
+        // console.log(err);
         let tempObj = {
           returnStatus: -1,
           errorMsg: "Incorrect username/password",
@@ -110,7 +112,7 @@ class App extends Component {
 
   // Test If Can Get To Post Route
   AuthRoute = ({ component: Component, ...rest }) => {
-      console.log(`App.js pathname: ${window.location.pathname}`)
+      // console.log(`App.js pathname: ${window.location.pathname}`)
       return (
         <Route
           {...rest}
