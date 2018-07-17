@@ -108,7 +108,7 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div className="chat-window">
+      <div className="chat-window mt-0 mb-0">
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (

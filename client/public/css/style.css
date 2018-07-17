@@ -176,9 +176,15 @@ margin: 15px auto;
   background-position: center;
 }
 
+.chat-post{
+  height: 40px;
+  border-radius: 0px;
+}
+
 .chat-window{
-  min-height: 200px; 
+  min-height: 400px; 
   overflow: auto;
+  border-radius: 0px;
 
 }
 
