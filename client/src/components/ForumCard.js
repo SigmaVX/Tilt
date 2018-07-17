@@ -30,7 +30,7 @@ class ForumCard extends Component {
 
   render () {
     return (
-      <div className="card col-12 col-md-3 mb-1 mx-1 no-gutters" key={this.props.key}>
+      <div className="card col-12 col-md-3 mb-1 mx-1 no-gutters">
         <div class="card-body">
           <h5 class="card-title">{this.props.forumChatRoom}</h5>
           <input type="text" className="form-control my-2 center-placeholder" name="forumCardName" value={this.state.forumCardName}  placeholder="Update Name" onChange={this.handleOnChange}/>

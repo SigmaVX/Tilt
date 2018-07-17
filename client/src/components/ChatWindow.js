@@ -31,6 +31,7 @@ class ChatWindow extends Component {
   componentDidUpdate(prevProps) {
   if ((this.props.forumId !== 0 && this.props.forumId !== this.prevForumId) || 
     (this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted)) {
+       // (this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId)) {
      this.loadChatHistory();
      // console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }

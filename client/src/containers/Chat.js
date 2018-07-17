@@ -172,8 +172,10 @@ class Chat extends Component {
 
   deleteChatItem = (delObj) => {
     // delete with API
-    this.safeUpdate({isChatItemDeleted: true, chatConvo: [], chatText: []});
+    this.setState({isChatItemDeleted: true, chatConvo: [], chatText: []});
     API.deleteChat(delObj.chatId);
+    //   .then(() => this.setState({isChatItemDeleted: true, chatConvo: [], chatText: []}))
+    
   }
 
   handleOnSubmit = event => {
@@ -312,7 +314,7 @@ class Chat extends Component {
                   getDeleteChatItem = {this.deleteChatItem}
                   forumName = {this.state.activeForumName}
                   forumId = {this.state.activeForumId}
-                  f = {this.state.f}
+                  isChatItemDeleted = {this.state.isChatItemDeleted}
                 />
               </div>    
           </div>

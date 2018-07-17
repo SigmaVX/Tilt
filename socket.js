@@ -27,9 +27,9 @@ module.exports = function (io) {
       // send client to default chatroom
       socket.join(defaultRoom);
       // message to client saying they've connected
-      socket.emit("info msg", "CHATSERVER", `You have connected to the ${defaultRoom} Chatroom`);
+      // socket.emit("info msg", "CHATSERVER", `You have connected to the ${defaultRoom} Chatroom`);
       // let other chatroom participants know that a person has connected to their forum
-      socket.broadcast.to(defaultRoom).emit("info msg", "CHATSERVER", `${socket.uname} has connected to this chat forum.`);
+      // socket.broadcast.to(defaultRoom).emit("info msg", "CHATSERVER", `${socket.uname} has connected to this chat forum.`);
     });
 
     // listens and executes when client emits "send chat"
@@ -52,12 +52,12 @@ module.exports = function (io) {
       socket.leave(socket.forum);
       socket.join(newforum);
       // send information messages to new forum
-      socket.emit("info msg", "CHATSERVER", `You have connected to the ${newforum} chatroom.`);
+      // socket.emit("info msg", "CHATSERVER", `You have connected to the ${newforum} chatroom.`);
       // old forum -- broadcast sends to everyone except the originating client
-      socket.broadcast.to(socket.forum).emit("info msg", "CHATSERVER", `${socket.uname} has left this room`);
+      // socket.broadcast.to(socket.forum).emit("info msg", "CHATSERVER", `${socket.uname} has left this room`);
       // update socket session room title
       socket.forum = newforum;
-      socket.broadcast.to(newforum).emit("info msg", "CHATSERVER", `${socket.uname} has joined this room`);
+      // socket.broadcast.to(newforum).emit("info msg", "CHATSERVER", `${socket.uname} has joined this room`);
     });
 
 
@@ -68,7 +68,7 @@ module.exports = function (io) {
       // io.sockets.emit("update users", usernames);
 
       // echo globally that this client has left
-      socket.broadcast.emit("info msg", "CHATSERVER", `${username} has disconnected.`);
+      // socket.broadcast.emit("info msg", "CHATSERVER", `${username} has disconnected.`);
       socket.leave(socket.forum);
 
       // remove the username from global usernames list
