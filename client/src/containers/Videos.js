@@ -25,8 +25,8 @@ class Videos extends Component {
       // --
       // youtube query values, default value sent first
       // ----------------------------------------------
-      q: "video game cheats",
-      submittedQuery: "video game cheats",
+      q: "Online game cheat",
+      submittedQuery: "Online game cheat",
       // --
       // default query values for video section
       // part = "snippet is required for youtube" 
@@ -290,7 +290,7 @@ class Videos extends Component {
 
                   <div className="row text-center justify-content-center">
                     <h3 className="text-center splash-subtitle">{this.state.ytVideos.length || this.state.videoList.length
-                      ? `${this.state.submittedQuery} Cheat Videos` 
+                      ? `${this.state.submittedQuery} Videos` 
                       : "Top YouTube Cheat Videos"}
                     </h3>
                   </div>
