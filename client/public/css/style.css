@@ -1,4 +1,5 @@
 
+
 a{
   text-decoration: none;
   color: inherit;
@@ -44,6 +45,23 @@ select {
   text-align-last:center; 
 }
 
+.about-jumbo{
+  border-bottom: 3px solid #fa5900;
+  /* background-color: #f91a51; */
+  color: #fff;
+  background-image: url("/images/genji.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.about-text{
+  text-align: center;
+  padding: 10%;
+  font-size: 2em;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+
+}
 
 .adamin-text{
   text-transform: capitalize;
@@ -157,6 +175,10 @@ select {
   color: #fa5900;
   border-top: 2px solid #fa5900;
   font-weight: 600;
+}
+
+.float-left{
+  float: left;
 }
 
 .glossary-jumbo{ 
