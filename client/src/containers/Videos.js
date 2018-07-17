@@ -359,7 +359,9 @@ class Videos extends Component {
                   </div>
 
             </form>
+
         </div>
+
 
      
          
@@ -401,3 +403,10 @@ export default Videos;
 //    >User Video Posts
 //    </button>
 //  </div>
+/*
+
+                  <div className="row justify-content-center">
+                    <button className="btn-sm btn btn-block">Load more</button>
+                  </div>
+
+*/
