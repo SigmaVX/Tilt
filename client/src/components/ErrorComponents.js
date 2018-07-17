@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ErrorUserName = (props) =>
-  <div className="error-text ">
+  <div className="error-text">
       { (props.ErrorInUserName) 
         ?  <p>Username must be between {props.UnameMinLength} and {props.UnameMaxLength} characters.</p>        
         : null
@@ -9,7 +9,7 @@ export const ErrorUserName = (props) =>
   </div>
 
 export const ErrorPassword = (props) =>
-  <div className="error-text ">
+  <div className="error-text">
       { (props.ErrorInPassword) 
         ?  <p>Password must be at least {props.MinPasswordLength} characters long.</p>        
         : null
@@ -17,7 +17,7 @@ export const ErrorPassword = (props) =>
   </div>
 
 export const ErrorPasswordMatch = (props) =>
-  <div className="error-text ">
+  <div className="error-text">
     { (props.ErrorInPasswordMatch) 
       ?  <p>Password and confirmation do not match. Please try again.</p>        
       : null

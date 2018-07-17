@@ -12,7 +12,7 @@ import ChatForums from "../components/ChatForums";
 import API from "../utilities/API";
 import {ErrorChatEmpty, ErrorChatLong, ErrorChatFast} from "../components/ErrorComponents";
 import * as VConst from "../constants/VConst";
-import { now } from "../../../node_modules/moment";
+// import { now } from "../../../node_modules/moment";
 
 const io = require("socket.io-client");
 
@@ -233,7 +233,7 @@ class Chat extends Component {
 
 
   render() {
-    let chatSubmitButton, leaveChatButton;
+    let chatSubmitButton;
     const isLoggedIn = this.props.isLoggedIn;
 
     if (isLoggedIn) {
@@ -264,7 +264,8 @@ class Chat extends Component {
          
               <form className="form-group col-12 col-md-8">
                 <input 
-                  className="form-control col-12 my-1 center-placeholder" 
+                  className="form-control col-12 my-1 center-placeholder"
+                  autoComplete="off" 
                   type="text" 
                   name="chatMsg" 
                   value={this.state.chatMsg}
@@ -305,7 +306,9 @@ class Chat extends Component {
           </div>
                  
           <div className="row justify-content-center">
-              <h2 className="col-12 text-center mt-5 mb-2">{this.state.activeForumName} Chat</h2>
+              <h2 className="col-12 text-center mt-5 mb-2">
+              {this.state.activeForumName || VConst.DefaultChatForum} Chat
+              </h2>
               <div className="card col-12 col-md-10 mb-4">
                 <ChatWindow
                   convoArray = {this.state.chatConvo}
