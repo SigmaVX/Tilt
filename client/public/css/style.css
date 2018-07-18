@@ -109,12 +109,17 @@ ul{
 .bm-cross-button {
   height: 25px;
   width: 25px;
+  right: 1px !important;
+  position: absolute;
+  top: 8px; 
 }
  
 /* Color/shape of close button cross */
 .bm-cross {
-  background: #bdc3c7;
+  background: #000;
 }
+
+
 
 .bm-item{
   min-height: 100%;
@@ -125,6 +130,10 @@ ul{
   margin: 15px auto;
   font-size: 40px;
   font-family: 'Trirong', serif;
+}
+
+.bm-morph-shape {
+  fill: #fa5900;
 }
 
 .btn{
@@ -321,8 +330,9 @@ ul{
 .navbar{
   background-color: #272a2e;
   color: #fff;
-  border-bottom: 3px solid #fa5900;
-  border-top: 3px solid #fa5900;
+  width: 175px;
+  /* border-bottom: 3px solid #fa5900;
+  border-top: 3px solid #fa5900; */
 }
 
 .nav-icon{
