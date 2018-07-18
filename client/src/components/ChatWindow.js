@@ -117,7 +117,7 @@ class ChatWindow extends Component {
                   <span className="chat-by">
                     {chatHist.postedBy} 
                   </span>
-                  ({Moment(chatHist.date).format('l')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                  ({Moment(chatHist.date).format('LLL')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
                 </div>
               </li>
               )
@@ -129,7 +129,7 @@ class ChatWindow extends Component {
                       <span className="chat-by">  
                         {chatMsg.uname}
                       </span>
-                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                        ({Moment(chatMsg.date).format('LLL')}): {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
                     </div>
                     </li>
                   : <li key={index} className="">
@@ -137,7 +137,7 @@ class ChatWindow extends Component {
                       <span className="chat-by">  
                         {chatMsg.uname}
                       </span>
-                        ({Moment(chatMsg.date).format('l')}): {chatMsg.msg}
+                        ({Moment(chatMsg.date).format('LLL')}): {chatMsg.msg}
                       </div>
                     </li>
               ) 

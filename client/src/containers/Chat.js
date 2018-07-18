@@ -264,9 +264,6 @@ class Chat extends Component {
             
         </div>
 
-
-       
-       
           <div className="row-fluid justify-content-center no-gutters mx-0">
               
               <div className="col-12 col-md-12 mb-0">
