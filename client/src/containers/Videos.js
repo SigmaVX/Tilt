@@ -34,6 +34,7 @@ class Videos extends Component {
       // ----------------------------------------------
       q: DefaultVideoQuery,
       submittedQuery: DefaultVideoQuery,
+      inputQuery: "",
       // --
       // default query values for video section
       // part = "snippet is required for youtube" 
@@ -89,7 +90,9 @@ class Videos extends Component {
 
     this.setState({
       submittedQuery: value,
-      value: value
+      value: value,
+      q: value,
+      inputQuery: ""
     });
   }
 
@@ -196,18 +199,16 @@ class Videos extends Component {
 
 
   getYouTubeVids(query) {
-    console.log("Videos.js getYouTubeVids() query: ", JSON.stringify(query));
     API.youtubeSearch(query)
     .then(res => {
       let prevPageToken = (res.data.prevPageToken) ? res.data.prevPageToken : null;
-      console.log(`Videos.js getYouTubeVids() youtube tokens: next: ${res.data.nextPageToken}
-      prev: ${res.data.prevPageToken}`);
+
       this.setState({
         ytVideos: res.data.items,
         nextPageToken: res.data.nextPageToken,
         submittedQuery: query.q,
         prevPageToken: prevPageToken,
-        q: this.state.q 
+        q: query.q
       });
     })
     .catch(err => console.log(err));
@@ -215,6 +216,8 @@ class Videos extends Component {
 
   videoSearch = event => {
     event.preventDefault();
+    // input text query takes priority, otherwise dropdown menu value query is selected
+    let queryTerm = (this.state.inputQuery) ? this.state.inputQuery : this.state.q;
 
     // initialize youtube query object with api defaults
     let ytQuery = {
@@ -223,17 +226,16 @@ class Videos extends Component {
       maxResults: this.state.maxResults,
       relevanceLanguage: this.state.relevanceLanguage,
       // add query value to youtube query object
-      q: this.state.q
+      q: queryTerm
     };
 
     // console.log(ytQuery);
     this.getYouTubeVids(ytQuery);
   }
 
-  loadMoreVids = (where) => {
-    // event.preventDefault();
+  loadMoreVids = (event, where) => {
+    event.preventDefault();
     let destPage;
-    console.log(`loadMoreVids: where -- ${where}`);
 
     destPage = (where === "next") ? this.state.nextPageToken : this.state.prevPageToken;
 
@@ -246,7 +248,6 @@ class Videos extends Component {
       q: this.state.q
     };
 
-    console.log(`Videos.js loadMoreVids`);
     this.getYouTubeVids(ytQuery);
   }
 
@@ -355,8 +356,8 @@ class Videos extends Component {
                   {/* Search box */}
                   <div className="form-group">
                     <input 
-                      name="q" 
-                      value={this.state.q}
+                      name="inputQuery" 
+                      value={this.state.inputQuery}
                       placeholder="Search YouTube Videos"
                       type="text"
                       className="form-control center-placeholder"
@@ -384,30 +385,30 @@ class Videos extends Component {
                     </h3>
                   </div>
 
-
+                  <div className ="row">
+                    <div className="col-12 col-md-6 justify-content-center">
+                      <button 
+                        className="btn btn-block"
+                        onClick={(event) => this.loadMoreVids(event, "prev")}
+                        disabled={this.state.prevPageToken === null}
+                      >
+                        Prev videos
+                      </button>
+                    </div>
+                    <div className="col-12 col-md-6 justify-content-center">
+                      <button 
+                        className="btn btn-block"
+                        onClick={(event) => this.loadMoreVids(event, "next")}
+                        disabled={this.state.nextPageToken === null}
+                      >
+                        Next videos
+                      </button>
+                    </div>
+                  </div>
 
             </form>
 
-            <div className ="row">
-            <div className="col-12 col-md-6 justify-content-center">
-              <button 
-                className="btn btn-block"
-                onClick={() => this.loadMoreVids("prev")}
-                disabled={this.state.prevPageToken === null}
-              >
-                Prev videos
-              </button>
-            </div>
-            <div className="col-12 col-md-6 justify-content-center">
-              <button 
-                className="btn btn-block"
-                onClick={() => this.loadMoreVids("next")}
-                disabled={this.state.nextPageToken === null}
-              >
-                Next videos
-              </button>
-            </div>
-          </div>
+
 
         </div>
 
