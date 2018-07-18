@@ -132,7 +132,7 @@ class Videos extends Component {
     }
 
     for (let elem2 of list2) {
-      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheat`});
+      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} Cheats`});
     }
 
     // add user submitted videos to list
@@ -317,7 +317,7 @@ class Videos extends Component {
                   {/* Select dropdown menu */}
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
-                        <option value="none">Videos By Cheat Type</option>
+                        <option value="none">Videos By Cheat Type Or Game</option>
                         {this.state.combinedList.map(cheat =>
                           (
                             <option key={cheat.itemId} value={cheat.nameTerm}>{cheat.nameTerm}</option>
@@ -352,11 +352,7 @@ class Videos extends Component {
                     </button>
                   </div>
 
-                  <div className="row text-center justify-content-center">
-                    <h3 className="text-center splash-subtitle">
-                    {videoQueryHeader}
-                    </h3>
-                  </div>
+                 
 
             </form>
 
