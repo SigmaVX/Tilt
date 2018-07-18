@@ -39,6 +39,13 @@ export default class CheatRadialChart extends Component {
           orientation="horizontal"
           width={1000}
           items={this.props.legendData}
+          className="d-none d-md-block"
+      />
+      <DiscreteColorLegend
+          orientation="vertical"
+          width={1000}
+          items={this.props.legendData}
+          className="d-md-none"
       />
 
     </div>

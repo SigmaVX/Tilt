@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
+import VerticalNav from "./components/VerticalNav";
 import Footer from "./components/Footer";
 import EntryMessage from "./components/EntryMessage";
 import Home from "./containers/Home";
+import About from "./containers/About";
 import Videos from "./containers/Videos";
 import Chat from "./containers/Chat";
 import Glossary from "./containers/Glossary";
@@ -13,6 +15,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Logout from "./containers/Logout";
 import AUTH from "./utilities/AUTH";
+import ScrollToTop from "./components/ScrollToTop";
 import './App.css';
 
 
@@ -76,7 +79,7 @@ class App extends Component {
     AUTH
       .loginCheck()
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.isLoggedIn) this.isAuthenticated = true;
         this.safeUpdate({
           isLoggedIn: res.data.isLoggedIn,
@@ -90,12 +93,14 @@ class App extends Component {
         .adminCheck()
         .then(res => {this.setState({isAdmin: res.data.isAdmin}); return ({checkLogin: this.state.isLoggedIn, checkAdmin: this.state.isAdmin});} )
         .catch(err => {
-          console.log(err);
+          // unsuccessful admin check
+          // console.log(err);
           this.safeUpdate({isAdmin: false});  
         })
       })
       .catch(err => {
-        console.log(err);
+        // unsuccessful login check
+        // console.log(err);
         let tempObj = {
           returnStatus: -1,
           errorMsg: "Incorrect username/password",
@@ -109,7 +114,7 @@ class App extends Component {
 
   // Test If Can Get To Post Route
   AuthRoute = ({ component: Component, ...rest }) => {
-      console.log(`App.js pathname: ${window.location.pathname}`)
+      // console.log(`App.js pathname: ${window.location.pathname}`)
       return (
         <Route
           {...rest}
@@ -181,64 +186,69 @@ class App extends Component {
   render () { 
     return (
     <Router>
-      <div>
-        
-        <Navbar 
-          isLoggedIn = {this.state.isLoggedIn}
-          isAdmin = {this.state.isAdmin}
-          userId = {this.state.userId}
-          username = {this.state.username}
-          email = {this.state.email}
-        />
-
-        <Switch>
-          <Route exact path="/" render={() => 
-            <Home username = {this.state.username} 
-                   userId = {this.state.userId}
-                   email = {this.state.email} />} 
-            />
-
-          <this.AuthRoute exact path="/post" component={Post}/>
-
-          <Route exact path="/glossary" component={Glossary}/>
-
-          <Route exact path="/videos" component={Videos}/>
-
-          <Route exact path="/chat" render={(props) => 
-            <Chat 
-              username = {this.state.username} 
-              userId = {this.state.userId}
-              email = {this.state.email}
-              isLoggedIn = {this.state.isLoggedIn} 
-              isAdmin = {this.state.isAdmin}              
-              {...props}/>} 
-            />
-
-          <this.AdminRoute exact path="/admin" component={Admin}/>
-
-          <Route exact path="/login" 
-                 render={(props) => 
-                  <Login 
-                    {...props}
-                    getLoginResult = {this.LoginResult} 
-                  />} 
-          /> 
-
-          <Route exact path="/signup" 
-                render={(props) => 
-                  <Signup
-                  {...props}
-                  getSignupResult = {this.SignupResult}
-                  />} 
+      <ScrollToTop>
+        <div>
+          
+          <VerticalNav 
+            isLoggedIn = {this.state.isLoggedIn}
+            isAdmin = {this.state.isAdmin}
+            userId = {this.state.userId}
+            username = {this.state.username}
+            email = {this.state.email}
           />
 
-          <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
+          <Switch>
+            <Route exact path="/" render={() => 
+              <Home username = {this.state.username} 
+                    userId = {this.state.userId}
+                    email = {this.state.email} />} 
+              />
 
-          <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
+            <this.AuthRoute exact path="/post" component={Post}/>
 
-        </Switch>
-        <Footer/>
-      </div>
+            <Route exact path="/glossary" component={Glossary}/>
+
+            <Route exact path="/videos" component={Videos}/>
+
+            <Route exact path="/chat" render={(props) => 
+              <Chat 
+                username = {this.state.username} 
+                userId = {this.state.userId}
+                email = {this.state.email}
+                isLoggedIn = {this.state.isLoggedIn} 
+                isAdmin = {this.state.isAdmin}              
+                {...props}/>} 
+              />
+
+            <Route exact path="/about" component={About}/>
+
+            <this.AdminRoute exact path="/admin" component={Admin}/>
+
+            <Route exact path="/login" 
+                  render={(props) => 
+                    <Login 
+                      {...props}
+                      getLoginResult = {this.LoginResult} 
+                    />} 
+            /> 
+
+            <Route exact path="/signup" 
+                  render={(props) => 
+                    <Signup
+                    {...props}
+                    getSignupResult = {this.SignupResult}
+                    />} 
+            />
+
+            <Route exact path="/logout" render={() => <Logout getLogoutResult = {this.LogoutResult} />} />
+
+            <Route render={() => (<h1 className="text-center">Page Not Found!</h1>)}/>
+
+          </Switch>
+
+          <Footer/>
+        </div>
+      </ScrollToTop>
     </Router>
     );
   }

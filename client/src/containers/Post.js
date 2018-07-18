@@ -133,7 +133,7 @@ class Post extends Component {
                 // Check If Values Are Selected In Manditory Fields
                 if(this.state.cheaterIGN.length > 0 && this.state.cheatSystem.length > 0 && this.state.cheatGame.length > 0 && this.state.cheatType.length > 0){
                     // Check If Button Already Clicked
-                    if(buttonClicked = true){
+                    if(buttonClicked === true){
                         this.validateDuplicate();
                         buttonClicked = false;
                     } else {
@@ -201,9 +201,9 @@ class Post extends Component {
   render() {
 
     // Validate That Form Data Is Present
-    const { cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments} = this.state;
+    const { cheaterIGN, cheatGame, cheatSystem, cheatType} = this.state;
     // console.log(cheaterIGN, cheatGame, cheatSystem, cheatType, cheatVideo, cheatComments);
-    const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefinded" && typeof cheatType !== "undefined";
+    const isEnabled = typeof cheaterIGN !== "undefined" && typeof cheatGame !== "undefined" && typeof cheatSystem !== "undefined" && typeof cheatType !== "undefined";
 
     
 
@@ -221,7 +221,7 @@ class Post extends Component {
             <div className="row justify-content-center text-center py-4">
                 <form className="col-12 col-md-8" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Enter Cheater's IGN (i.e. The Cheater's One Screen Name):</label>
+                        <label>Enter Cheater's IGN (In Game Name):</label>
                         <input type="text" className="form-control center-placeholder" name="cheaterIGN" value={this.state.cheaterIGN}  placeholder="Enter Cheater's Username (Example: PWNsauce)" onChange={this.handleOnChange} required/>
                     </div>
                     <div className="form-group">
@@ -236,7 +236,7 @@ class Post extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>"What Game Was The Cheater Playing?</label>
+                        <label>What Game Was The Cheater Playing?</label>
                         <select className="form-control" name="cheatGame" value={this.state.cheatGame} placeholder="Select Game" onChange={this.handleOnChange}>
                             <option value="">Select System</option>
                             {this.state.games.map(game=>{

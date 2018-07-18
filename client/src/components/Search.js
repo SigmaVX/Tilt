@@ -26,7 +26,7 @@ class Search extends Component {
         return(
             <div className="container-fluid pt-3">
                 <div className="row justify-content-center text-center">
-                    <div className="col-8">
+                    <div className="col-12 col-md-8">
                         <h2 className="col-12">Search For Cheaters</h2>
                         
                             <div className="form-group">

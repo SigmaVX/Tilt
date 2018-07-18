@@ -227,15 +227,20 @@ class Home extends Component {
                         {this.state.reports.map(report=>{
                             return (
                             <tr className="row reports-row py-2" key={report._id}>
-                                <td className="col-10 col-md-2 text-center">
+                                <td className="col-12 col-md-2 text-center">
                                     <img className="img-fluid rounded my-1" src={report.cheatGame.gameImage} alt={report.cheatGame.gameName}/>            
                                 </td>
-                                <td className="col-12 col-md-8">
-                                    <h5 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h5>
-                                    <h6 className="game-title my-1">Cheat Game: {report.cheatGame.gameName}</h6>
-                                    <h6 className="cheat-type my-1">Cheat Type: {report.cheatType.cheatName}</h6>
-                                    <p className="date my-1">Reported On: {Moment(report.date).format('MMM Do YY')}</p>
-                                    <p className="comment-text my-1">{report.cheatComments ? `Comments: ${report.cheatComments}` : ""}</p>
+                                <td className="col-12 col-md-8 report-text">
+                                    <h6 className="ign-title mt-2 mb-1">{report.cheaterIGN} ({report.cheatSystem.systemName})</h6>
+                                    <p className="game-title my-1"><strong>Cheat Game:</strong> {report.cheatGame.gameName}</p>
+                                    <p className="cheat-type my-1"><strong>Cheat Type: </strong> {report.cheatType.cheatName}</p>
+                                    <p className="date my-1"><strong>Reported On: </strong>{Moment(report.date).format('MMM Do YY')}</p>
+                                    <p className="comment-text my-1">
+                                        {report.cheatComments 
+                                            ? report.cheatComments 
+                                            : null}
+                                    </p>
+                                
                                 </td>
                                 <td className="col-12 col-md-2 d-flex align-items-center justify-content-center text-center">
                                     
@@ -244,7 +249,7 @@ class Home extends Component {
                                                 <a className="video-link my-1" target="_blank" href={report.cheatVideo}>
                                                     <h6>Cheat Video</h6>
                                                     <div className="col-12 video-icon-wrap my-1">
-                                                        <i class="fab fa-youtube"></i>
+                                                        <i className="fab fa-youtube"></i>
                                                     </div> 
                                                 </a>
                                             </div>
@@ -252,7 +257,7 @@ class Home extends Component {
                                         :   (<div className="text-center">
                                                     <h6>No Video</h6>
                                                     <div className="col-12 video-icon-wrap my-1">
-                                                        <i class="fas fa-video-slash"></i>
+                                                        <i className="fas fa-video-slash"></i>
                                                     </div>
                                             </div>
                                             )

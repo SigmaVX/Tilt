@@ -8,12 +8,12 @@
 
 import React, { Component } from "react";
 import API from "../utilities/API";
+import Moment from "moment";
 
 class ChatWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testVar: "test variable",
       chatHistory: []
     };
   }
@@ -22,7 +22,7 @@ class ChatWindow extends Component {
     this._isMounted = true;
     this._notAlreadyDeleted = true;
     this.prevForumId = this.props.forumId;
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   componentWillUnmount() {
@@ -32,18 +32,20 @@ class ChatWindow extends Component {
   componentDidUpdate(prevProps) {
   if ((this.props.forumId !== 0 && this.props.forumId !== this.prevForumId) || 
     (this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId && this._notAlreadyDeleted)) {
+       // (this.props.isChatItemDeleted && prevProps.forumId === this.props.forumId)) {
      this.loadChatHistory();
      // console.log(`ChatWindow.js chat History: ${this.state.chatHistory}`);
     }
     this.prevForumId = this.props.forumId;
     this._notAlreadyDeleted = false;
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
+  // Disabled For Now - Causing Scroll Issues On Load
   // Source: https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
-  scrollToBottom = () => {
-    this.chatsEnd.scrollIntoView({ behavior: "smooth" });
-  }
+  // scrollToBottom = () => {
+  //   this.chatsEnd.scrollIntoView({ behavior: "smooth" });
+  // }
 
   safeUpdate(updateObj) {
     if (this._isMounted)
@@ -77,7 +79,7 @@ class ChatWindow extends Component {
     return (
         this.state.chatHistory.map(chatHist => (
           <li key={chatHist._id}>
-            <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
+            <h6 className="d-inline-flex chat-post">
               {chatHist.chat}
             </h6>
           </li>
@@ -90,13 +92,12 @@ class ChatWindow extends Component {
     if (this.props.isAdmin) {
       return (
         <section>
-          <span>&nbsp;</span>
           <button 
-            className="btn btn-sm btn-danger my-2 my-sm-0 mr-2" 
+            className="btn-delelte text-center" 
             type="submit"
             onClick={() => this.deleteItemHandler(chatId)}   
           >
-          &times;
+            
           </button>
         </section>
       )
@@ -107,35 +108,42 @@ class ChatWindow extends Component {
   render() {
 
     return (
-      <div style={{background: "#FBDAE7", height: "200px", overflow: "auto"}}>
+      <div className="chat-window mx-0 mt-0 mb-0 py-3 px-3">
           <ul>
             {/* thisChatHistory */}
             {this.state.chatHistory.map(chatHist => (
               <li key={chatHist._id}>
-                <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                  {chatHist.postedBy}: {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
-                </h6>
+                <div className="d-inline-flex align-items-center chat-item">
+                  <span className="chat-by">
+                    {chatHist.postedBy} 
+                  </span>
+                  ({Moment(chatHist.date).format('LLL')}): {chatHist.chat} {this.chatDeleteOption(chatHist._id)}
+                </div>
               </li>
               )
             )}
             {this.props.convoArray.map((chatMsg, index) => (
                 chatMsg.post 
                   ? <li key={chatMsg.msgId}>
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                      {chatMsg.uname}: {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
-                      </h6>
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('LLL')}): {chatMsg.msg} {this.chatDeleteOption(chatMsg.msgId)}
+                    </div>
                     </li>
-                  : <li key={index} style={{listStyleType: "none"}}>
-                      <h6 className="d-inline-flex card-subtitle mb-2 text-muted">
-                      <em>{chatMsg.msg}</em>
-                      </h6>
+                  : <li key={index} className="">
+                    <div className="d-inline-flex align-items-center chat-item">
+                      <span className="chat-by">  
+                        {chatMsg.uname}
+                      </span>
+                        ({Moment(chatMsg.date).format('LLL')}): {chatMsg.msg}
+                      </div>
                     </li>
               ) 
             )}
           </ul>
-          <div 
-            style={{ float:"left", clear: "both" }}
-            ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
+          <div ref={(endOfChat) => { this.chatsEnd = endOfChat; }} >
           </div>
       </div>
     );

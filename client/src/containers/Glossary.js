@@ -55,10 +55,10 @@ class Glossary extends Component {
                         {this.state.cheats.map(cheat=>{
                             return(
                                 <tr className="row d-flex align-items-center animated bounceInRight">
-                                    <td className="col-2">
+                                    <td className="col-12 col-md-2">
                                         <img classImage="glossary-icon" src={cheat.cheatImage} alt={cheat.cheatName}/>
                                     </td>    
-                                    <td className="col-10">
+                                    <td className="col-12 col-md-10">
                                         <h4 className="col-12"><strong>{cheat.cheatName}</strong></h4>
                                         <p className="col-12">{cheat.cheatDescription}</p>
                                     </td>

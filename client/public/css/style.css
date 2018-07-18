@@ -1,4 +1,5 @@
 
+
 a{
   text-decoration: none;
   color: inherit;
@@ -20,12 +21,14 @@ html {
 }
 
 h1{
-  font-size: 60px;
-  /* font-weight: 700; */
+  font-size: 80px;
+  font-weight: 700;
+  font-family: 'Trirong', serif;
 }
 
 h2{
-  font-size: 35px;
+  font-size: 40px;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 label{
@@ -35,13 +38,38 @@ label{
 
 p{
   font-size: 14px;
-  font-family: 'Maven Pro', sans-serif;
+  font-family: 'Rubik', sans-serif;
+}
+
+option{
+  text-align: center;
 }
 
 select { 
   text-align-last:center; 
 }
 
+ul{
+  list-style: none;
+}
+
+.about-jumbo{
+  border-bottom: 3px solid #fa5900;
+  /* background-color: #f91a51; */
+  color: #fff;
+  background-image: url("/images/forestwp.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.about-text{
+  text-align: center;
+  padding: 10%;
+  font-size: 2em;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+}
 
 .adamin-text{
   text-transform: capitalize;
@@ -57,6 +85,7 @@ select {
   /* background-color: #f91a51; */
   color: #fff;
   background-image: url("/images/genji.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -71,6 +100,41 @@ select {
   color: #fff;
 }
 
+.bm-burger-button{
+  width: 75px;
+  position: fixed;
+}
+ 
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 25px;
+  width: 25px;
+  right: 1px !important;
+  position: absolute;
+  top: 8px; 
+}
+ 
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #000;
+}
+
+
+
+.bm-item{
+  min-height: 100%;
+  padding: 30px 0px 0px 0px;
+}
+
+.bm-header{
+  margin: 15px auto;
+  font-size: 40px;
+  font-family: 'Trirong', serif;
+}
+
+.bm-morph-shape {
+  fill: #fa5900;
+}
 
 .btn{
   background-color: #fa5900;
@@ -80,6 +144,18 @@ select {
   font-size: 20px;
   text-transform: capitalize;
   line-height: 25px;
+}
+
+.btn-delelte{
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  color: #fff;
+  background-color: #fa5900;
+  margin-left: 10px;
+  margin-top: 0px;
+  border: 1px solid #333333;
+  cursor: pointer;
 }
 
 .btn:hover{
@@ -99,6 +175,48 @@ select {
   background-color: #eee;
 }
 
+.chat-item{
+  display: inline;
+  padding: 0.5rem;
+  color: #fff;
+  font-size: 14px;
+}
+
+.chat-by{
+  color: #fa5900;
+  font-weight: 600;
+  padding-right: 0.3rem;
+}
+
+.chat-jumbo{ 
+  border-bottom: 3px solid #fa5900;
+  background-color: #000;
+  color: #000;
+  background-image: url("/images/chatwp.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.chat-post{
+  height: 60px;
+  border-radius: 0px;
+  border: 0px !important;
+  background-color: #979797;
+  color: #fff;
+}
+
+.chat-window{
+  min-height: 400px; 
+  overflow: auto;
+  border-radius: 0px;
+  background-color: #242146;
+}
+
+.chat-window ul{
+  padding-left: 15px;
+}
+
 .comment-text{
   text-align: justify;
 }
@@ -111,7 +229,7 @@ select {
 
 .center-placeholder{
     text-align:center;
-  }
+}
 
 .crop {
     height: 100px;
@@ -122,6 +240,8 @@ select {
 .error-text{
   text-align: center;
   font-size: 30px;
+  text-transform: capitalize;
+  color: red;
 }
 
 .fadeIn{
@@ -140,11 +260,16 @@ select {
   font-weight: 600;
 }
 
+.float-left{
+  float: left;
+}
+
 .glossary-jumbo{ 
   border-bottom: 3px solid #fa5900;
   background-color: #000;
   color: #fff;
   background-image: url("/images/wowwp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -158,9 +283,8 @@ select {
 .home-results{
   background-color: #272a2e;
   color: #fff;
-
   background-image: -webkit-gradient(linear, left top, left bottom, from(#272a2e), color-stop(94%, #242146));
-  background-image: -webkit-linear-gradient(top, #272a2e 0%, #242146 94%);
+  background-image: -webkit-linear-gradient(top, #242146 66%, #272a2e 33%,  #242146 0%);
   background-image: linear-gradient(to bottom,#242146 0%, #272a2e 33%,  #242146 66%);
 }
 
@@ -195,6 +319,10 @@ select {
   background-color: rgba(20,20,20,.5);
 }
 
+.jumbotron{
+  border-radius: 0px;
+}
+
 .nav-active{
   color: #fa5900;
 }
@@ -202,11 +330,21 @@ select {
 .navbar{
   background-color: #272a2e;
   color: #fff;
-  border-bottom: 3px solid #fa5900;
+  width: 175px;
+  /* border-bottom: 3px solid #fa5900;
+  border-top: 3px solid #fa5900; */
 }
 
 .nav-icon{
   width: 40px;
+}
+
+.navbar ul{
+  padding: 5px;
+}
+
+.nav-link{
+  padding: 5px;
 }
 
 .post-content{
@@ -218,7 +356,8 @@ select {
   border-bottom: 3px solid #fa5900;
   background-color: #000;
   color: #fff;
-  background-image: url("/images/fortnite-wall.png");
+  background-image: url("/images/falloutwp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -276,7 +415,6 @@ select {
   border-radius: 0px;
   font-size: 60px;
   color: #fff;
-  font-family: 'Eagle Lake', cursive;
   background-color: #000000;
   border-bottom: 3px solid #fa5900;
   margin-bottom: 0px;
@@ -287,9 +425,11 @@ select {
 }
 
 .username{
-  position: absolute;
-  font-size: 25px;
-  right: 2%;
+  font-size: 1rem;
+  padding-left: 5px;
+  padding-top: 5px;
+  display: block;
+  color: #fa5900;
 }
 
 .video-card{
@@ -311,7 +451,8 @@ select {
   border-bottom: 3px solid #fa5900;
   background-color: #000;
   color: #272a2e;
-  background-image: url("/images/destinywp.jpg");
+  background-image: url("/images/minecraftwp.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 0px;
@@ -337,6 +478,12 @@ select {
 .yt-title{
   /* color: #fa5900; */
   background-color: #fff;
+}
+
+
+#entry-toptext{
+  font-size: 60px;
+  font-weight: 600;
 }
 
 #splash-video{
@@ -419,5 +566,16 @@ select {
     width: 300%;
     left: -100%;
   }
+}
+
+@media only screen and (max-device-width: 768px) {
+  .admin-jumbo, .post-jumbo, .glossary-jumbo, .about-jumbo, .splash {
+      background-attachment: scroll;
+  }
+
+  .report-text, .comment-text{
+      text-align: center;
+  }
+
 }
 
