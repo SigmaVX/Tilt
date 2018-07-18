@@ -49,23 +49,6 @@ class Videos extends Component {
     };
   }
 
-  handleMouseEnter = event => {
-    const {name, value} = event.target;
-    
-    if (value)
-      this.setState({[name]: true});
-    else
-      this.setState({[name]: false});
-  }
-
-  handleMouseLeave = event => {
-    const {name, value} = event.target;
-    if (value)
-      this.setState({[name]: false});
-    else
-      this.setState({[name]: true});
-  }
-
   handleOnChange = event => {
     const {name, value} = event.target;
 
@@ -129,15 +112,15 @@ class Videos extends Component {
   combineLists() {
     let comboList = [];
 
-    const list1 = this.state.cheatList;
-    const list2 = this.state.gameList;
+    const list1 = this.state.gameList;
+    const list2 = this.state.cheatList;
 
     for (let elem1 of list1) {
-      comboList.push({itemId: elem1._id, nameTerm: elem1.cheatName});
+      comboList.push({itemId: elem1._id, nameTerm: `${elem1.gameName} online cheat`});
     }
 
     for (let elem2 of list2) {
-      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheat`});
+      comboList.push({itemId: elem2._id, nameTerm: elem2.cheatName});
     }
 
     // add user submitted videos to list
@@ -368,10 +351,6 @@ class Videos extends Component {
                   <div className="form-group">
                     <button
                       type="submit"
-                      name="isSubHovered"
-                      value={this.state.isSubHovered}
-                      onMouseEnter = {this.handleMouseEnter}
-                      onMouseLeave = {this.handleMouseLeave}
                       className="btn btn-block"
                       onClick={this.videoSearch}
                     >
@@ -390,7 +369,7 @@ class Videos extends Component {
                       <button 
                         className="btn btn-block"
                         onClick={(event) => this.loadMoreVids(event, "prev")}
-                        disabled={this.state.prevPageToken === null}
+                        disabled={this.state.prevPageToken === null || this.state.value === UserSubmitted}
                       >
                         Prev videos
                       </button>
@@ -399,7 +378,7 @@ class Videos extends Component {
                       <button 
                         className="btn btn-block"
                         onClick={(event) => this.loadMoreVids(event, "next")}
-                        disabled={this.state.nextPageToken === null}
+                        disabled={this.state.nextPageToken === null || this.state.value === UserSubmitted}
                       >
                         Next videos
                       </button>
@@ -433,22 +412,3 @@ class Videos extends Component {
 } 
 
 export default Videos;
-
-
-//    {/* User video posts */}
-//    <div className="col-2 col-xs-12">
-//    <button
-//      name = "isUservidHovered"
-//      value = {this.state.isUservidHovered}
-//      onMouseEnter = {this.handleMouseEnter}
-//      onMouseLeave = {this.handleMouseLeave}
-//      className="btn"
-//      onClick={this.userVideoSearch}
-//    >User Video Posts
-//    </button>
-//  </div>
-/*
-
-
-
-*/
