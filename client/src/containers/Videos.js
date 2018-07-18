@@ -27,6 +27,8 @@ class Videos extends Component {
       // youtube api state variables
       // ---------------------------
       ytVideos: [],
+      nextPageToken: "",
+      prevPageToken: "",
       // --
       // youtube query values, default value sent first
       // ----------------------------------------------
@@ -142,7 +144,7 @@ class Videos extends Component {
   }
 
   loadVideosList() {
-    let vList = [], ytResults=[], videoList = [];
+    let vList = [], videoList = [];
     let thisVideos = this;
     API.getVideos()
       .then(res => {
@@ -151,7 +153,7 @@ class Videos extends Component {
         vList = res.data;
 
         // recursive function to get info on each youtube query with id parameter
-        // taking in user submitted youtube link
+        // taking in user submitted youtube links returned from API.getVideos() call
         getYtInfo();
 
         function getYtInfo() {
@@ -194,14 +196,18 @@ class Videos extends Component {
 
 
   getYouTubeVids(query) {
+    console.log("Videos.js getYouTubeVids() query: ", JSON.stringify(query));
     API.youtubeSearch(query)
     .then(res => {
-      // console.log("youtube search results: " + JSON.stringify(res.data.items));
+      let prevPageToken = (res.data.prevPageToken) ? res.data.prevPageToken : null;
+      console.log(`Videos.js getYouTubeVids() youtube tokens: next: ${res.data.nextPageToken}
+      prev: ${res.data.prevPageToken}`);
       this.setState({
         ytVideos: res.data.items,
+        nextPageToken: res.data.nextPageToken,
         submittedQuery: query.q,
-        q: ""//,
-        // value: "none"
+        prevPageToken: prevPageToken,
+        q: this.state.q 
       });
     })
     .catch(err => console.log(err));
@@ -223,6 +229,27 @@ class Videos extends Component {
     // console.log(ytQuery);
     this.getYouTubeVids(ytQuery);
   }
+
+  loadMoreVids = (where) => {
+    // event.preventDefault();
+    let destPage;
+    console.log(`loadMoreVids: where -- ${where}`);
+
+    destPage = (where === "next") ? this.state.nextPageToken : this.state.prevPageToken;
+
+    let ytQuery = {
+      part: this.state.part,
+      safeSearch: this.state.safeSearch,
+      maxResults: this.state.maxResults,
+      relevanceLanguage: this.state.relevanceLanguage,
+      pageToken: destPage,
+      q: this.state.q
+    };
+
+    console.log(`Videos.js loadMoreVids`);
+    this.getYouTubeVids(ytQuery);
+  }
+
   
   _onReady(event) {
     // access to player in all event handlers via event.target
@@ -300,8 +327,7 @@ class Videos extends Component {
         autohide:1,
         showinfo:0,
         controls:0
-        
-
+      
 
       }
     };
@@ -358,16 +384,33 @@ class Videos extends Component {
                     </h3>
                   </div>
 
+
+
             </form>
+
+            <div className ="row">
+            <div className="col-12 col-md-6 justify-content-center">
+              <button 
+                className="btn btn-block"
+                onClick={() => this.loadMoreVids("prev")}
+                disabled={this.state.prevPageToken === null}
+              >
+                Prev videos
+              </button>
+            </div>
+            <div className="col-12 col-md-6 justify-content-center">
+              <button 
+                className="btn btn-block"
+                onClick={() => this.loadMoreVids("next")}
+                disabled={this.state.nextPageToken === null}
+              >
+                Next videos
+              </button>
+            </div>
+          </div>
 
         </div>
 
-
-     
-         
-          
-
-        
       
             {/* Video results container */}
             
@@ -405,8 +448,6 @@ export default Videos;
 //  </div>
 /*
 
-                  <div className="row justify-content-center">
-                    <button className="btn-sm btn btn-block">Load more</button>
-                  </div>
+
 
 */
