@@ -27,11 +27,14 @@ class Videos extends Component {
       // youtube api state variables
       // ---------------------------
       ytVideos: [],
+      nextPageToken: "",
+      prevPageToken: "",
       // --
       // youtube query values, default value sent first
       // ----------------------------------------------
       q: DefaultVideoQuery,
       submittedQuery: DefaultVideoQuery,
+      inputQuery: "",
       // --
       // default query values for video section
       // part = "snippet is required for youtube" 
@@ -44,23 +47,6 @@ class Videos extends Component {
       // ---------------------------
       value: "none"
     };
-  }
-
-  handleMouseEnter = event => {
-    const {name, value} = event.target;
-    
-    if (value)
-      this.setState({[name]: true});
-    else
-      this.setState({[name]: false});
-  }
-
-  handleMouseLeave = event => {
-    const {name, value} = event.target;
-    if (value)
-      this.setState({[name]: false});
-    else
-      this.setState({[name]: true});
   }
 
   handleOnChange = event => {
@@ -87,7 +73,9 @@ class Videos extends Component {
 
     this.setState({
       submittedQuery: value,
-      value: value
+      value: value,
+      q: value,
+      inputQuery: ""
     });
   }
 
@@ -124,15 +112,15 @@ class Videos extends Component {
   combineLists() {
     let comboList = [];
 
-    const list1 = this.state.cheatList;
-    const list2 = this.state.gameList;
+    const list1 = this.state.gameList;
+    const list2 = this.state.cheatList;
 
     for (let elem1 of list1) {
-      comboList.push({itemId: elem1._id, nameTerm: elem1.cheatName});
+      comboList.push({itemId: elem1._id, nameTerm: `${elem1.gameName} online cheat`});
     }
 
     for (let elem2 of list2) {
-      comboList.push({itemId: elem2._id, nameTerm: `${elem2.gameName} online cheat`});
+      comboList.push({itemId: elem2._id, nameTerm: elem2.cheatName});
     }
 
     // add user submitted videos to list
@@ -142,7 +130,7 @@ class Videos extends Component {
   }
 
   loadVideosList() {
-    let vList = [], ytResults=[], videoList = [];
+    let vList = [], videoList = [];
     let thisVideos = this;
     API.getVideos()
       .then(res => {
@@ -151,7 +139,7 @@ class Videos extends Component {
         vList = res.data;
 
         // recursive function to get info on each youtube query with id parameter
-        // taking in user submitted youtube link
+        // taking in user submitted youtube links returned from API.getVideos() call
         getYtInfo();
 
         function getYtInfo() {
@@ -196,12 +184,14 @@ class Videos extends Component {
   getYouTubeVids(query) {
     API.youtubeSearch(query)
     .then(res => {
-      // console.log("youtube search results: " + JSON.stringify(res.data.items));
+      let prevPageToken = (res.data.prevPageToken) ? res.data.prevPageToken : null;
+
       this.setState({
         ytVideos: res.data.items,
+        nextPageToken: res.data.nextPageToken,
         submittedQuery: query.q,
-        q: ""//,
-        // value: "none"
+        prevPageToken: prevPageToken,
+        q: query.q
       });
     })
     .catch(err => console.log(err));
@@ -209,6 +199,8 @@ class Videos extends Component {
 
   videoSearch = event => {
     event.preventDefault();
+    // input text query takes priority, otherwise dropdown menu value query is selected
+    let queryTerm = (this.state.inputQuery) ? this.state.inputQuery : this.state.q;
 
     // initialize youtube query object with api defaults
     let ytQuery = {
@@ -217,12 +209,31 @@ class Videos extends Component {
       maxResults: this.state.maxResults,
       relevanceLanguage: this.state.relevanceLanguage,
       // add query value to youtube query object
-      q: this.state.q
+      q: queryTerm
     };
 
     // console.log(ytQuery);
     this.getYouTubeVids(ytQuery);
   }
+
+  loadMoreVids = (event, where) => {
+    event.preventDefault();
+    let destPage;
+
+    destPage = (where === "next") ? this.state.nextPageToken : this.state.prevPageToken;
+
+    let ytQuery = {
+      part: this.state.part,
+      safeSearch: this.state.safeSearch,
+      maxResults: this.state.maxResults,
+      relevanceLanguage: this.state.relevanceLanguage,
+      pageToken: destPage,
+      q: this.state.q
+    };
+
+    this.getYouTubeVids(ytQuery);
+  }
+
   
   _onReady(event) {
     // access to player in all event handlers via event.target
@@ -300,8 +311,7 @@ class Videos extends Component {
         autohide:1,
         showinfo:0,
         controls:0
-        
-
+      
 
       }
     };
@@ -317,7 +327,7 @@ class Videos extends Component {
                   {/* Select dropdown menu */}
                   <div className="form-group">
                       <select className="form-control center-placeholder" value={this.state.value} onChange={this.handleSelectMenuChange}>
-                        <option value="none">Videos By Cheat Type</option>
+                        <option value="none">Cheat Videos By Game</option>
                         {this.state.combinedList.map(cheat =>
                           (
                             <option key={cheat.itemId} value={cheat.nameTerm}>{cheat.nameTerm}</option>
@@ -329,8 +339,8 @@ class Videos extends Component {
                   {/* Search box */}
                   <div className="form-group">
                     <input 
-                      name="q" 
-                      value={this.state.q}
+                      name="inputQuery" 
+                      value={this.state.inputQuery}
                       placeholder="Search YouTube Videos"
                       type="text"
                       className="form-control center-placeholder"
@@ -341,10 +351,6 @@ class Videos extends Component {
                   <div className="form-group">
                     <button
                       type="submit"
-                      name="isSubHovered"
-                      value={this.state.isSubHovered}
-                      onMouseEnter = {this.handleMouseEnter}
-                      onMouseLeave = {this.handleMouseLeave}
                       className="btn btn-block"
                       onClick={this.videoSearch}
                     >
@@ -358,16 +364,33 @@ class Videos extends Component {
                     </h3>
                   </div>
 
+                  <div className ="row">
+                    <div className="col-12 col-md-6 justify-content-center">
+                      <button 
+                        className="btn btn-block"
+                        onClick={(event) => this.loadMoreVids(event, "prev")}
+                        disabled={this.state.prevPageToken === null || this.state.value === UserSubmitted}
+                      >
+                        Prev videos
+                      </button>
+                    </div>
+                    <div className="col-12 col-md-6 justify-content-center">
+                      <button 
+                        className="btn btn-block"
+                        onClick={(event) => this.loadMoreVids(event, "next")}
+                        disabled={this.state.nextPageToken === null || this.state.value === UserSubmitted}
+                      >
+                        Next videos
+                      </button>
+                    </div>
+                  </div>
+
             </form>
+
+
 
         </div>
 
-
-     
-         
-          
-
-        
       
             {/* Video results container */}
             
@@ -389,24 +412,3 @@ class Videos extends Component {
 } 
 
 export default Videos;
-
-
-//    {/* User video posts */}
-//    <div className="col-2 col-xs-12">
-//    <button
-//      name = "isUservidHovered"
-//      value = {this.state.isUservidHovered}
-//      onMouseEnter = {this.handleMouseEnter}
-//      onMouseLeave = {this.handleMouseLeave}
-//      className="btn"
-//      onClick={this.userVideoSearch}
-//    >User Video Posts
-//    </button>
-//  </div>
-/*
-
-                  <div className="row justify-content-center">
-                    <button className="btn-sm btn btn-block">Load more</button>
-                  </div>
-
-*/
